@@ -15,15 +15,17 @@ if [[ ${first_name} = "" || ${last_name} = "" ]]; then
 fi
 
 # Force name to be Title Case
-first_name=$(echo "${first_name}" | sed 's/[^ ]\+/\L\u&/g')
-last_name=$(echo "${last_name}"  | sed 's/[^ ]\+/\L\u&/g')
+first_name=$(echo "${first_name}" | awk '{for (i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
+last_name=$(echo "${last_name}"  | awk '{for (i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
 
 full_name="${first_name} ${last_name}"
 
 if [[ $3 = "" ]]; then
-	first_name_first_letter=$(echo ${first_name} | cut -c1 | sed 's/.*/\L&/')
-	last_name_lowercase=$(echo ${last_name} | sed 's/.*/\L&/')
+	first_name_first_letter=$(echo ${first_name} | cut -c 1 | tr '[:upper:]' '[:lower:]')
+	last_name_lowercase=$(echo ${last_name} | tr '[:upper:]' '[:lower:]')
 	username="${first_name_first_letter}${last_name_lowercase}"
+else
+	username=$3
 fi
 
 password="ChangeMeAsSoonAsPossible"
