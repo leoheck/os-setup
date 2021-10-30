@@ -58,4 +58,3 @@ sudo /usr/bin/defaults -currentHost write /Library/Preferences/com.apple.locatio
 
 echo "Done"
 echo
-
