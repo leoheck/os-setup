@@ -15,8 +15,8 @@ if [[ ${first_name} = "" || ${last_name} = "" ]]; then
 fi
 
 # Force name to be Title Case
-first_name=$(echo '${first_name}' | sed 's/[^ ]\+/\L\u&/g')
-last_name=$(echo '${last_name}' | sed 's/[^ ]\+/\L\u&/g')
+first_name=$(echo "${first_name}" | sed 's/[^ ]\+/\L\u&/g')
+last_name=$(echo "${last_name}"  | sed 's/[^ ]\+/\L\u&/g')
 
 full_name="${first_name} ${last_name}"
 
@@ -26,11 +26,8 @@ if [[ $3 = "" ]]; then
 	username="${first_name_first_letter}${last_name_lowercase}"
 fi
 
-echo
-
 password="ChangeMeAsSoonAsPossible"
 
-echo
 echo "SUMARRY"
 echo
 echo " Full name = ${full_name}"
