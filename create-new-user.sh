@@ -1,55 +1,59 @@
 #!/bin/bash
 
-name=$1 
-surname=$2
+first_name=$1 
+last_name=$2
+username=$2
 
 echo
 
-if [[ ${name} = "" || ${surname} = "" ]]; then
-	echo -n "Type the main name: "
-	read name
-	echo -n "Type the surname: "
-	read surname
+if [[ ${first_name} = "" || ${last_name} = "" ]]; then
+	echo -n "Type the first name: "
+	read first_name
+	echo -n "Type the last name: "
+	read last_name
 	echo
 fi
 
-echo -n "Proceed with '${name^} ${surname^}'? [y/N]: "
-read option
+# Force name to be Title Case
+first_name=$(echo '${first_name}' | sed 's/[^ ]\+/\L\u&/g')
+last_name=$(echo '${last_name}' | sed 's/[^ ]\+/\L\u&/g')
 
-if [[ $option != "y" ]]; then
-	echo "Alright, creation aborted!"
-	exit 1
+full_name="${first_name} ${last_name}"
+
+if [[ $3 = "" ]]; then
+	first_name_first_letter=$(echo ${first_name} | cut -c1 | sed 's/.*/\L&/')
+	last_name_lowercase=$(echo ${last_name} | sed 's/.*/\L&/')
+	username="${first_name_first_letter}${last_name_lowercase}"
 fi
 
 echo
 
-# name="Felipe"
-# surname="Rios"
-
 password="ChangeMeAsSoonAsPossible"
 
-full_name="${name^} ${surname^}"
-
-name_lowercase=${name,,}
-surname_lowercase=${surname,,}
-username="${name_lowercase:0:1}${surname_lowercase}"
-
+echo
+echo "SUMARRY"
 echo
 echo " Full name = ${full_name}"
 echo "  username = ${username}"
 echo "  password = ${password}"
 echo
+echo -n "Proceed with '${first_name} ${last_name} ($username)'? [y/N]: "
+read option
 
-echo "Hit enter to continue, otherwise Ctrl+C to leave"
-read
+if [[ $option != "y" ]]; then
+	echo "Alright, creation aborted!"
+	echo
+	exit 1
+fi
 
 sudo dscl . -create /Users/${username}
-sudo dscl . -create /Users/${username} UserShell /bin/zsh
+sudo dscl . -create /Users/${username} UserShell /bin/bash
 sudo dscl . -create /Users/${username} RealName "${full_name}"
 sudo dscl . -create /Users/${username} UniqueID 1001
 sudo dscl . -create /Users/${username} PrimaryGroupID 1000
 sudo dscl . -create /Users/${username} NFSHomeDirectory /Local/Users/${username}
-sudo dscl . -passwd /Users/${username} ${password}
+sudo dscl . -passwd /Users/${username} "${password}"
 sudo dscl . -append /Groups/admin GroupMembership ${username}
 
-./set-hostname ${username}
+# Finish by setting hostname and enable location services
+./set-hostname.sh ${username}
