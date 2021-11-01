@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+else
+	sudo ./create-new-user.sh $@
+fi
+
 first_name=$1
 last_name=$2
 username=$2
@@ -20,6 +26,7 @@ last_name=$(echo "${last_name}"   | awk '{for (i=1;i<=NF;i++) $i=toupper(substr(
 
 full_name="${first_name} ${last_name}"
 
+# Custom Hostname
 if [[ $3 = "" ]]; then
 	first_name_first_letter=$(echo ${first_name} | cut -c 1 | tr '[:upper:]' '[:lower:]')
 	last_name_lowercase=$(echo ${last_name} | tr '[:upper:]' '[:lower:]')
@@ -28,7 +35,12 @@ else
 	username=$3
 fi
 
-password="ChangeMeAsSoonAsPossible"
+# Custom Password
+if [[ $4 = "" ]]; then
+	password="ChangeMeAsSoonAsPossible"
+else
+	password=$4
+fi
 
 echo "SUMARRY"
 echo
@@ -55,7 +67,7 @@ sudo dscl . -passwd /Users/${username} "${password}"
 sudo dscl . -append /Groups/admin GroupMembership ${username}
 
 # Finish by setting hostname and enable location services
-./set-hostname.sh ${username}
+#./set-hostname.sh ${username}
 
 # Reboot to validate
 #sudo reboot
