@@ -15,3 +15,10 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 sed -i "" "s/robbyrussell/spaceship/g" ~/.zshrc
+
+# Clone osx-setup scripts
+rm -rf ~/Documents/osx-setup
+git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
+
+# Launch system settings to enable shit that cannot be enabled by script
+open -a /System/Applications/System\ Preferences.app
