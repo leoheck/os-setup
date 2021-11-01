@@ -9,7 +9,7 @@ fi
 first_name=$1
 last_name=$2
 
-sudo toutch /tmp/create-new-user
+sudo touch /tmp/create-new-user
 echo
 
 if [[ ${first_name} = "" || ${last_name} = "" ]]; then
@@ -71,5 +71,5 @@ sudo dscl . -append /Groups/admin GroupMembership ${username}
 
 # Reboot to validate
 #sudo reboot
-echo "¨Reboot computer for the changes to take effect"
+echo "Reboot computer for the changes to take effect"
 echo
