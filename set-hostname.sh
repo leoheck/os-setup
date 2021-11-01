@@ -5,6 +5,8 @@
 # Simple script to initialize a new MAC
 # Leandro Sehnem Heck (leoheck@gmail.com)
 
+# Usage: ./set-hostname.sh [HOSTNAME]
+
 trap ctrl_c INT
 
 function ctrl_c() {
@@ -29,12 +31,11 @@ fi
 
 echo
 echo "Using '${hname}' as hostname"
-echo "Otherwise run it as: $0 USERNAME"
 echo
-read -p 'Do you want to proceed? [y/N]: ' -n1 proceed
+read -p 'Do you want to proceed? [y/N]: ' -n1 choice
 echo
 echo
-if [[ "${proceed}" != "y" ]]; then
+if [[ "${choice}" != "y" ]]; then
 	exit
 fi
 

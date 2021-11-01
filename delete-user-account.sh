@@ -21,5 +21,9 @@ fi
 
 echo
 
+# Ask for sudo password
+sudo touch /tmp/create-new-user
+echo
+
 sudo dscl . -delete /Users/${username}
 sudo rm -rf /Users/${username}

@@ -1,14 +1,11 @@
 #!/bin/bash
 
-if [ "$EUID" -ne 0 ]; then
-	echo "Please run as root"
-else
-	sudo ./create-new-user.sh $@
-fi
+# Usage: ./create-new-user.sh FIRST_NAME [LAST_NAME] [HOSTNAME] [PASSWORD]
 
 first_name=$1
 last_name=$2
 
+# Ask for sudo password
 sudo touch /tmp/create-new-user
 echo
 
