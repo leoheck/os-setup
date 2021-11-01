@@ -15,8 +15,11 @@ read option
 
 if [[ $option != "y" ]]; then
 	echo "Alright, deletion aborted!"
+	echo
 	exit 1
 fi
 
 echo
-echo sudo /usr/bin/dscl . -delete /Users/${username}
+
+sudo dscl . -delete /Users/${username}
+sudo rm -rf /Users/${username}
