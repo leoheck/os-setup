@@ -57,10 +57,16 @@ if [[ ${choice} != "y" && ${choice} != "Y" ]]; then
 	exit 1
 fi
 
+LastUserID=$(dscl . -list /Users UniqueID | grep -v "^_" | sed -e "s/  */ /g" | sort -k2 | cut -d" " -f2 | tail -1)
+UniqueUserID=$((LastUserID+1))
+
+echo "  LastUserID = ${LastUserID}"
+echo "UniqueUserID = ${UniqueUserID}"
+
 sudo dscl . -create /Users/${username}
-sudo dscl . -create /Users/${username} UserShell /bin/bash
+sudo dscl . -create /Users/${username} UserShell /bin/zsh
 sudo dscl . -create /Users/${username} RealName "${full_name}"
-sudo dscl . -create /Users/${username} UniqueID 503
+sudo dscl . -create /Users/${username} UniqueID ${UniqueUserID}
 sudo dscl . -create /Users/${username} PrimaryGroupID 1000
 sudo dscl . -create /Users/${username} NFSHomeDirectory /Users/${username}
 sudo dscl . -passwd /Users/${username} "${password}"
@@ -71,5 +77,9 @@ sudo dscl . -append /Groups/admin GroupMembership ${username}
 
 # Reboot to validate
 #sudo reboot
+echo
 echo "Reboot computer for the changes to take effect"
 echo
+
+# List users IDs
+# dscl . -list /Users UniqueID
