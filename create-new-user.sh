@@ -57,6 +57,9 @@ if [[ ${choice} != "y" && ${choice} != "Y" ]]; then
 	exit 1
 fi
 
+# List users IDs
+# dscl . -list /Users UniqueID
+
 LastUserID=$(dscl . -list /Users UniqueID | grep -v "^_" | sed -e "s/  */ /g" | sort -k2 | cut -d" " -f2 | tail -1)
 UniqueUserID=$((LastUserID+1))
 
@@ -80,6 +83,3 @@ sudo dscl . -append /Groups/admin GroupMembership ${username}
 echo
 echo "Reboot computer for the changes to take effect"
 echo
-
-# List users IDs
-# dscl . -list /Users UniqueID
