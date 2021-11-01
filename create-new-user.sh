@@ -45,7 +45,7 @@ fi
 LastUsedID=$(dscl . -list /Users UniqueID | grep -v "^_" | sed -e "s/  */ /g" | sort -k2 | cut -d" " -f2 | tail -1)
 UniqueUserID=$((LastUsedID+1))
 
-echo "SUMARRY"
+echo "SUMMARY"
 echo
 echo "   Full name = ${full_name}"
 echo "    username = ${username}"
