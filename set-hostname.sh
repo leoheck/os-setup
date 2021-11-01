@@ -46,6 +46,7 @@ sudo scutil --set LocalHostName ${hname}
 dscacheutil -flushcache
 
 # Enable remote login
+
 echo "Enabling remote login"
 sudo  systemsetup -f -setremotelogin on 1> /dev/null
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
@@ -53,8 +54,16 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 
 # Enable location tracking
 echo "Enabling location tracking"
-sudo -u _locationd /usr/bin/defaults -currentHost write com.apple.locationd LocationServicesEnabled -int 1 1> /dev/null
-sudo /usr/bin/defaults -currentHost write /Library/Preferences/com.apple.locationmenu "ShowSystemServices" -bool YES 1> /dev/null
+
+#sudo -u _locationd /usr/bin/defaults -currentHost write com.apple.locationd LocationServicesEnabled -int 1 1> /dev/null
+
+sudo -u _locationd /usr/bin/defaults \
+	-currentHost write "/var/db/locationd/Library/Preferences/ByHost/com.apple.locationd" LocationServicesEnabled \
+	-int 1 1> /dev/null
+
+sudo /usr/bin/defaults \
+	-currentHost write /Library/Preferences/com.apple.locationmenu "ShowSystemServices" \
+	-bool YES 1> /dev/null
 
 echo "Done"
 echo

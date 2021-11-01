@@ -1,6 +1,6 @@
 #!/bin/bash
 
-first_name=$1 
+first_name=$1
 last_name=$2
 username=$2
 
@@ -16,7 +16,7 @@ fi
 
 # Force name to be Title Case
 first_name=$(echo "${first_name}" | awk '{for (i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
-last_name=$(echo "${last_name}"  | awk '{for (i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
+last_name=$(echo "${last_name}"   | awk '{for (i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
 
 full_name="${first_name} ${last_name}"
 
@@ -37,9 +37,9 @@ echo "  username = ${username}"
 echo "  password = ${password}"
 echo
 echo -n "Proceed with '${first_name} ${last_name} ($username)'? [y/N]: "
-read option
+read choice
 
-if [[ $option != "y" ]]; then
+if [[ ${choice} != "y" && ${choice} != "Y" ]]; then
 	echo "Alright, creation aborted!"
 	echo
 	exit 1
@@ -48,7 +48,7 @@ fi
 sudo dscl . -create /Users/${username}
 sudo dscl . -create /Users/${username} UserShell /bin/bash
 sudo dscl . -create /Users/${username} RealName "${full_name}"
-sudo dscl . -create /Users/${username} UniqueID 1001
+sudo dscl . -create /Users/${username} UniqueID 503
 sudo dscl . -create /Users/${username} PrimaryGroupID 1000
 sudo dscl . -create /Users/${username} NFSHomeDirectory /Local/Users/${username}
 sudo dscl . -passwd /Users/${username} "${password}"
@@ -56,3 +56,8 @@ sudo dscl . -append /Groups/admin GroupMembership ${username}
 
 # Finish by setting hostname and enable location services
 ./set-hostname.sh ${username}
+
+# Reboot to validate
+#sudo reboot
+echo "¨Reboot computer for the changes to take effect"
+echo
