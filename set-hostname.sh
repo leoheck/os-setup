@@ -47,10 +47,11 @@ dscacheutil -flushcache
 
 # Enable remote login
 
-echo "Enabling remote login"
+echo "Enabling remote login (ssh)"
 sudo  systemsetup -f -setremotelogin on 1> /dev/null
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
      -activate -configure -access -off -restart -agent -privs -all -allowAccessFor -allUsers 1> /dev/null
+
 
 # Enable location tracking
 echo "Enabling location tracking"
