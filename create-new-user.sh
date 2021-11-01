@@ -49,6 +49,7 @@ echo "SUMARRY"
 echo
 echo "   Full name = ${full_name}"
 echo "    username = ${username}"
+echo "    hostname = ${username}"
 echo "    password = ${password}"
 echo "    UniqueID = ${UniqueUserID}"
 echo "  LastUsedID = ${LastUsedID}"
