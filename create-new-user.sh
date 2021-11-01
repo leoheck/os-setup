@@ -49,7 +49,6 @@ echo "SUMMARY"
 echo
 echo "   Full name = ${full_name}"
 echo "    username = ${username}"
-#echo "    hostname = ${username}"
 echo "    password = ${password}"
 echo "    UniqueID = ${UniqueUserID}"
 echo "  LastUsedID = ${LastUsedID}"
@@ -75,8 +74,12 @@ sudo dscl . -append /Groups/admin GroupMembership ${username}
 # Finish by setting hostname and enable location services
 #./set-hostname.sh ${username}
 
+# NOT NEEDED ACTUALLY
 # Reboot to validate
 #sudo reboot
-echo
-echo "Reboot computer for the changes to take effect"
+# echo
+# echo "Reboot computer for the changes to take effect"
+# echo
+
+echo "DONE, user $(full_name) created."
 echo
