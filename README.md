@@ -2,20 +2,18 @@
 
 Some scripts to assist my OSX setup
 
-Useful scripts
+## Install minium-required stuff
 ```
-create-new-user.sh
-delete-user-account.sh
-set-hostname.sh
+sh -c "$(curl -fsSL https://raw.github.com/leoheck/osx-setup/master/initialize.sh)"
 ```
 
-Work in progress
-```
-set-new-owner.sh
-```
+## Extra scripts
 
-Old scripts
+After installing minimum-required stuff
 ```
-configure-osx.sh
-create-osx-usb-pendrive.sh
+cd ~/Documents/osx-setup
+
+./create-new-user.sh FIRSTNAME [LASTNAME] [HOSTNAME] [PASSWORD]
+./delete-user-account.sh USERNAME
+./set-hostname.sh [HOSTNAME]
 ```
