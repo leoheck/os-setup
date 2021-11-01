@@ -14,6 +14,8 @@ git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
 
 # Clean the shitty dock
 brew install dockutil
+
+# Remove garbage
 dockutil --remove "Calendars"
 dockutil --remove "Contacts"
 dockutil --remove "FaceTime"
@@ -26,6 +28,10 @@ dockutil --remove "Photos"
 dockutil --remove "Podcasts"
 dockutil --remove "Reminders"
 dockutil --remove "TV"
+
+# Add some apps
+dockutil --add /System/Applications/Utilities/Terminal.app
+dockutil --add /System/Applications/TextEdit.app
 
 # Install OH-MY-ZSH (colors)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
