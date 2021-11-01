@@ -1,15 +1,15 @@
 #!/bin/bash
 
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
+if [ "$EUID" -ne 0 ]; then
+	echo "Please run as root"
 else
 	sudo ./create-new-user.sh $@
 fi
 
 first_name=$1
 last_name=$2
-username=$2
 
+sudo toutch /tmp/create-new-user
 echo
 
 if [[ ${first_name} = "" || ${last_name} = "" ]]; then
