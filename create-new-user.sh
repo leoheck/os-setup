@@ -81,5 +81,5 @@ sudo dscl . -append /Groups/admin GroupMembership ${username}
 # echo "Reboot computer for the changes to take effect"
 # echo
 
-echo "DONE, user $(full_name) created."
+echo "DONE, user ${full_name} created."
 echo
