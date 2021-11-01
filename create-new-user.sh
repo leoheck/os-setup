@@ -39,11 +39,19 @@ else
 	password=$4
 fi
 
+# List users IDs
+# dscl . -list /Users UniqueID
+
+LastUsedID=$(dscl . -list /Users UniqueID | grep -v "^_" | sed -e "s/  */ /g" | sort -k2 | cut -d" " -f2 | tail -1)
+UniqueUserID=$((LastUsedID+1))
+
 echo "SUMARRY"
 echo
-echo " Full name = ${full_name}"
-echo "  username = ${username}"
-echo "  password = ${password}"
+echo "   Full name = ${full_name}"
+echo "    username = ${username}"
+echo "    password = ${password}"
+echo "    UniqueID = ${UniqueUserID}"
+echo "  LastUsedID = ${LastUsedID}"
 echo
 echo -n "Proceed with '${first_name} ${last_name} ($username)'? [y/N]: "
 read choice
@@ -53,15 +61,6 @@ if [[ ${choice} != "y" && ${choice} != "Y" ]]; then
 	echo
 	exit 1
 fi
-
-# List users IDs
-# dscl . -list /Users UniqueID
-
-LastUserID=$(dscl . -list /Users UniqueID | grep -v "^_" | sed -e "s/  */ /g" | sort -k2 | cut -d" " -f2 | tail -1)
-UniqueUserID=$((LastUserID+1))
-
-echo "  LastUserID = ${LastUserID}"
-echo "UniqueUserID = ${UniqueUserID}"
 
 sudo dscl . -create /Users/${username}
 sudo dscl . -create /Users/${username} UserShell /bin/zsh
