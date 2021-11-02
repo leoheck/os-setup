@@ -36,7 +36,7 @@ dockutil --add /System/Applications/TextEdit.app
 dockutil --add /System/Applications/FindMy.app
 
 # Set hostname with the serial number
-yes | ~/set-hostname.sh
+yes | ./set-hostname.sh
 
 # Launch system settings to enable shit that cannot be enabled by script
 open -a /System/Applications/System\ Preferences.app
@@ -53,8 +53,8 @@ sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 # Set the default picture for Poa Office
 # https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
-sudo dscl . delete /Users/username JPEGPhoto
-sudo dscl . delete /Users/username Picture
+sudo dscl . delete /Users/${USER} JPEGPhoto
+sudo dscl . delete /Users/${USER} Picture
 sudo ./userpic.sh ${USER} ./poaoffice.png
 
 # (Re)Install OH-MY-ZSH (colors yay!)
