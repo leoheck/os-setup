@@ -1,8 +1,8 @@
-# osx-setup
+# OSX-Setup Scripts
 
-Some scripts to assist my OSX setup
+Here I have some scripts to assist my setup of Macbooks.
 
-### Install minium-required stuff
+### Initialization (installing minium-required stuff)
 ```
 sh -c "$(curl -fsSL https://raw.github.com/leoheck/osx-setup/master/initialize.sh)"
 ```
@@ -21,7 +21,12 @@ cd ~/Documents/osx-setup
 
 ### Extra scripts
 
-To update scripts without git installed use this  
+If you don't have git installed, you can use this to update scripts easily.
 ```
 update-scripts.sh
+```
+
+### Change the hostname easily
+```
+sh -c "$(curl -fsSL https://raw.github.com/leoheck/osx-setup/master/initialize.sh) USERNAME"
 ```
