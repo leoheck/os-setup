@@ -13,7 +13,7 @@ brew install dockutil
 cd ~
 rm -rf ~/Documents/osx-setup
 git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
-cd ~/Documents/osx-setup
+cd $HOME/Documents/osx-setup
 
 # Remove garbage from the dock
 dockutil --remove "Calendar"
@@ -36,7 +36,7 @@ dockutil --add /System/Applications/TextEdit.app
 dockutil --add /System/Applications/FindMy.app
 
 # Set hostname with the serial number
-yes | ./set-hostname.sh
+yes | $HOME/Documents/osx-setup/set-hostname.sh
 
 # Launch system settings to enable shit that cannot be enabled by script
 open -a /System/Applications/System\ Preferences.app
@@ -55,7 +55,7 @@ sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 # https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
 sudo dscl . delete /Users/${USER} JPEGPhoto
 sudo dscl . delete /Users/${USER} Picture
-sudo ./userpic.sh ${USER} ./poaoffice.png
+sudo $HOME/Documents/osx-setup/userpic.sh ${USER} $HOME/Documents/osx-setup/poaoffice.png
 
 # (Re)Install OH-MY-ZSH (colors yay!)
 rm -rf $HOME/.oh-my-zsh/
