@@ -3,19 +3,17 @@
 # Initialize computer with barely minium required stuff to use the command line.
 
 # Install brew
-/bin/bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Install Github
+# Install required tools
 brew install git
+brew install dockutil
 
 # Clone osx-setup scripts
 cd ~
 rm -rf ~/Documents/osx-setup
 git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
 cd ~/Documents/osx-setup
-
-# Clean the shitty dock
-brew install dockutil
 
 # Remove garbage from the dock
 dockutil --remove "Calendar"
@@ -38,7 +36,7 @@ dockutil --add /System/Applications/TextEdit.app
 dockutil --add /System/Applications/FindMy.app
 
 # Set hostname with the serial number
-echo "y" | ~/set-hostname.sh
+yes | ~/set-hostname.sh
 
 # Launch system settings to enable shit that cannot be enabled by script
 open -a /System/Applications/System\ Preferences.app
@@ -50,11 +48,13 @@ sudo defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int
 sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 # Set the default picture
-sudo dscl . delete /Users/${USER} JPEGPhoto
-sudo dscl . create /Users/${USER} Picture "/Library/User Pictures/Animals/Zebra.tif"
+#sudo dscl . delete /Users/${USER} JPEGPhoto
+#sudo dscl . create /Users/${USER} Picture "/Library/User Pictures/Animals/Zebra.tif"
 
 # Set the default picture for Poa Office
 # https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
+sudo dscl . delete /Users/username JPEGPhoto
+sudo dscl . delete /Users/username Picture
 sudo ./userpic.sh ${USER} ./poaoffice.png
 
 # (Re)Install OH-MY-ZSH (colors yay!)
