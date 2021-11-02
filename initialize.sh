@@ -13,7 +13,7 @@ brew install dockutil
 cd ~
 rm -rf ~/Documents/osx-setup
 git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
-cd $HOME/Documents/osx-setup
+# cd $HOME/Documents/osx-setup
 
 # Remove garbage from the dock
 dockutil --remove "Calendar"
