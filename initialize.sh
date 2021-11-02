@@ -9,6 +9,7 @@
 brew install git
 
 # Clone osx-setup scripts
+cd ~
 rm -rf ~/Documents/osx-setup
 git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
 cd ~/Documents/osx-setup
@@ -36,7 +37,7 @@ dockutil --add /System/Applications/Utilities/Terminal.app
 dockutil --add /System/Applications/TextEdit.app
 
 # Set hostname with the serial number
-./set-hostname.sh
+y | ~/set-hostname.sh
 
 # Launch system settings to enable shit that cannot be enabled by script
 open -a /System/Applications/System\ Preferences.app
@@ -55,7 +56,8 @@ sudo dscl . create /Users/${USER} Picture "/Library/User Pictures/Animals/Zebra.
 # https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
 sudo ./userpic.sh ${USER} ./poaoffice.png
 
-# Install OH-MY-ZSH (colors)
+# (Re)Install OH-MY-ZSH (colors yay!)
+rm -rf $HOME/.oh-my-zsh/
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # Update things (hopefully)
