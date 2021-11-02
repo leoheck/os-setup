@@ -18,7 +18,6 @@ brew install dockutil
 
 # Remove garbage from the dock
 dockutil --remove "Calendar"
-dockutil --remove "Calendars"
 dockutil --remove "Contacts"
 dockutil --remove "FaceTime"
 dockutil --remove "Mail"
@@ -52,3 +51,13 @@ sed -i "" "s/robbyrussell/spaceship/g" ~/.zshrc
 open -a /System/Applications/System\ Preferences.app
 
 zsh
+
+# Enable Tap to Click
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+sudo defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+sudo defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+# Set the default picture for Poa Office
+# https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
+./userpic.sh $USER poaoffice.png
