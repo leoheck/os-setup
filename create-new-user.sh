@@ -71,19 +71,12 @@ sudo dscl . -create /Users/${username} NFSHomeDirectory /Users/${username}
 sudo dscl . -passwd /Users/${username} "${password}"
 sudo dscl . -append /Groups/admin GroupMembership ${username}
 
-# Set a picture
-sudo dscl . delete /Users/username JPEGPhoto
-sudo dscl . create /Users/username Picture "/Library/User Pictures/Flowers/Sunflower.tif"
+# Set a initial picture
+sudo dscl . delete /Users/${username} JPEGPhoto
+sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Animals/Eagle.tif"
 
 # Finish by setting hostname and enable location services
 #./set-hostname.sh ${username}
-
-# NOT NEEDED ACTUALLY
-# Reboot to validate
-#sudo reboot
-# echo
-# echo "Reboot computer for the changes to take effect"
-# echo
 
 echo "DONE, user ${full_name} created."
 echo
