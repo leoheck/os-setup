@@ -38,7 +38,7 @@ dockutil --add /System/Applications/TextEdit.app
 dockutil --add /System/Applications/FindMy.app
 
 # Set hostname with the serial number
-y | ~/set-hostname.sh
+echo "y" | ~/set-hostname.sh
 
 # Launch system settings to enable shit that cannot be enabled by script
 open -a /System/Applications/System\ Preferences.app
