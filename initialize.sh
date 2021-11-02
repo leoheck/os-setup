@@ -11,6 +11,7 @@ brew install git
 # Clone osx-setup scripts
 rm -rf ~/Documents/osx-setup
 git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
+cd ~/Documents/osx-setup
 
 # Clean the shitty dock
 brew install dockutil
@@ -34,6 +35,9 @@ dockutil --remove "TV"
 # Add some apps in the dock
 dockutil --add /System/Applications/Utilities/Terminal.app
 dockutil --add /System/Applications/TextEdit.app
+
+# Set hostname with the serial number
+./set-hostname.sh
 
 # Install OH-MY-ZSH (colors)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
