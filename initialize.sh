@@ -15,7 +15,8 @@ git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
 # Clean the shitty dock
 brew install dockutil
 
-# Remove garbage
+# Remove garbage from the dock
+dockutil --remove "Calendar"
 dockutil --remove "Calendars"
 dockutil --remove "Contacts"
 dockutil --remove "FaceTime"
@@ -23,13 +24,14 @@ dockutil --remove "Mail"
 dockutil --remove "Maps"
 dockutil --remove "Messages"
 dockutil --remove "Music"
+dockutil --remove "News"
 dockutil --remove "Notes"
 dockutil --remove "Photos"
 dockutil --remove "Podcasts"
 dockutil --remove "Reminders"
 dockutil --remove "TV"
 
-# Add some apps
+# Add some apps in the dock
 dockutil --add /System/Applications/Utilities/Terminal.app
 dockutil --add /System/Applications/TextEdit.app
 
@@ -42,7 +44,7 @@ git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 sed -i "" "s/robbyrussell/spaceship/g" ~/.zshrc
 
-zsh
-
 # Launch system settings to enable shit that cannot be enabled by script
-#open -a /System/Applications/System\ Preferences.app
+open -a /System/Applications/System\ Preferences.app
+
+zsh
