@@ -46,28 +46,24 @@ echo "Setting hostname ($hname)"
 sudo scutil --set HostName ${hname}.local
 sudo scutil --set ComputerName ${hname}
 sudo scutil --set LocalHostName ${hname}
-dscacheutil -flushcache
+sudo dscacheutil -flushcache
 
 # Enable remote login
 
 echo "Enabling remote login (ssh)"
-sudo  systemsetup -f -setremotelogin on 1> /dev/null
-sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart \
-     -activate -configure -access -off -restart -agent -privs -all -allowAccessFor -allUsers 1> /dev/null
+sudo systemsetup -f -setremotelogin on 1> /dev/null
+sudo dseditgroup -o create -q com.apple.access_ssh
+sudo dseditgroup -o edit -a admin -t group com.apple.access_ssh
 
+sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -access -off -restart -agent -privs -all -allowAccessFor -allUsers 1> /dev/null
 
 # Enable location tracking
 echo "Enabling location tracking"
 
-#sudo -u _locationd /usr/bin/defaults -currentHost write com.apple.locationd LocationServicesEnabled -int 1 1> /dev/null
+sudo -u _locationd /usr/bin/defaults -currentHost write com.apple.locationd LocationServicesEnabled -int 1 1> /dev/null
+sudo -u _locationd /usr/bin/defaults -currentHost write "/var/db/locationd/Library/Preferences/ByHost/com.apple.locationd" LocationServicesEnabled -int 1 1> /dev/null
 
-sudo -u _locationd /usr/bin/defaults \
-	-currentHost write "/var/db/locationd/Library/Preferences/ByHost/com.apple.locationd" LocationServicesEnabled \
-	-int 1 1> /dev/null
-
-sudo /usr/bin/defaults \
-	-currentHost write /Library/Preferences/com.apple.locationmenu "ShowSystemServices" \
-	-bool YES 1> /dev/null
+sudo /usr/bin/defaults -currentHost write /Library/Preferences/com.apple.locationmenu "ShowSystemServices" -bool YES 1> /dev/null
 
 echo "Done"
 echo
