@@ -18,15 +18,15 @@ function ctrl_c() {
 if [ $EUID != 0 ]; then
 	echo
 	echo "Running sudo, please type password for ${USER}"
-	sudo "$0" "$@"
-	exit $?
+	# sudo "$0" "$@"
+	# exit $?
+	sudo touch /tmp/set-hostname
 fi
 
 hname="$1"
 
 # Default hostname if it is not passed
 if [[ "${hname}" == "" ]]; then
-	#hname="mbp-$(date +'%Y-%m-%d-%H-%M-%S')"
 	serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d"=" -f2 | sed "s/\"//g" |sed "s/ //g")
 	hname=${serial_number}
 fi

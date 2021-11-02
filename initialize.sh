@@ -2,6 +2,12 @@
 
 # Initialize computer with barely minium required stuff to use the command line.
 
+# Ask for sudo password
+echo "Running with sudo, please type password for ${USER}"
+sudo touch /tmp/initialize
+echo
+
+
 # Install brew
 yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 

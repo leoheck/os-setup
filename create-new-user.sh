@@ -6,6 +6,7 @@ first_name=$1
 last_name=$2
 
 # Ask for sudo password
+echo "Running with sudo, please type password for ${USER}"
 sudo touch /tmp/create-new-user
 echo
 
