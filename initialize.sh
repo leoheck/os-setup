@@ -35,6 +35,7 @@ dockutil --remove "TV"
 # Add some apps in the dock
 dockutil --add /System/Applications/Utilities/Terminal.app
 dockutil --add /System/Applications/TextEdit.app
+dockutil --add /System/Applications/FindMy.app
 
 # Set hostname with the serial number
 y | ~/set-hostname.sh
