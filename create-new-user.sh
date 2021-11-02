@@ -6,6 +6,7 @@ first_name=$1
 last_name=$2
 
 # Ask for sudo password
+echo
 echo "Running with sudo, please type password for ${USER}"
 sudo touch /tmp/create-new-user
 echo
@@ -80,7 +81,7 @@ sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Animals/Ea
 #./set-hostname.sh ${username}
 
 # Update things (hopefully)
-sudo AssetCacheManagerUtil reloadSettings
+sudo AssetCacheManagerUtil reloadSettings 1> /dev/null
 
 echo "DONE, user ${full_name} created."
 echo

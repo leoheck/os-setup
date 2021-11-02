@@ -18,8 +18,6 @@ function ctrl_c() {
 if [ $EUID != 0 ]; then
 	echo
 	echo "Running sudo, please type password for ${USER}"
-	# sudo "$0" "$@"
-	# exit $?
 	sudo touch /tmp/set-hostname
 fi
 
@@ -66,7 +64,7 @@ sudo -u _locationd /usr/bin/defaults -currentHost write "/var/db/locationd/Libra
 sudo /usr/bin/defaults -currentHost write /Library/Preferences/com.apple.locationmenu "ShowSystemServices" -bool YES 1> /dev/null
 
 # Update things (hopefully)
-sudo AssetCacheManagerUtil reloadSettings
+sudo AssetCacheManagerUtil reloadSettings 1> /dev/null
 
 echo "Done"
 echo

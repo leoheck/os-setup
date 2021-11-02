@@ -3,10 +3,10 @@
 # Initialize computer with barely minium required stuff to use the command line.
 
 # Ask for sudo password
+echo
 echo "Running with sudo, please type password for ${USER}"
 sudo touch /tmp/initialize
 echo
-
 
 # Install brew
 yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -71,7 +71,7 @@ rm -rf $HOME/.oh-my-zsh/
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # Update things (hopefully)
-sudo AssetCacheManagerUtil reloadSettings
+sudo AssetCacheManagerUtil reloadSettings 1> /dev/null
 
 echo
 echo "DONE, Reboot to reload things!"
