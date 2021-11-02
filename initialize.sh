@@ -38,20 +38,11 @@ dockutil --add /System/Applications/TextEdit.app
 # Set hostname with the serial number
 ./set-hostname.sh
 
-# Install OH-MY-ZSH (colors)
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-# Spaceship theme
-ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
-git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
-ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-sed -i "" "s/robbyrussell/spaceship/g" ~/.zshrc
-
 # Launch system settings to enable shit that cannot be enabled by script
 open -a /System/Applications/System\ Preferences.app
 
 # Enable Tap to Click
-sudo defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 sudo defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 sudo defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
@@ -64,4 +55,12 @@ sudo dscl . create /Users/${USER} Picture "/Library/User Pictures/Animals/Zebra.
 # https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
 sudo ./userpic.sh ${USER} ./poaoffice.png
 
-zsh
+# Install OH-MY-ZSH (colors)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+# Update things (hopefully)
+sudo AssetCacheManagerUtil reloadSettings
+
+echo
+echo "DONE, Reboot to reload things!"
+echo

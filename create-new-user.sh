@@ -78,5 +78,10 @@ sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Animals/Ea
 # Finish by setting hostname and enable location services
 #./set-hostname.sh ${username}
 
+# Update things (hopefully)
+sudo AssetCacheManagerUtil reloadSettings
+
 echo "DONE, user ${full_name} created."
+echo
+echo "Better to reboot once"
 echo
