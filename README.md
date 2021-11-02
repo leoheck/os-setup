@@ -28,5 +28,5 @@ update-scripts.sh
 
 ### Change the hostname easily
 ```
-sh -c "$(curl -fsSL https://raw.github.com/leoheck/osx-setup/master/set-hostname.sh) USERNAME"
+sh -c "$(curl -fsSL https://raw.github.com/leoheck/osx-setup/master/set-hostname.sh)" "" USERNAME
 ```
