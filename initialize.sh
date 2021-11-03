@@ -73,6 +73,27 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 # Update things (hopefully)
 sudo AssetCacheManagerUtil reloadSettings 1> /dev/null
 
+# Finder customizations
+
+# Path Bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Status Bar
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# Powerline Fonts
+git clone https://github.com/powerline/fonts.git
+cd fonts
+sh -c ./install.sh
+
+# Zsh Spacehship Theme
+ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
+git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+sed "s/robbyrussell/spaceship/g" ${HOME}/.zshrc
+
+brew cleanup
+
 echo
 echo "DONE, Reboot to reload things!"
 echo
