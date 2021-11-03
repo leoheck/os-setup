@@ -85,12 +85,13 @@ defaults write com.apple.finder ShowStatusBar -bool true
 git clone https://github.com/powerline/fonts.git
 cd fonts
 sh -c ./install.sh
+cd -
 
 # Zsh Spacehship Theme
 ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
 git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-sed "s/robbyrussell/spaceship/g" ${HOME}/.zshrc
+sed -i "" "s/robbyrussell/spaceship/g" ${HOME}/.zshrc
 
 brew cleanup
 
