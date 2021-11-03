@@ -64,7 +64,7 @@ sudo -u _locationd /usr/bin/defaults -currentHost write "/var/db/locationd/Libra
 sudo /usr/bin/defaults -currentHost write /Library/Preferences/com.apple.locationmenu "ShowSystemServices" -bool YES 1> /dev/null
 
 # Update things (hopefully)
-sudo AssetCacheManagerUtil reloadSettings 1> /dev/null
+sudo AssetCacheManagerUtil reloadSettings 2> /dev/null
 
 echo "Done"
 echo

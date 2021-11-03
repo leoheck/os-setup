@@ -68,7 +68,7 @@ rm -rf $HOME/.oh-my-zsh/
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # Update things (hopefully)
-sudo AssetCacheManagerUtil reloadSettings 1> /dev/null
+sudo AssetCacheManagerUtil reloadSettings 2> /dev/null
 
 # Finder customizations
 
