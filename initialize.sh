@@ -44,9 +44,6 @@ dockutil --add /System/Applications/FindMy.app
 # Set hostname with the serial number
 yes | $HOME/Documents/osx-setup/set-hostname.sh
 
-# Launch system settings to enable shit that cannot be enabled by script
-open -a /System/Applications/System\ Preferences.app
-
 # Enable Tap to Click
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 sudo defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
@@ -98,3 +95,18 @@ brew cleanup
 echo
 echo "DONE, Reboot to reload things!"
 echo
+
+
+# Launch system settings to enable shit that cannot be enabled by script
+echo
+echo
+echo "Turning Remote Login on requires Full Disk Access privileges"
+echo
+echo "To enable the Remote Login go to:"
+echo
+echo "    System Preferences > Security & Privacy > Privacy (tab) > Full Disk Access" 
+echo "    And Enable it for Terminal app"
+open -a /System/Applications/System\ Preferences.app
+echo
+echo
+
