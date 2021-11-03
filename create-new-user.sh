@@ -78,10 +78,10 @@ sudo dscl . delete /Users/${username} JPEGPhoto
 sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Animals/Eagle.tif"
 
 # Finish by setting hostname and enable location services
-#./set-hostname.sh ${username}
+./set-hostname.sh ${username}
 
 # Update things (hopefully)
-sudo AssetCacheManagerUtil reloadSettings 1> /dev/null
+sudo AssetCacheManagerUtil reloadSettings 2> /dev/null
 
 echo "DONE, user ${full_name} created."
 echo

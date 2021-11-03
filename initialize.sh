@@ -8,8 +8,10 @@ echo "Running with sudo, please type password for ${USER}"
 sudo touch /tmp/initialize
 echo
 
-# Install brew
+# Install and load brew
 yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/poaoffice/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Install required tools
 brew install git
@@ -104,9 +106,8 @@ echo "Turning Remote Login on requires Full Disk Access privileges"
 echo
 echo "To enable the Remote Login go to:"
 echo
-echo "    System Preferences > Security & Privacy > Privacy (tab) > Full Disk Access" 
+echo "    System Preferences > Security & Privacy > Privacy (tab) > Full Disk Access"
 echo "    And Enable it for Terminal app"
 open -a /System/Applications/System\ Preferences.app
 echo
 echo
-
