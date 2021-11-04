@@ -78,7 +78,7 @@ sudo dscl . delete /Users/${username} JPEGPhoto
 sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Animals/Eagle.tif"
 
 # Finish by setting hostname and enable location services
-./set-hostname.sh ${username}
+yes | ./set-hostname.sh ${username}
 
 # Update things (hopefully)
 sudo AssetCacheManagerUtil reloadSettings 2> /dev/null

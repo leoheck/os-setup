@@ -24,6 +24,7 @@ git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
 # cd $HOME/Documents/osx-setup
 
 # Remove garbage from the dock
+dockutil --remove "App Store"
 dockutil --remove "Calendar"
 dockutil --remove "Contacts"
 dockutil --remove "FaceTime"
@@ -112,3 +113,5 @@ open -a /System/Applications/System\ Preferences.app
 echo
 echo
 
+# Finish going to the scripts folder
+cd ${HOME}/Documents/osx-setup
