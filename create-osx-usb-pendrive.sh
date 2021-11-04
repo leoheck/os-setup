@@ -20,10 +20,12 @@ fi
 OSX_VERSION=$(sw_vers -productVersion | cut -d. -f1-2)
 
 MONTEREY_VERSION=12.0
-BIG_SUR_VERSION=11.0
+BIG_SUR_VERSION=11.4
 CATALINA_VERSION=10.15
 MOJAVE_VERSION=10.14
 HIGH_SIERRA_VERSION=10.13
+
+# softwareupdate --fetch-full-installer
 
 if [[ -eq $OSX_VERSION $CATALINA_VERSION ]]; then
 	# https://itunes.apple.com/us/app/macos-catalina/id1466841314?ls=1&mt=12
@@ -41,10 +43,11 @@ if [[ -eq $OSX_VERSION $HIGH_SIERRA_VERSION ]]; then
 fi
 
 if [[ -eq $OSX_VERSION $BIG_SUR_VERSION ]]; then
+	# https://apps.apple.com/us/app/macos-big-sur/id1526878132?mt=12
 	sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia --volume $usbdrive
 fi
 
 if [[ -eq $OSX_VERSION $MONTEREY_VERSION ]]; then
-	# softwareupdate --fetch-full-installer
+	# https://apps.apple.com/us/app/macos-monterey/id1576738294?mt=12
 	sudo /Applications/Install\ macOS\ Monterey.app/Contents/Resources/createinstallmedia --volume $usbdrive
 fi
