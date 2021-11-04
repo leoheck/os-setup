@@ -83,7 +83,7 @@ sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Animals/Ea
 # Update things (hopefully)
 sudo AssetCacheManagerUtil reloadSettings 2> /dev/null
 
-echo "DONE, user ${full_name} created."
+echo "Done. User ${username} for ${full_name} was created."
 echo
-echo "Better to reboot once"
+echo "Better to reboot the computer once"
 echo

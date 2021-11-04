@@ -111,3 +111,4 @@ echo "    And Enable it for Terminal app"
 open -a /System/Applications/System\ Preferences.app
 echo
 echo
+
