@@ -9,6 +9,7 @@ sudo touch /tmp/initialize
 echo
 
 # Install and load brew
+sudo chown -R $(whoami) /usr/local/var/homebrew 1> /dev/null
 yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/poaoffice/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
