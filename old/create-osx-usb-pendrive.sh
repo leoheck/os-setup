@@ -2,6 +2,9 @@
 
 # Leandro Sehnem Heck (leoheck@gmail.com)
 
+# How to create a bootable installer for macOS
+# https://support.apple.com/en-us/HT201372
+
 usbdrive="$1"
 
 if [[ $usbdrive == "" ]]; then
@@ -16,6 +19,8 @@ fi
 
 OSX_VERSION=$(sw_vers -productVersion | cut -d. -f1-2)
 
+MONTEREY_VERSION=12.0
+BIG_SUR_VERSION=11.0
 CATALINA_VERSION=10.15
 MOJAVE_VERSION=10.14
 HIGH_SIERRA_VERSION=10.13
@@ -33,4 +38,13 @@ fi
 if [[ -eq $OSX_VERSION $HIGH_SIERRA_VERSION ]]; then
 	# https://apps.apple.com/us/app/macos-high-sierra/id1246284741?ls=1&mt=12
 	sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/Resources/createinstallmedia --volume $usbdrive
+fi
+
+if [[ -eq $OSX_VERSION $BIG_SUR_VERSION ]]; then
+	sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia --volume $usbdrive
+fi
+
+if [[ -eq $OSX_VERSION $MONTEREY_VERSION ]]; then
+	# softwareupdate --fetch-full-installer
+	sudo /Applications/Install\ macOS\ Monterey.app/Contents/Resources/createinstallmedia --volume $usbdrive
 fi
