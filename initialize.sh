@@ -113,9 +113,9 @@ open -a /System/Applications/System\ Preferences.app
 echo
 echo
 
-
 # Disable Guest user
-sudo fdesetup remove -user Guest
+# Didnt work
+#sudo fdesetup remove -user Guest
 
 # Finish going to the scripts folder
 cd ${HOME}/Documents/osx-setup
