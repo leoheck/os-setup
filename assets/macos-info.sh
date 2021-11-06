@@ -29,7 +29,7 @@ disk_size=$(diskutil info /dev/disk1 | grep "Disk Size" | cut -d: -f2 | sed -Ee 
 
 echo
 echo "          Serial Number: ${serial_number}"
-echo "                  Model: ${model_number}"
+echo "                  Model: ${model}"
 echo "                   Year: ${year}"
 echo "     Waranty Expiration: ${waranty_expiration}"
 echo "Amex Waranty Expiration: ${waranty_expiration}"

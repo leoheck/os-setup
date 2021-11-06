@@ -14,7 +14,7 @@
 #model_number=$( sudo dmidecode -t 1 | grep "Product Name"  | cut -d: -f2 | sed "s/^[ \t]\+//g")
 
 serial_number=$(sudo dmidecode -s system-serial-number)
-model_number=$(sudo dmidecode -s system-product-name)
+model=$(sudo dmidecode -s system-product-name)
 
 # Memory
 memory_size=$(free --gibi | grep Mem | sed "s/[ \t]\+/ /g" | cut -d" " -f2)
@@ -35,7 +35,7 @@ gpu=$(lspci | grep -i nvidia | grep "3D controller" | cut -d: -f3 | sed "s/^[ ]\
 
 echo
 echo "          Serial Number: ${serial_number}"
-echo "                  Model: ${model_number}"
+echo "                  Model: ${model}"
 echo "                   Year: ${year}"
 echo "     Waranty Expiration: ${waranty_expiration}"
 echo "Amex Waranty Expiration: ${waranty_expiration}"
