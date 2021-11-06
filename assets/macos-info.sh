@@ -10,7 +10,10 @@ serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d= -f2 | sed -Ee '
 
 # model=$(/usr/libexec/PlistBuddy -c "print :'CPU Names':$(system_profiler SPHardwareDataType | awk '/Serial/ {print $4}' | cut -c 9-)-en-US_US" ~/Library/Preferences/com.apple.SystemProfiler.plist)
 # model=$(defaults read "$HOME/Library/Preferences/com.apple.SystemProfiler.plist" 'CPU Names' | grep en-US | cut -d= -f2 | sed "s/\"//g" | sed "s/;//g" | sed "s/[ ]\+//g" | sed "s/^ //g")
-model=$(system_profiler SPHardwareDataType | grep "Model Name" | cut -d: -f2 | sed "s/^ //g")
+#model=$(system_profiler SPHardwareDataType | grep "Model Name" | cut -d: -f2 | sed "s/^ //g")
+
+serial_last_4digits=$(echo C02TQB1UHTD5 | cut -c 9-)
+model=$(curl -s https://support-sp.apple.com/sp/product\?cc\=${serial_last_4digits} | sed "s/.*<configCode>//g" | sed "s/<\/configCode>.*//g")
 
 # year
 year=
