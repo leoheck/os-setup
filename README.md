@@ -30,3 +30,9 @@ update-scripts.sh
 ```
 sh -c "$(curl -fsSL https://raw.github.com/leoheck/osx-setup/master/set-hostname.sh)" "" USERNAME
 ```
+
+### Computer Info
+```
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/macos-info.sh)" 
+```
+
