@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# USAGE: ./delete-user.sh USERNAME
+
 username=$1
 
 echo

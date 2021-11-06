@@ -13,10 +13,10 @@ After installing minimum-required stuff
 ```
 cd ~/Documents/osx-setup
 
-./create-new-user.sh FIRSTNAME [LASTNAME] [HOSTNAME] [PASSWORD]
+./create-user.sh FIRSTNAME [LASTNAME] [HOSTNAME] [PASSWORD]
 ./set-hostname.sh [HOSTNAME]
 
-./delete-user-account.sh USERNAME
+./delete-user.sh USERNAME
 ```
 
 ### Extra scripts

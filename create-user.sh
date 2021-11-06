@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Usage: ./create-new-user.sh FIRST_NAME [LAST_NAME] [HOSTNAME] [PASSWORD]
+# Usage: ./create-user.sh FIRST_NAME [LAST_NAME] [HOSTNAME] [PASSWORD]
 
 first_name=$1
 last_name=$2
