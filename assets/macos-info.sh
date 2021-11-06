@@ -34,7 +34,7 @@ echo "         Year: ${year}"
 echo "    Processor: ${processor}"
 echo "         CPUs: ${n_cpus}"
 echo "    CPU Cores: ${n_cores}"
-echo "       Memory: ${memory_gibi} GB"
+echo "       Memory: ${memory_size} GB"
 echo "Graphics Card: ${gpu}"
 echo "    Disk Size: ${disk_size} GB"
 echo
