@@ -10,43 +10,36 @@
 # Memory
 # Graphics card
 
-
-
-
-serial_number=$(sudo dmidecode -t 1 | grep "Serial Number" | cut -d: -f2 | sed "s/^[ \t]\+//g")
-model_number=$( sudo dmidecode -t 1 | grep "Product Name"  | cut -d: -f2 | sed "s/^[ \t]\+//g")
+#serial_number=$(sudo dmidecode -t 1 | grep "Serial Number" | cut -d: -f2 | sed "s/^[ \t]\+//g")
+#model_number=$( sudo dmidecode -t 1 | grep "Product Name"  | cut -d: -f2 | sed "s/^[ \t]\+//g")
 
 serial_number=$(sudo dmidecode -s system-serial-number)
 model_number=$(sudo dmidecode -s system-product-name)
 
-
 # Memory
-memory_gibi=$(free --gibi | grep Mem | sed "s/[ \t]\+/ /g" | cut -d" " -f2)
+memory_size=$(free --gibi | grep Mem | sed "s/[ \t]\+/ /g" | cut -d" " -f2)
 # Better information here
 # sudo dmidecode -t 17
 # sudo dmidecode -t 19
 
 processor=$(cat /proc/cpuinfo | grep "model name" | uniq | cut -d: -f2 | sed "s/^[ ]\+//g")
-n_processors=$(echo $(cat /proc/cpuinfo | grep "processor" | tail -1 | cut -d: -f2 | sed "s/^[ ]\+//g")+1 | bc)
-cpu_cores=$(cat /proc/cpuinfo | grep "cpu cores" | uniq | cut -d: -f2 | sed "s/^[ ]\+//g")
+n_cpus=$(echo $(cat /proc/cpuinfo | grep "processor" | tail -1 | cut -d: -f2 | sed "s/^[ ]\+//g")+1 | bc)
+n_cores=$(cat /proc/cpuinfo | grep "cpu cores" | uniq | cut -d: -f2 | sed "s/^[ ]\+//g")
 
 # Battery info
 # sudo dmidecode -t 22
 
-
-resolution=$(xdpyinfo | grep dimensions | cut -d: -f2 | sed "s/^[ ]\+//g" | cut -d" " -f1)
-
-graphics_card=$(lspci | grep -i nvidia | grep "3D controller" | cut -d: -f3 | sed "s/^[ ]\+//g")
+gpu=$(lspci | grep -i nvidia | grep "3D controller" | cut -d: -f3 | sed "s/^[ ]\+//g")
 
 echo
 echo "Serial Number: ${serial_number}"
 echo " Model Number: ${model_number}"
+echo "         Year: ${year}"
 echo "    Processor: ${processor}"
-echo "   Processors: ${n_processors}"
-echo "    CPU Cores: ${cpu_cores}"
-echo "       Memory: ${memory_gibi} GB"
-echo "   Resolution: ${resolution} pixels"
-echo "Graphics Card: ${graphics_card}"
+echo "         CPUs: ${n_cpus}"
+echo "        Cores: ${n_cores}"
+echo "       Memory: ${memory_size} GB"
+echo "          GPU: ${gpu}"
 echo
 
 
