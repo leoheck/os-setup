@@ -28,14 +28,15 @@ gpu=$(system_profiler SPDisplaysDataType | grep -m1 "Chipset Model" | cut -d: -f
 disk_size=$(diskutil info /dev/disk1 | grep "Disk Size" | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g' | cut -d" " -f1)
 
 echo
-echo "Serial Number: ${serial_number}"
-echo "        Model: ${model}"
-echo "         Year: ${year}"
-echo "    Processor: ${processor}"
-echo "         CPUs: ${n_cpus}"
-echo "        Cores: ${n_cores}"
-echo "       Memory: ${memory_size} GB"
-echo "          GPU: ${gpu}"
-echo "    Disk Size: ${disk_size} GB"
+echo "          Serial Number: ${serial_number}"
+echo "                  Model: ${model_number}"
+echo "                   Year: ${year}"
+echo "     Waranty Expiration: ${waranty_expiration}"
+echo "Amex Waranty Expiration: ${waranty_expiration}"
+echo "              Processor: ${processor}"
+echo "                   CPUs: ${n_cpus}"
+echo "                  Cores: ${n_cores}"
+echo "                 Memory: ${memory_size} GB"
+echo "                    GPU: ${gpu}"
+echo "              Disk Size: ${disk_size} GB"
 echo
-

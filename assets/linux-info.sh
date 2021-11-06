@@ -34,15 +34,17 @@ disk_size=$(sudo fdisk -l /dev/nvme0n1 2>&1 | grep -m1 "Disk" | cut -d" " -f3)
 gpu=$(lspci | grep -i nvidia | grep "3D controller" | cut -d: -f3 | sed "s/^[ ]\+//g")
 
 echo
-echo "Serial Number: ${serial_number}"
-echo "        Model: ${model_number}"
-echo "         Year: ${year}"
-echo "    Processor: ${processor}"
-echo "         CPUs: ${n_cpus}"
-echo "        Cores: ${n_cores}"
-echo "       Memory: ${memory_size} GB"
-echo "          GPU: ${gpu}"
-echo "    Disk Size: ${disk_size} GB"
+echo "          Serial Number: ${serial_number}"
+echo "                  Model: ${model_number}"
+echo "                   Year: ${year}"
+echo "     Waranty Expiration: ${waranty_expiration}"
+echo "Amex Waranty Expiration: ${waranty_expiration}"
+echo "              Processor: ${processor}"
+echo "                   CPUs: ${n_cpus}"
+echo "                  Cores: ${n_cores}"
+echo "                 Memory: ${memory_size} GB"
+echo "                    GPU: ${gpu}"
+echo "              Disk Size: ${disk_size} GB"
 echo
 
 # DEMIDECODE
