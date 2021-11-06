@@ -34,7 +34,6 @@ disk_size=$(sudo fdisk -l /dev/nvme0n1 2>&1 | grep -m1 "Disk" | cut -d" " -f3)
 gpu=$(lspci | grep -i nvidia | grep "3D controller" | cut -d: -f3 | sed "s/^[ ]\+//g")
 
 echo
-echo
 echo "Serial Number: ${serial_number}"
 echo "        Model: ${model_number}"
 echo "         Year: ${year}"
@@ -44,7 +43,6 @@ echo "        Cores: ${n_cores}"
 echo "       Memory: ${memory_size} GB"
 echo "          GPU: ${gpu}"
 echo "    Disk Size: ${disk_size} GB"
-echo
 echo
 
 # DEMIDECODE
