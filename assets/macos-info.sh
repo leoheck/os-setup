@@ -1,5 +1,7 @@
 #!/bin/bash
 
+owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed -n 's/^ //g;2p')
+
 # serial number
 serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d= -f2 | sed -Ee 's/^[[:space:]]+//g' | sed "s/\"//g")
 
@@ -28,6 +30,7 @@ gpu=$(system_profiler SPDisplaysDataType | grep -m1 "Chipset Model" | cut -d: -f
 disk_size=$(diskutil info /dev/disk1 | grep "Disk Size" | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g' | cut -d" " -f1)
 
 echo
+echo "                  Owner: ${owner_name}"
 echo "          Serial Number: ${serial_number}"
 echo "                  Model: ${model}"
 echo "                   Year: ${year}"

@@ -10,6 +10,8 @@
 # Memory
 # Graphics card
 
+owner_name=$(getent passwd | grep "$USER" | cut -d":" -f5 | cut -d"," -f1)
+
 #serial_number=$(sudo dmidecode -t 1 | grep "Serial Number" | cut -d: -f2 | sed "s/^[ \t]\+//g")
 #model_number=$( sudo dmidecode -t 1 | grep "Product Name"  | cut -d: -f2 | sed "s/^[ \t]\+//g")
 
@@ -33,7 +35,7 @@ disk_size=$(sudo fdisk -l /dev/nvme0n1 2>&1 | grep -m1 "Disk" | cut -d" " -f3)
 
 gpu=$(lspci | grep -i nvidia | grep "3D controller" | cut -d: -f3 | sed "s/^[ ]\+//g")
 
-echo
+echo "                  Owner: ${owner_name}"
 echo "          Serial Number: ${serial_number}"
 echo "                  Model: ${model}"
 echo "                   Year: ${year}"
