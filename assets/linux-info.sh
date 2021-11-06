@@ -35,14 +35,14 @@ gpu=$(lspci | grep -i nvidia | grep "3D controller" | cut -d: -f3 | sed "s/^[ ]\
 
 echo
 echo "Serial Number: ${serial_number}"
-echo " Model Number: ${model_number}"
+echo "        Model: ${model_number}"
 echo "         Year: ${year}"
 echo "    Processor: ${processor}"
 echo "         CPUs: ${n_cpus}"
 echo "        Cores: ${n_cores}"
 echo "       Memory: ${memory_size} GB"
-echo "    Disk Size: ${disk_size} GB"
 echo "          GPU: ${gpu}"
+echo "    Disk Size: ${disk_size} GB"
 echo
 
 

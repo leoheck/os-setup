@@ -35,7 +35,7 @@ echo "    Processor: ${processor}"
 echo "         CPUs: ${n_cpus}"
 echo "        Cores: ${n_cores}"
 echo "       Memory: ${memory_size} GB"
-echo "Graphics Card: ${gpu}"
+echo "          GPU: ${gpu}"
 echo "    Disk Size: ${disk_size} GB"
 echo
 
