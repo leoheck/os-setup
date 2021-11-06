@@ -2,7 +2,7 @@
 
 owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed -n 's/^ //g;2p')
 
-warranty_expiration=$(python3 < <(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty) | tail -1 | cut -d, -f4)
+warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 - | tail -1 | cut -d, -f4)
 amex_warranty_expiration=
 
 # serial number
