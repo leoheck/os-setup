@@ -44,7 +44,7 @@ echo "       Memory: ${memory_size} GB"
 echo "          GPU: ${gpu}"
 echo "    Disk Size: ${disk_size} GB"
 echo
-
+echo
 
 # DEMIDECODE
 #  0 BIOS
