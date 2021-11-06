@@ -22,7 +22,9 @@ fi
 echo
 
 # Ask for sudo password
-sudo touch /tmp/create-new-user
+echo
+echo "Running with sudo, please type password for ${USER}"
+sudo touch /tmp/unlock_sudo
 echo
 
 sudo dscl . -delete /Users/${username}

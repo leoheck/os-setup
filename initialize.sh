@@ -5,7 +5,7 @@
 # Ask for sudo password
 echo
 echo "Running with sudo, please type password for ${USER}"
-sudo touch /tmp/initialize
+sudo touch /tmp/unlock_sudo
 echo
 
 # Install and load brew
@@ -110,7 +110,7 @@ echo "To enable the Remote Login go to:"
 echo
 echo "    System Preferences > Security & Privacy > Privacy (tab) > Full Disk Access"
 echo "    And Enable it for Terminal app"
-open -a /System/Applications/System\ Preferences.app
+open -a /System/Applications/System\ Preferences.app &
 echo
 echo
 

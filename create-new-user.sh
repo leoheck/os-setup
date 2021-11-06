@@ -8,7 +8,7 @@ last_name=$2
 # Ask for sudo password
 echo
 echo "Running with sudo, please type password for ${USER}"
-sudo touch /tmp/create-new-user
+sudo touch /tmp/unlock_sudo
 echo
 
 if [[ ${first_name} = "" || ${last_name} = "" ]]; then
@@ -36,7 +36,7 @@ fi
 
 # Custom Password
 if [[ $4 = "" ]]; then
-	password="ChangeMeAsSoonAsPossible"
+	password="ambush"
 else
 	password=$4
 fi
