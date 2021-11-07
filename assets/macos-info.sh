@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# MAC and macOS info
+
+
 owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed -n 's/^ //g;2p')
 
 warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 - | tail -1 | cut -d, -f4 | sed -e "s/\r//g")
@@ -37,6 +40,8 @@ gpu=$(system_profiler SPDisplaysDataType | grep -m1 "Chipset Model" | cut -d: -f
 disk_size=$(diskutil info /dev/disk1 | grep "Disk Size" | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g' | cut -d" " -f1)
 
 echo
+echo " SYSTEM INFO SUMMARY"
+echo
 echo "                   Owner: ${owner_name}"
 echo "           Serial Number: ${serial_number}"
 echo "                   Model: ${model}"
@@ -50,3 +55,8 @@ echo "                  Memory: ${memory_size} GB"
 echo "                     GPU: ${gpu}"
 echo "               Disk Size: ${disk_size} GB"
 echo
+
+# Logfile
+current_date=$(date +"%Y-%m-%d_%Hh%M")
+output_file="${serial_number}_${current_date}_${USER}.csv"
+echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
