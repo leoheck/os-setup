@@ -1,14 +1,8 @@
 #!/bin/bash
 
-# Serial Number
-# Model
-# Model Year
-# Waranty?
+# Linux (Dell)
 
-# Processor
-# Disk
-# Memory
-# Graphics card
+clear
 
 owner_name=$(getent passwd | grep "$USER" | cut -d":" -f5 | cut -d"," -f1)
 
@@ -45,8 +39,8 @@ echo "                   Owner: ${owner_name}"
 echo "           Serial Number: ${serial_number}"
 echo "                   Model: ${model}"
 echo "                    Year: ${year}"
-echo "     Warranty Expiration: ${warranty_expiration}"
-echo "Amex Warranty Expiration: ${amex_warranty_expiration}"
+# echo "     Warranty Expiration: ${warranty_expiration}"
+# echo "Amex Warranty Expiration: ${amex_warranty_expiration}"
 echo "               Processor: ${processor}"
 echo "                    CPUs: ${n_cpus}"
 echo "                   Cores: ${n_cores}"
@@ -59,3 +53,6 @@ echo
 current_date=$(date +"%Y-%m-%d_%Hh%M")
 output_file="${serial_number}_${current_date}_${USER}.csv"
 echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
+
+echo "Output file: ${output_file}"
+echo

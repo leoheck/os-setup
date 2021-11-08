@@ -2,6 +2,7 @@
 
 # MAC and macOS info
 
+clear
 
 owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed -n 's/^ //g;2p')
 
@@ -15,11 +16,11 @@ serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d= -f2 | sed -Ee '
 # model=$(defaults read "$HOME/Library/Preferences/com.apple.SystemProfiler.plist" 'CPU Names' | grep en-US | cut -d= -f2 | sed "s/\"//g" | sed "s/;//g" | sed "s/[ ]\+//g" | sed "s/^ //g")
 #model=$(system_profiler SPHardwareDataType | grep "Model Name" | cut -d: -f2 | sed "s/^ //g")
 
-serial_last_4digits=$(echo C02TQB1UHTD5 | cut -c 9-)
+serial_last_4digits=$(echo ${serial_number} | cut -c 9-)
 model=$(curl -s https://support-sp.apple.com/sp/product\?cc\=${serial_last_4digits} | sed "s/.*<configCode>//g" | sed "s/<\/configCode>.*//g")
 
 # year
-year=
+year=$(echo $model | grep -E -o '[0-9]{4}')
 
 # processor
 processor=$(sysctl -a | grep machdep.cpu.brand_string | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g')
@@ -60,3 +61,6 @@ echo
 current_date=$(date +"%Y-%m-%d_%Hh%M")
 output_file="${serial_number}_${current_date}_${USER}.csv"
 echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
+
+echo "Output file: ${output_file}"
+echo

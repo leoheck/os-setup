@@ -1,5 +1,7 @@
 echo off
 
+cls
+
 set owner_name=
 set serial_number=
 set model=
@@ -59,4 +61,13 @@ echo                     Cores: %n_cores%
 echo                    Memory: %memory_size% GB
 echo                       GPU: %gpu%
 echo                 Disk Size: %disk_size% GB
+echo
+
+
+# Logfile
+current_date=$(date +"%Y-%m-%d_%Hh%M")
+output_file="${serial_number}_${current_date}_${USER}.csv"
+echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
+
+echo "Output file: ${output_file}"
 echo
