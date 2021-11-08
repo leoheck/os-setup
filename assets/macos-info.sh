@@ -19,11 +19,16 @@ serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d= -f2 | sed -Ee '
 # model=$(defaults read "$HOME/Library/Preferences/com.apple.SystemProfiler.plist" 'CPU Names' | grep en-US | cut -d= -f2 | sed "s/\"//g" | sed "s/;//g" | sed "s/[ ]\+//g" | sed "s/^ //g")
 #model=$(system_profiler SPHardwareDataType | grep "Model Name" | cut -d: -f2 | sed "s/^ //g")
 
-serial_last_4digits=$(echo ${serial_number} | cut -c 9-)
-model=$(curl -s https://support-sp.apple.com/sp/product\?cc\=${serial_last_4digits} | sed "s/.*<configCode>//g" | sed "s/<\/configCode>.*//g")
-
 # esse funciona
 #https://checkcoverage.apple.com/us/en/?sn=RFVJ4X1CMH
+
+serial_last_digits=$(echo ${serial_number} | cut -c 9-)
+model=$(curl -s https://support-sp.apple.com/sp/product\?cc\=${serial_last_digits} | sed "s/.*<configCode>//g" | sed "s/<\/configCode>.*//g")
+
+# If error, clean this variable
+if grep -s -i error ${model} >/dev/null; then
+	model=
+fi
 
 # year
 if [[ ${year} != "" ]]; then
