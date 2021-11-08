@@ -38,7 +38,7 @@ echo
 echo "                   Owner: ${owner_name}"
 echo "           Serial Number: ${serial_number}"
 echo "                   Model: ${model}"
-echo "                    Year: ${year}"
+# echo "                    Year: ${year}"
 # echo "     Warranty Expiration: ${warranty_expiration}"
 # echo "Amex Warranty Expiration: ${amex_warranty_expiration}"
 echo "               Processor: ${processor}"
