@@ -2,9 +2,9 @@
 
 Here I have some scripts to assist my setup of Macbooks.
 
-### Initialization (installing minium-required stuff)
+### Main user initialization
 ```
-sh -c "$(curl -fsSL https://raw.github.com/leoheck/osx-setup/master/initialize.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/poaoffice-init.sh)"
 ```
 
 ### Scripts
@@ -33,13 +33,13 @@ sh -c "$(curl -fsSL https://raw.github.com/leoheck/osx-setup/master/set-hostname
 
 ### Computer Info
 ```
-# Mac (macOS)
+# macOS on Macbooks
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/macos-info.sh)" 
 
-# Dell (Windows)
+# Linux on Dell
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/linux-info.sh)"
+
+# Windows on Dell
 # https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/win-info.bat
 
-# Dell (Linux)
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/linux-info.sh)"
 ```
-

@@ -36,7 +36,7 @@ fi
 
 # Custom Password
 if [[ $4 = "" ]]; then
-	password="ambush"
+	password="behappy"
 else
 	password=$4
 fi
