@@ -36,7 +36,7 @@ if [[ ${year} != "" ]]; then
 fi
 
 #warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 - | tail -1 | cut -d, -f4 | sed -e "s/\r//g")
-warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 | tail -1 | grep -o -E "[0-9]{4}-[0-9]{2}-[0-9]{2}")
+warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 2> /dev/null | tail -1 | grep -o -E "[0-9]{4}-[0-9]{2}-[0-9]{2}")
 
 if [[ ${warranty_expiration} != "" ]]; then
 	amex_warranty_expiration=$(date -j -f "%Y-%m-%d" -v+1y "${warranty_expiration}" +"%Y-%m-%d")
