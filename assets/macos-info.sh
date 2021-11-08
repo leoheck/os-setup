@@ -9,6 +9,12 @@ owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed
 # serial number
 serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d= -f2 | sed -Ee 's/^[[:space:]]+//g' | sed "s/\"//g")
 
+
+# MODEL
+# If the serial number of the system has 12 characters, the url uses the last 4.
+# If the serial number has 11 chracters, the url uses the last 3.
+
+
 # model=$(/usr/libexec/PlistBuddy -c "print :'CPU Names':$(system_profiler SPHardwareDataType | awk '/Serial/ {print $4}' | cut -c 9-)-en-US_US" ~/Library/Preferences/com.apple.SystemProfiler.plist)
 # model=$(defaults read "$HOME/Library/Preferences/com.apple.SystemProfiler.plist" 'CPU Names' | grep en-US | cut -d= -f2 | sed "s/\"//g" | sed "s/;//g" | sed "s/[ ]\+//g" | sed "s/^ //g")
 #model=$(system_profiler SPHardwareDataType | grep "Model Name" | cut -d: -f2 | sed "s/^ //g")
@@ -16,15 +22,20 @@ serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d= -f2 | sed -Ee '
 serial_last_4digits=$(echo ${serial_number} | cut -c 9-)
 model=$(curl -s https://support-sp.apple.com/sp/product\?cc\=${serial_last_4digits} | sed "s/.*<configCode>//g" | sed "s/<\/configCode>.*//g")
 
+# esse funciona
 #https://checkcoverage.apple.com/us/en/?sn=RFVJ4X1CMH
 
 # year
-year=$(echo "${model}" | sed '/^[[:space:]]*$/d' | grep -o -E "[0-9]{4}")
+if [[ ${year} != "" ]]; then
+	year=$(echo "${model}" | sed '/^[[:space:]]*$/d' | grep -o -E "[0-9]{4}")
+fi
 
 #warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 - | tail -1 | cut -d, -f4 | sed -e "s/\r//g")
 warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 | tail -1 | grep -o -E "[0-9]{4}-[0-9]{2}-[0-9]{2}")
 
-amex_warranty_expiration=$(date -j -f "%Y-%m-%d" -v+1y "${warranty_expiration}" +"%Y-%m-%d")
+if [[ ${warranty_expiration} != "" ]]; then
+	amex_warranty_expiration=$(date -j -f "%Y-%m-%d" -v+1y "${warranty_expiration}" +"%Y-%m-%d")
+fi
 
 # processor
 processor=$(sysctl -a | grep machdep.cpu.brand_string | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g')
