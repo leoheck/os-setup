@@ -1,4 +1,4 @@
-echo off
+@echo off
 
 cls
 
@@ -15,16 +15,11 @@ set memory_size=
 set gpu=
 set disk_size=
 
-
 rem username
-[Environment]::UserName
-$env:username
-whoami
-$owner_name = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
-echo $owner_name.Full.split("\")[1]
+$owner_name = $env:username
 
 rem serial number
-$owner_name = mic bios get serialnumber
+$serial_number_cmd = wmic bios get serialnumber /format:value
 
 rem model
 $model = wmic baseboard get product,version
@@ -33,10 +28,10 @@ rem processor
 $preocessor = Get-WmiObject -Class Win32_Processor | Select-Object -Property Name
 
 rem memory in GB
-$memory_size = Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb
+$memory_size = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb
 
 rem gpu
-wmic path win32_VideoController get name
+$gpu = wmic path win32_VideoController get name
 $gpu = Get-WmiObject win32_VideoController
 
 rem disk
@@ -63,11 +58,38 @@ echo                       GPU: %gpu%
 echo                 Disk Size: %disk_size% GB
 echo
 
+rem # Logfile
+rem current_date=$(date +"%Y-%m-%d_%Hh%M")
+rem output_file="${serial_number}_${current_date}_${USER}.csv"
+rem echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
 
-# Logfile
-current_date=$(date +"%Y-%m-%d_%Hh%M")
-output_file="${serial_number}_${current_date}_${USER}.csv"
-echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
+rem echo "Output file: ${output_file}"
+rem echo
 
-echo "Output file: ${output_file}"
-echo
+
+
+@Echo Off
+For /F "tokens=2 Delims==" %%A In ('WMIC Bios Get SerialNumber /Value') Do (
+    For /F "Delims=" %%B In ("%%A") Do (
+        Call :RenamePC "%%B" 
+        Call :Ask4Reboot
+    )
+)
+pause & Exit /B
+::**********************************************************************
+:RenamePC
+WMIC ComputerSystem where Name="%ComputerName%" call Rename Name="%~1"
+Exit /B
+::***********************************************************************
+:Ask4Reboot
+(
+    echo    Set Ws = CreateObject("wscript.shell"^)
+    echo    Answ = MsgBox("Did you want to reboot your computer ?"_
+    echo ,VbYesNo+VbQuestion,"Did you want to reboot your computer ?"^)
+    echo    If Answ = VbYes then 
+    echo        Return = Ws.Run("cmd /c shutdown -r -t 60 -c ""You need to reboot in 1 minute."" -f",0,True^)
+    echo    Else
+    echo        wscript.Quit(1^)
+    echo    End If
+)>"%tmp%\%~n0.vbs"
+Start "" "%tmp%\%~n0.vbs"
