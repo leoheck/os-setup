@@ -26,7 +26,7 @@ serial_last_digits=$(echo ${serial_number} | cut -c 9-)
 model=$(curl -s https://support-sp.apple.com/sp/product\?cc\=${serial_last_digits} | sed "s/.*<configCode>//g" | sed "s/<\/configCode>.*//g")
 
 # If error, clean this variable
-if grep -s -i error ${model} >/dev/null; then
+if echo "${model}" | grep -s -i "error" > /dev/null; then
 	model=
 fi
 
