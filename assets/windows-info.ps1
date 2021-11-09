@@ -55,4 +55,4 @@ $output_file = "${serial_number}_${current_date}_${username}.csv"
 echo "'${owner_name}','${serial_number}','${model}','${year}','${warranty_expiration}','${amex_warranty_expiration}','${processor}','${n_cpus}','${n_cores}','${memory_size}','${gpu}','${disk_size}'" > ${output_file}
 
 echo "Output file: $(pwd)\${output_file}"
-echo
+echo ""
