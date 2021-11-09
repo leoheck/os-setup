@@ -29,13 +29,13 @@ $n_cpus = (gwmi -cl win32_processor).NumberOfLogicalProcessors
 $n_cores = (gwmi -cl win32_processor).NumberOfCores
 
 # memory in GB
-# $memory_size = (gcim Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb
+$memory_size = (gcim Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb
 
 # gpu
 $gpu = (gmi win32_VideoController).Name[0]
 
 # disk
-# $disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property FreeSpace).FreeSpace /1gb -as [int]
+$disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property FreeSpace).FreeSpace /1gb -as [int]
 
 echo ""
 echo "  SYSTEM INFO SUMMARY"
@@ -57,13 +57,9 @@ echo ""
 
 # Logfile
 
-# $current_date = $(date +"%Y-%m-%d_%Hh%M")
+$current_date = Get-Date -Format "yyyy-MM_dd_HHhmm"
+$output_file = "${serial_number}_${current_date}_${username}.csv"
+echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
 
-# $current_date = Get-Date -Format "yyyy-MM-dd_HHhmm"
-
-# $output_file = "%serial_number%_%current_date%_%username%.csv"
-
-# echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
-
-# echo "Output file: $(pwd)\%output_file%"
-# echo
+echo "Output file: $(pwd)\${output_file}"
+echo
