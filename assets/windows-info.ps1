@@ -26,10 +26,10 @@ $n_cores = (gwmi -cl win32_processor).NumberOfCores
 $memory_size = (gcim Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb
 
 # gpu
-$gpu = (gwmi win32_VideoController).Name[0]
-if ( $gpu -eq "" )
+$gpu = (gwmi win32_VideoController).Name
+if ( $gpu -is [array] )
 {
-    $gpu = (gwmi win32_VideoController).Name
+    $gpu = (gwmi win32_VideoController).Name[0]
 }
 
 
