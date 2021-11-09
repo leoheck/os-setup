@@ -19,7 +19,7 @@ rem username
 $owner_name = $env:username
 
 rem serial number
-$serial_number_cmd = wmic bios get serialnumber /format:value
+$serial_number_cmd = wmic bios get serialnumber | Format-table -HideTableHeaders
 
 rem model
 $model = wmic baseboard get product,version

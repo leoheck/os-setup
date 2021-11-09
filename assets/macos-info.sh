@@ -82,5 +82,8 @@ current_date=$(date +"%Y-%m-%d_%Hh%M")
 output_file="${serial_number}_${current_date}_${USER}.csv"
 echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
 
-echo "Output file: ${output_file}"
+echo "Output file: $(pwd)/${output_file}"
 echo
+
+open $(pwd)/${output_file} &
+
