@@ -19,7 +19,7 @@ if echo "${model}" | grep -s -i "error" > /dev/null; then
 fi
 
 # year
-if [[ ${year} != "" ]]; then
+if [[ ${model} != "" ]]; then
 	year=$(echo "${model}" | sed '/^[[:space:]]*$/d' | grep -o -E "[0-9]{4}")
 fi
 
