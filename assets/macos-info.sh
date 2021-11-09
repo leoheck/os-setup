@@ -4,28 +4,16 @@
 
 clear
 
+# owner
 owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed -n 's/^ //g;2p')
 
 # serial number
 serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d= -f2 | sed -Ee 's/^[[:space:]]+//g' | sed "s/\"//g")
 
-
-# MODEL
-# If the serial number of the system has 12 characters, the url uses the last 4.
-# If the serial number has 11 chracters, the url uses the last 3.
-
-
-# model=$(/usr/libexec/PlistBuddy -c "print :'CPU Names':$(system_profiler SPHardwareDataType | awk '/Serial/ {print $4}' | cut -c 9-)-en-US_US" ~/Library/Preferences/com.apple.SystemProfiler.plist)
-# model=$(defaults read "$HOME/Library/Preferences/com.apple.SystemProfiler.plist" 'CPU Names' | grep en-US | cut -d= -f2 | sed "s/\"//g" | sed "s/;//g" | sed "s/[ ]\+//g" | sed "s/^ //g")
-#model=$(system_profiler SPHardwareDataType | grep "Model Name" | cut -d: -f2 | sed "s/^ //g")
-
-# esse funciona
-#https://checkcoverage.apple.com/us/en/?sn=RFVJ4X1CMH
-
+# model
+# Does not work on macs with serial numbers with 10 digits
 serial_last_digits=$(echo ${serial_number} | cut -c 9-)
 model=$(curl -s https://support-sp.apple.com/sp/product\?cc\=${serial_last_digits} | sed "s/.*<configCode>//g" | sed "s/<\/configCode>.*//g")
-
-# If error, clean this variable
 if echo "${model}" | grep -s -i "error" > /dev/null; then
 	model=
 fi
@@ -35,7 +23,6 @@ if [[ ${year} != "" ]]; then
 	year=$(echo "${model}" | sed '/^[[:space:]]*$/d' | grep -o -E "[0-9]{4}")
 fi
 
-#warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 - | tail -1 | cut -d, -f4 | sed -e "s/\r//g")
 warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 2> /dev/null | tail -1 | grep -o -E "[0-9]{4}-[0-9]{2}-[0-9]{2}")
 
 if [[ ${warranty_expiration} != "" ]]; then
@@ -45,20 +32,20 @@ fi
 # processor
 processor=$(sysctl -a | grep machdep.cpu.brand_string | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g')
 
-# CPUS
+# cpus
 n_cpus=$(sysctl -n hw.ncpu)
 
-# Cores
+# cores
 n_cores=$(system_profiler SPHardwareDataType | grep "Cores:" | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g' | cut -d" " -f1)
 
-# memory size
+# memory size (GB)
 memory_size=$(system_profiler SPHardwareDataType | grep "Memory:" | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g' | sed "s/ GB//g")
 
 # GPU(s)
 # gpu=$(system_profiler SPDisplaysDataType | grep -m1 "Chipset Model" | cut -d: -f2 | sed '/^[[:space:]]*$/d' | sed -Ee 's/^[[:space:]]+//g')
 gpu=$(system_profiler SPDisplaysDataType | grep "Chipset Model" | cut -d: -f2 | sed '/^[[:space:]]*$/d' | sed -Ee 's/^[[:space:]]+//g' | tr "\n" "|" | sed "s/|/ - /g" | sed "s/ - $/\n/g")
 
-# Disk Size
+# Disk Size (GB)
 disk_size=$(diskutil info /dev/disk1 | grep "Disk Size" | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g' | cut -d" " -f1)
 
 echo
