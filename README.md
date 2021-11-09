@@ -40,5 +40,5 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/ass
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/linux-info.sh)"
 
 # Windows on Dell
-iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/win-info.ps1'))
+iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/windows-info.ps1'))
 ```
