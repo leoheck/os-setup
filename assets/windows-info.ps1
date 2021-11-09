@@ -1,5 +1,3 @@
-@echo off
-
 cls
 
 # $owner_name =
@@ -39,22 +37,23 @@ $gpu = (gmi win32_VideoController).Name[0]
 # disk
 # $disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property FreeSpace).FreeSpace /1gb -as [int]
 
-echo.
-echo   SYSTEM INFO SUMMARY
-echo.
-echo                     Owner: %owner_name%
-echo             Serial Number: %serial_number%
-echo                     Model: %model%
-echo                      Year: %year%
-echo       Warranty Expiration: %warranty_expiration%
-echo  Amex Warranty Expiration: %amex_warranty_expiration%
-echo                 Processor: %processor%
-echo                      CPUs: %n_cpus%
-echo                     Cores: %n_cores%
-echo                    Memory: %memory_size% GB
-echo                       GPU: %gpu%
-echo                 Disk Size: %disk_size% GB
-echo.
+echo ""
+echo "  SYSTEM INFO SUMMARY"
+echo ""
+echo "                    Owner: $owner_name"
+echo "            Serial Number: $serial_number"
+echo "                    Model: $model"
+echo "                     Year: $year"
+echo "      Warranty Expiration: $warranty_expiration"
+echo " Amex Warranty Expiration: $amex_warranty_expiration"
+echo "                Processor: $processor"
+echo "                     CPUs: $n_cpus"
+echo "                    Cores: $n_cores"
+echo "                   Memory: $memory_size GB"
+echo "                      GPU: $gpu"
+echo "                Disk Size: $disk_size GB"
+echo ""
+echo ""
 
 # Logfile
 
