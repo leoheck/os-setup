@@ -8,7 +8,7 @@
 cls
 
 # username
-$username = $env:username -replace "\s","-"
+$username = $env:username -replace "\s","."
 $owner_name = (gwmi win32_operatingsystem).RegisteredUser
 
 # serial number
@@ -18,7 +18,7 @@ $serial_number = (gwmi win32_bios).SerialNumber
 $model = (gcim -cl Win32_ComputerSystem).Model
 
 # processor
-$processor = (gwmi -cl Win32_Processor).Name
+$processor = (gwmi -cl win32_processor).Name
 $n_cpus = (gwmi -cl win32_processor).NumberOfLogicalProcessors
 $n_cores = (gwmi -cl win32_processor).NumberOfCores
 
