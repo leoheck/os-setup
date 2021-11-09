@@ -29,7 +29,7 @@ $memory_size = (gcim Win32_PhysicalMemory | Measure-Object -Property capacity -S
 $gpu = (gwmi win32_VideoController).Name[0]
 
 # disk
-$disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property FreeSpace).FreeSpace /1gb -as [int]
+$disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property Size).Size /1gb -as [int]
 
 echo ""
 echo "  SYSTEM INFO SUMMARY"
