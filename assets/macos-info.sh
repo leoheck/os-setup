@@ -56,7 +56,7 @@ memory_size=$(system_profiler SPHardwareDataType | grep "Memory:" | cut -d: -f2 
 
 # GPU(s)
 # gpu=$(system_profiler SPDisplaysDataType | grep -m1 "Chipset Model" | cut -d: -f2 | sed '/^[[:space:]]*$/d' | sed -Ee 's/^[[:space:]]+//g')
-gpu=$(system_profiler SPDisplaysDataType | grep "Chipset Model" | cut -d: -f2 | sed '/^[[:space:]]*$/d' | sed -Ee 's/^[[:space:]]+//g' | tr "\n" "|" | sed "s/|/ - /g" | sed "s/ - $/\n/g"
+gpu=$(system_profiler SPDisplaysDataType | grep "Chipset Model" | cut -d: -f2 | sed '/^[[:space:]]*$/d' | sed -Ee 's/^[[:space:]]+//g' | tr "\n" "|" | sed "s/|/ - /g" | sed "s/ - $/\n/g")
 
 
 # Disk Size
