@@ -24,7 +24,7 @@ $serial_number = (gwmi win32_bios).SerialNumber
 $model = (gcim -cl Win32_ComputerSystem).Model
 
 # processor
-$preocessor = (gwmi -cl Win32_Processor).Name
+$processor = (gwmi -cl Win32_Processor).Name
 $n_cpus = (gwmi -cl win32_processor).NumberOfLogicalProcessors
 $n_cores = (gwmi -cl win32_processor).NumberOfCores
 
@@ -32,7 +32,7 @@ $n_cores = (gwmi -cl win32_processor).NumberOfCores
 $memory_size = (gcim Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb
 
 # gpu
-$gpu = (gmi win32_VideoController).Name[0]
+$gpu = (gcim win32_VideoController).Name[0]
 
 # disk
 $disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property FreeSpace).FreeSpace /1gb -as [int]
