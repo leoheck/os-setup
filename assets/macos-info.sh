@@ -58,7 +58,6 @@ memory_size=$(system_profiler SPHardwareDataType | grep "Memory:" | cut -d: -f2 
 # gpu=$(system_profiler SPDisplaysDataType | grep -m1 "Chipset Model" | cut -d: -f2 | sed '/^[[:space:]]*$/d' | sed -Ee 's/^[[:space:]]+//g')
 gpu=$(system_profiler SPDisplaysDataType | grep "Chipset Model" | cut -d: -f2 | sed '/^[[:space:]]*$/d' | sed -Ee 's/^[[:space:]]+//g' | tr "\n" "|" | sed "s/|/ - /g" | sed "s/ - $/\n/g")
 
-
 # Disk Size
 disk_size=$(diskutil info /dev/disk1 | grep "Disk Size" | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g' | cut -d" " -f1)
 
@@ -81,10 +80,10 @@ echo
 
 # Logfile
 current_date=$(date +"%Y-%m-%d_%Hh%M")
-output_file="$HOME/Desktop/${serial_number}_${current_date}_${USER}.csv"
+output_file="${HOME}/Desktop/${serial_number}_${current_date}_${USER}.csv"
 echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
 
 echo "Output file: ${output_file}"
 echo
 
-open $(pwd)/${output_file} &
+open ${output_file} &
