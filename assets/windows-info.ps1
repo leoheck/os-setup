@@ -27,6 +27,11 @@ $memory_size = (gcim Win32_PhysicalMemory | Measure-Object -Property capacity -S
 
 # gpu
 $gpu = (gwmi win32_VideoController).Name[0]
+if ( $gpu -eq "" )
+{
+    $gpu = (gwmi win32_VideoController).Name
+}
+
 
 # disk
 $disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property Size).Size /1gb -as [int]
