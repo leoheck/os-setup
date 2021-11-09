@@ -36,10 +36,10 @@ sh -c "$(curl -fsSL https://raw.github.com/leoheck/osx-setup/master/set-hostname
 # macOS on Macbooks
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/macos-info.sh)" 
 
-# Linux on Dell
+# Linux on Dell/Lenovo
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/linux-info.sh)"
 
-# Windows on Dell
+# Windows on Dell/Lenovo
 # Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/windows-info.ps1'))
 ```
