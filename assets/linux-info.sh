@@ -4,7 +4,8 @@
 
 clear
 
-sudo apt install -y dmidecode &> /dev/null
+# Dependency
+#sudo apt install -y dmidecode &> /dev/null
 
 owner_name=$(getent passwd | grep "$USER" | cut -d":" -f5 | cut -d"," -f1)
 
