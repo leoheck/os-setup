@@ -39,9 +39,9 @@ set gpu = (Get-WmiObject win32_VideoController).Name[0]
 rem disk
 rem set disk_size = (Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property FreeSpace).FreeSpace /1gb -as [int]
 
-echo
+echo.
 echo   SYSTEM INFO SUMMARY
-echo
+echo.
 echo                     Owner: %owner_name%
 echo             Serial Number: %serial_number%
 echo                     Model: %model%
@@ -54,7 +54,7 @@ echo                     Cores: %n_cores%
 echo                    Memory: %memory_size% GB
 echo                       GPU: %gpu%
 echo                 Disk Size: %disk_size% GB
-echo
+echo.
 
 rem # Logfile
 
