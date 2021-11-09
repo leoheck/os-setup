@@ -1,17 +1,11 @@
-cls
 
-# $owner_name =
-# $serial_number =
-# $model =
-# $year =
-# $warranty_expiration =
-# $amex_warranty_expiration =
-# $processor =
-# $n_cpus =
-# $n_cores =
-# $memory_size =
-# $gpu =
-# $disk_size =
+# Enable script execution with
+# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Powershell script
+# Windows users 
+
+cls
 
 # username
 $username = $env:username -replace "\s","-"
