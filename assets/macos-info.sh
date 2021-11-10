@@ -72,5 +72,3 @@ echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warran
 
 echo "Output file: ${output_file}"
 echo
-
-open ${output_file} &
