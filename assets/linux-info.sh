@@ -9,8 +9,9 @@ clear
 
 owner_name=$(getent passwd | grep "$USER" | cut -d":" -f5 | cut -d"," -f1)
 
-warranty_expiration="1980-01-01"
-amex_warranty_expiration=$(date -d "${warranty_expiration}+ 1 year" +"%Y-%m-%d")
+warranty_expiration=
+amex_warranty_expiration=
+# amex_warranty_expiration=$(date -d "${warranty_expiration}+ 1 year" +"%Y-%m-%d")
 
 #serial_number=$(sudo dmidecode -t 1 | grep "Serial Number" | cut -d: -f2 | sed "s/^[ \t]\+//g")
 #model_number=$( sudo dmidecode -t 1 | grep "Product Name"  | cut -d: -f2 | sed "s/^[ \t]\+//g")
