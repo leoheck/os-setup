@@ -61,3 +61,6 @@ echo "`"${owner_name}`",`"${serial_number}`",`"${model}`",`"${year}`",`"${warran
 
 echo "Output file: $(pwd)\${output_file}"
 echo ""
+
+# Launhch exploring to show the file
+explorer.exe $(pwd)
