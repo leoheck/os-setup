@@ -42,7 +42,6 @@ On Windows
 ```
 # Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/leoheck/osx-setup/main/assets/windows-info.ps1'))
-
 ```
 
 On Linux
