@@ -4,8 +4,9 @@
 
 clear
 
-# Dependency
+# Dependency (Debian-based)
 #sudo apt install -y dmidecode &> /dev/null
+#sudo apt install -y bc &> /dev/null
 
 owner_name=$(getent passwd | grep "$USER" | cut -d":" -f5 | cut -d"," -f1)
 
@@ -17,6 +18,10 @@ amex_warranty_expiration=
 #model_number=$( sudo dmidecode -t 1 | grep "Product Name"  | cut -d: -f2 | sed "s/^[ \t]\+//g")
 
 serial_number=$(sudo dmidecode -s system-serial-number)
+if echo "$serial_number" | grep -s " " &> /dev/null; then
+	serial_number="NONE"
+fi
+
 model=$(sudo dmidecode -s system-product-name)
 
 # Memory
@@ -35,6 +40,9 @@ n_cores=$(cat /proc/cpuinfo | grep "cpu cores" | uniq | cut -d: -f2 | sed "s/^[ 
 disk_size=$(sudo fdisk -l /dev/nvme0n1 2>&1 | grep -m1 "Disk" | cut -d" " -f3)
 
 gpu=$(lspci | grep -i nvidia | grep "3D controller" | cut -d: -f3 | sed "s/^[ ]\+//g")
+if [[ $gpu = "" ]]; then
+	gpu=$(lspci | grep -i controller | grep -i nvidia | grep -i vga | cut -d: -f3 | sed "s/^[ ]\+//g" | sort | uniq -c | sed "s/^[ ]\+//g")
+fi
 
 echo
 echo " SYSTEM INFO SUMMARY"
