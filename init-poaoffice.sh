@@ -18,11 +18,31 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install git
 brew install dockutil
 
+
+# Install basic usefull software
+
+if [ ! -d "/Applications/Chat.app" ]
+then
+    fancy_echo "Installing Google Chat"
+    curl -Lo ~/Downloads/InstallHangoutsChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
+    sudo hdiutil attach ~/Downloads/InstallHangoutsChat.dmg
+    sudo cp -R "/Volumes/Install Hangouts Chat/Chat.app" /Applications
+    sudo hdiutil unmount "/Volumes/Install Hangouts Chat"
+fi
+
+if [ ! -d "/Applications/Google Chrome.app" ]
+then
+    fancy_echo "Installing Google Chrome"
+    curl -Lo ~/Downloads/googlechrome.dmg https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
+    sudo hdiutil attach ~/Downloads/googlechrome.dmg
+    sudo cp -R "/Volumes/Google Chrome/Google Chrome.app" /Applications
+    sudo hdiutil unmount "/Volumes/Google Chrome"
+fi
+
 # Clone osx-setup scripts
 cd ~
 rm -rf ~/Documents/osx-setup
 git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
-# cd $HOME/Documents/osx-setup
 
 # Remove garbage from the dock
 dockutil --remove "App Store"
@@ -47,6 +67,9 @@ dockutil --remove "TV"
 dockutil --add /System/Applications/Utilities/Terminal.app
 dockutil --add /System/Applications/TextEdit.app
 dockutil --add /System/Applications/FindMy.app
+dockutil --add "/Applications/Google Chrome.app"
+dockutil --add "/Applications/Chat.app"
+
 
 # Set hostname with the serial number
 yes | $HOME/Documents/osx-setup/set-hostname.sh
