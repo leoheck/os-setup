@@ -61,14 +61,14 @@ sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 #sudo dscl . delete /Users/${USER} JPEGPhoto
 #sudo dscl . create /Users/${USER} Picture "/Library/User Pictures/Animals/Zebra.tif"
 
-sudo cp -f $HOME/Documents/osx-setup/poaoffice.tif "/Library/User Pictures/Animals/PoaOffice.tif"
+sudo cp -f $HOME/Documents/osx-setup/imgs/poaoffice.tif "/Library/User Pictures/Animals/PoaOffice.tif"
 sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Animals/PoaOffice.tif"
 
 # Set the default picture for Poa Office
 # https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
 sudo dscl . delete /Users/${USER} JPEGPhoto
 sudo dscl . delete /Users/${USER} Picture
-sudo $HOME/Documents/osx-setup/userpic.sh ${USER} $HOME/Documents/osx-setup/poaoffice.png
+sudo $HOME/Documents/osx-setup/userpic.sh ${USER} $HOME/Documents/osx-setup/imgs/poaoffice.png
 
 # (Re)Install OH-MY-ZSH (colors yay!)
 rm -rf $HOME/.oh-my-zsh/
