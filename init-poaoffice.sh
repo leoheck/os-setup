@@ -23,7 +23,6 @@ brew install dockutil
 
 if [ ! -d "/Applications/Chat.app" ]
 then
-    fancy_echo "Installing Google Chat"
     curl -Lo ~/Downloads/InstallHangoutsChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
     sudo hdiutil attach ~/Downloads/InstallHangoutsChat.dmg
     sudo cp -R "/Volumes/Install Hangouts Chat/Chat.app" /Applications
@@ -32,7 +31,6 @@ fi
 
 if [ ! -d "/Applications/Google Chrome.app" ]
 then
-    fancy_echo "Installing Google Chrome"
     curl -Lo ~/Downloads/googlechrome.dmg https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
     sudo hdiutil attach ~/Downloads/googlechrome.dmg
     sudo cp -R "/Volumes/Google Chrome/Google Chrome.app" /Applications
