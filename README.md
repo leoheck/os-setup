@@ -4,7 +4,7 @@ Here I have some scripts to assist my setup of Macbooks.
 
 ### Main user initialization
 ```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/poaoffice-init.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/osx-setup/main/init.sh)"
 ```
 
 ### Scripts
