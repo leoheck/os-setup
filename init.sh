@@ -23,18 +23,20 @@ brew install dockutil
 
 if [ ! -d "/Applications/Chat.app" ]
 then
-    curl -Lo ~/Downloads/InstallHangoutsChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
-    sudo hdiutil attach ~/Downloads/InstallHangoutsChat.dmg
+    curl -Lo ~/Downloads/GoogleChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
+    sudo hdiutil attach ~/Downloads/GoogleChat.dmg
     sudo cp -R "/Volumes/Install Hangouts Chat/Chat.app" /Applications
     sudo hdiutil unmount "/Volumes/Install Hangouts Chat"
+    rm -rf ~/Downloads/GoogleChat.dmg
 fi
 
 if [ ! -d "/Applications/Google Chrome.app" ]
 then
-    curl -Lo ~/Downloads/googlechrome.dmg https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
-    sudo hdiutil attach ~/Downloads/googlechrome.dmg
+    curl -Lo ~/Downloads/GoogleChrome.dmg https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
+    sudo hdiutil attach ~/Downloads/GoogleChrome.dmg
     sudo cp -R "/Volumes/Google Chrome/Google Chrome.app" /Applications
     sudo hdiutil unmount "/Volumes/Google Chrome"
+    rm -rf ~/Downloads/GoogleChrome.dmg
 fi
 
 # Clone osx-setup scripts
@@ -67,7 +69,6 @@ dockutil --add /System/Applications/TextEdit.app
 dockutil --add /System/Applications/FindMy.app
 dockutil --add "/Applications/Google Chrome.app"
 dockutil --add "/Applications/Chat.app"
-
 
 # Set hostname with the serial number
 yes | $HOME/Documents/osx-setup/set-hostname.sh
