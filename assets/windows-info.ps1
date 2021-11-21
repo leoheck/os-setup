@@ -41,11 +41,11 @@ if ( $gpu -is [array] )
 # (Main) Disk Size (GB)
 $disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property Size).Size /1gb -as [int]
 
-status=
-notes=
-email=
+#status=
+#notes=
+#email=
 
-cls
+#cls
 
 echo ""
 echo "  SYSTEM INFO SUMMARY"
