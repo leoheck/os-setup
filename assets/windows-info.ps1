@@ -113,7 +113,6 @@ $data=@"
 $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 
 echo ([regex]::Replace($header, "\n", ",", "Singleline"))  > ${output_file}
-echo "" >> ${output_file}
 echo ([regex]::Replace(  $data, "\n", ",", "Singleline")) >> ${output_file}
 echo ""
 
