@@ -18,7 +18,7 @@ $username = $env:UserName
 $serial_number = (gwmi win32_bios).SerialNumber
 
 # Brand
-$brand = (Get-CimInstance -ClassName Win32_ComputerSystem).manufacturer
+$brand = (Get-CimInstance -ClassName Win32_ComputerSystem).manufacturer.replace(" Inc.","")
 
 # Laptop Model
 $model = (gcim -cl Win32_ComputerSystem).Model
