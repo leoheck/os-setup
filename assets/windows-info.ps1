@@ -62,7 +62,7 @@ echo ""
 
 # Generate csv file
 $current_date = Get-Date -UFormat "%Y-%m-%d_%Hh%M"
-$desktop_path = ([Environment]::GetFolderPath("Desktop")
+$desktop_path = ([Environment]::GetFolderPath("Desktop"))
 $output_file = "${desktop_path}\${serial_number}_${current_date}_${username}.csv"
 echo "`"${owner_name}`",`"${serial_number}`",`"${model}`",`"${year}`",`"${warranty_expiration}`",`"${amex_warranty_expiration}`",`"${processor}`",`"${n_cpus}`",`"${n_cores}`",`"${memory_size}`",`"${gpu}`",`"${disk_size}`"" > ${output_file}
 
