@@ -55,6 +55,8 @@ gpu=$(system_profiler SPDisplaysDataType \
 	| sort \
 	| uniq -c \
 	| sed -Ee 's/^[[:space:]]+//g' \
+	| sed "s/\([1-9]\) /\1x /g" \
+	| sed "s/1x //g" \
 	| tr "\n" "|" \
 	| sed "s/|/ - /g" \
 	| sed "s/ - $/\n/g" \
