@@ -2,7 +2,7 @@
 
 # MAC and macOS info
 
-clear
+echo "Colleting computer's info..." 
 
 # Ownser fullname
 owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed -n 's/^ //g;2p')
@@ -65,6 +65,12 @@ gpu=$(system_profiler SPDisplaysDataType \
 # (Main) Disk Size (GB)
 disk_size=$(diskutil info /dev/disk1 | grep "Disk Size" | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g' | cut -d" " -f1)
 
+status=
+notes=
+email=
+
+clear
+
 echo
 echo " SYSTEM INFO SUMMARY"
 echo
@@ -84,9 +90,51 @@ echo "               Disk Size: ${disk_size} GB"
 echo
 
 # Generate csv file
-current_date=$(date +"%Y-%m-%d_%Hh%M")
-output_file="${HOME}/Desktop/${serial_number}_${current_date}_${USER}.csv"
-echo "\"${owner_name}\",\"${serial_number}\",\"${model}\",\"${year}\",\"${warranty_expiration}\",\"${amex_warranty_expiration}\",\"${processor}\",\"${n_cpus}\",\"${n_cores}\",\"${memory_size}\",\"${gpu}\",\"${disk_size}\"" > ${output_file}
+current_date=$(date +"%Y.%m.%d-%Hh%M")
+output_file="${HOME}/Desktop/${current_date}-${serial_number}-${USER}.csv"
+
+read -d '' header <<-EOF
+"Used By"
+"Serial No"
+"Brand"
+"Description"
+"Year"
+"CPU Detail"
+"CPUs"
+"Cores"
+"GPU Detail"
+"RAM (GB)"
+"Disk (GB)"
+"Warrantty Expiration"
+"Extra Warranty Expiration"
+"Status"
+"Email"
+"Notes"
+EOF
+
+read -d "" data <<-EOF
+"${owner_name}"
+"${serial_number}"
+"${brand}"
+"${model}"
+"${year}"
+"${processor}"
+"${n_cpus}"
+"${n_cores}"
+"${gpu}"
+"${memory_size}"
+"${disk_size}"
+"${warranty_expiration}"
+"${extra_warranty_expiration}"
+"${status}"
+"${email}"
+"${notes}"
+EOF
+
+echo "${header}" | tr "\n" "," | sed "s/,$//g"  > ${output_file}
+echo "" >> ${output_file}
+echo "${data}"   | tr "\n" "," | sed "s/,$//g" >> ${output_file}
+echo
 
 echo "Output file: ${output_file}"
 echo
