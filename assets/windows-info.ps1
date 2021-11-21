@@ -45,7 +45,7 @@ $disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property Size).Size /1
 #notes=
 #email=
 
-#cls
+cls
 
 echo ""
 echo "  SYSTEM INFO SUMMARY"
