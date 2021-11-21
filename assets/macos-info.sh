@@ -6,6 +6,11 @@ clear
 
 # Ownser fullname
 owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed -n 's/^ //g;2p')
+if [[ $owner_name == "" ]]; then
+	owner_name=$(id -F)
+fi
+
+brand=Apple
 
 # Serial Number
 serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d= -f2 | sed -Ee 's/^[[:space:]]+//g' | sed "s/\"//g")
@@ -49,7 +54,7 @@ gpu=$(system_profiler SPDisplaysDataType \
 	| sed -Ee 's/^[[:space:]]+//g' \
 	| sort \
 	| uniq -c \
-	| sed '/^[[:space:]]*/d' \
+	| sed -Ee 's/^[[:space:]]+//g' \
 	| tr "\n" "|" \
 	| sed "s/|/ - /g" \
 	| sed "s/ - $/\n/g" \
