@@ -109,9 +109,9 @@ $data=@"
 "${notes}"
 "@
 
-echo "${header}" | tr "\n" "," | sed "s/,$//g"  > ${output_file}
+echo ([regex]::Replace($header, "\n", ",", "Singleline"))  > ${output_file}
 echo "" >> ${output_file}
-echo "${data}"   | tr "\n" "," | sed "s/,$//g" >> ${output_file}
+echo ([regex]::Replace(  $data, "\n", ",", "Singleline")) >> ${output_file}
 echo
 
 echo "Output file: ${output_file}"
