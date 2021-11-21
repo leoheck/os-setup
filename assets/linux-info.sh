@@ -81,7 +81,7 @@ echo
 current_date=$(date +"%Y.%m.%d-%Hh%M")
 output_file="${current_date}-${serial_number}-${USER}.csv"
 
-read -d '' header <<-EOF
+read -d "" header <<-EOF
 "Used By"
 "Serial No"
 "Brand"

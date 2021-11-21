@@ -41,6 +41,10 @@ if ( $gpu -is [array] )
 # (Main) Disk Size (GB)
 $disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property Size).Size /1gb -as [int]
 
+status=
+notes=
+email=
+
 cls
 
 echo ""
@@ -63,13 +67,55 @@ echo ""
 echo ""
 
 # Generate csv file
-$current_date = Get-Date -UFormat "%Y-%m-%d_%Hh%M"
+$current_date = Get-Date -UFormat "%Y.%m.%d-%Hh%M"
 $desktop_path = ([Environment]::GetFolderPath("Desktop"))
-$output_file = "${desktop_path}\${serial_number}_${current_date}_${username}.csv"
-echo "`"${owner_name}`",`"${serial_number}`",`"${model}`",`"${year}`",`"${warranty_expiration}`",`"${amex_warranty_expiration}`",`"${processor}`",`"${n_cpus}`",`"${n_cores}`",`"${memory_size}`",`"${gpu}`",`"${disk_size}`"" > ${output_file}
+$output_file = "${desktop_path}\${current_date}-${serial_number}-${username}.csv"
+
+$header=@"
+"Used By"
+"Serial No"
+"Brand"
+"Description"
+"Year"
+"CPU Detail"
+"CPUs"
+"Cores"
+"GPU Detail"
+"RAM (GB)"
+"Disk (GB)"
+"Warrantty Expiration"
+"Extra Warranty Expiration"
+"Status"
+"Email"
+"Notes"
+"@
+
+read -d '' header <<-EOF
+EOF
+
+$data=@"
+"${owner_name}"
+"${serial_number}"
+"${brand}"
+"${model}"
+"${year}"
+"${processor}"
+"${n_cpus}"
+"${n_cores}"
+"${gpu}"
+"${memory_size}"
+"${disk_size}"
+"${warranty_expiration}"
+"${extra_warranty_expiration}"
+"${status}"
+"${email}"
+"${notes}"
+"@
+
+echo "${header}" | tr "\n" "," | sed "s/,$//g"  > ${output_file}
+echo "" >> ${output_file}
+echo "${data}"   | tr "\n" "," | sed "s/,$//g" >> ${output_file}
+echo
 
 echo "Output file: ${output_file}"
 echo ""
-
-# Launhch exploring to show the file
-#explorer.exe $(pwd)
