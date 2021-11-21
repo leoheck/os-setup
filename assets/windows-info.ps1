@@ -90,9 +90,6 @@ $header=@"
 "Notes"
 "@
 
-read -d '' header <<-EOF
-EOF
-
 $data=@"
 "${owner_name}"
 "${serial_number}"
