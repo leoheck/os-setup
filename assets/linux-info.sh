@@ -2,7 +2,7 @@
 
 # Linux
 
-echo "Colleting computer's info..." 
+echo "Collecting computer's info..."
 
 # Dependencies (Debian-based)
 #sudo apt install -y dmidecode &> /dev/null

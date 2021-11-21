@@ -4,7 +4,7 @@
 
 # Powershell script
 
-echo "Colleting computer's info..." 
+echo "Collecting computer's info..." 
 
 # Owner full name
 $dom = $env:userdomain
