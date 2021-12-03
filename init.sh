@@ -45,7 +45,7 @@ then
     rm -rf ~/Downloads/AppCleaner.app
     curl -SsLo ~/Downloads/AppCleaner.zip https://freemacsoft.net/downloads/AppCleaner_3.6.zip
     unzip -q AppCleaner.zip
-    mv ~/Downloads/AppCleaner.app -f /Applications/AppCleaner.app
+    mv ~/Downloads/AppCleaner.app -f /Applications/
     rm -rf AppCleaner.zip
 fi
 
