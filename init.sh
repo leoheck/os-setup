@@ -23,7 +23,7 @@ brew install dockutil
 
 if [ ! -d "/Applications/Chat.app" ]
 then
-    curl -Lo ~/Downloads/GoogleChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
+    curl -SsLo ~/Downloads/GoogleChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
     sudo hdiutil attach ~/Downloads/GoogleChat.dmg
     sudo cp -R "/Volumes/Install Hangouts Chat/Chat.app" /Applications
     sudo hdiutil unmount "/Volumes/Install Hangouts Chat"
@@ -32,17 +32,27 @@ fi
 
 if [ ! -d "/Applications/Google Chrome.app" ]
 then
-    curl -Lo ~/Downloads/GoogleChrome.dmg https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
+    curl -SsLo ~/Downloads/GoogleChrome.dmg https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
     sudo hdiutil attach ~/Downloads/GoogleChrome.dmg
     sudo cp -R "/Volumes/Google Chrome/Google Chrome.app" /Applications
     sudo hdiutil unmount "/Volumes/Google Chrome"
     rm -rf ~/Downloads/GoogleChrome.dmg
 fi
 
+if [ ! -d "/Applications/AppCleaner.app" ]
+then
+    rm -rf ~/Downloads/AppCleaner.zip
+    rm -rf ~/Downloads/AppCleaner.app
+    curl -SsLo ~/Downloads/AppCleaner.zip https://freemacsoft.net/downloads/AppCleaner_3.6.zip
+    unzip -q AppCleaner.zip
+    mv ~/Downloads/AppCleaner.app -f /Applications/AppCleaner.app
+    rm -rf AppCleaner.zip
+fi
+
 # Clone osx-setup scripts
 cd ~
-rm -rf ~/Documents/osx-setup
-git clone https://github.com/leoheck/osx-setup.git ~/Documents/osx-setup
+rm -rf ${HOME}/osx-setup
+git clone https://github.com/leoheck/osx-setup.git ${HOME}/osx-setup
 
 # Remove garbage from the dock
 dockutil --remove "App Store"
@@ -69,9 +79,14 @@ dockutil --add /System/Applications/TextEdit.app
 dockutil --add /System/Applications/FindMy.app
 dockutil --add "/Applications/Google Chrome.app"
 dockutil --add "/Applications/Chat.app"
+dockutil --add /Applications/AppCleaner.app
+
+# Docker size
+defaults write com.apple.dock tilesize -integer 48
+killall Dock
 
 # Set hostname with the serial number
-yes | $HOME/Documents/osx-setup/set-hostname.sh
+yes | ${HOME}/osx-setup/set-hostname.sh
 
 # Enable Tap to Click
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
@@ -83,28 +98,26 @@ sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 #sudo dscl . delete /Users/${USER} JPEGPhoto
 #sudo dscl . create /Users/${USER} Picture "/Library/User Pictures/Animals/Zebra.tif"
 
-sudo cp -f $HOME/Documents/osx-setup/imgs/poaoffice.tif "/Library/User Pictures/Animals/PoaOffice.tif"
+sudo cp -f ${HOME}/osx-setup/imgs/poaoffice.tif "/Library/User Pictures/Animals/PoaOffice.tif"
 sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Animals/PoaOffice.tif"
 
 # Set the default picture for Poa Office
 # https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
 sudo dscl . delete /Users/${USER} JPEGPhoto
 sudo dscl . delete /Users/${USER} Picture
-sudo $HOME/Documents/osx-setup/userpic.sh ${USER} $HOME/Documents/osx-setup/imgs/poaoffice.png
+sudo ${HOME}/osx-setup/userpic.sh ${USER} ${HOME}/osx-setup/imgs/poaoffice.png
 
 # (Re)Install OH-MY-ZSH (colors yay!)
-rm -rf $HOME/.oh-my-zsh/
+rm -rf ${HOME}/.oh-my-zsh/
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # Update things (hopefully)
 sudo AssetCacheManagerUtil reloadSettings 2> /dev/null
 
-# Finder customizations
-
-# Path Bar
+# Finder > Path Bar
 defaults write com.apple.finder ShowPathbar -bool true
 
-# Status Bar
+# Finder > Status Bar
 defaults write com.apple.finder ShowStatusBar -bool true
 
 # Powerline Fonts
@@ -120,11 +133,6 @@ ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/the
 sed -i "" "s/robbyrussell/spaceship/g" ${HOME}/.zshrc
 
 brew cleanup
-
-echo
-echo "DONE, Reboot to reload things!"
-echo
-
 
 # Launch system settings to enable shit that cannot be enabled by script
 echo
@@ -143,5 +151,5 @@ echo
 # Didnt work
 #sudo fdesetup remove -user Guest
 
-# Finish going to the scripts folder
-cd ${HOME}/Documents/osx-setup
+# Finish by going to the scripts folder
+cd ${HOME}/osx-setup
