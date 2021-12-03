@@ -11,7 +11,7 @@ echo
 # Install and load brew
 sudo chown -R $(whoami) /usr/local/var/homebrew 1> /dev/null
 yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/poaoffice/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Install required tools
@@ -23,29 +23,29 @@ brew install dockutil
 
 if [ ! -d "/Applications/Chat.app" ]
 then
-    curl -SsLo ~/Downloads/GoogleChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
-    sudo hdiutil attach ~/Downloads/GoogleChat.dmg
+    curl -SsLo ${HOME}/Downloads/GoogleChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
+    sudo hdiutil attach ${HOME}/Downloads/GoogleChat.dmg
     sudo cp -R "/Volumes/Install Hangouts Chat/Chat.app" /Applications
     sudo hdiutil unmount "/Volumes/Install Hangouts Chat"
-    rm -rf ~/Downloads/GoogleChat.dmg
+    rm -rf ${HOME}/Downloads/GoogleChat.dmg
 fi
 
 if [ ! -d "/Applications/Google Chrome.app" ]
 then
-    curl -SsLo ~/Downloads/GoogleChrome.dmg https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
-    sudo hdiutil attach ~/Downloads/GoogleChrome.dmg
+    curl -SsLo ${HOME}/Downloads/GoogleChrome.dmg https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
+    sudo hdiutil attach ${HOME}/Downloads/GoogleChrome.dmg
     sudo cp -R "/Volumes/Google Chrome/Google Chrome.app" /Applications
     sudo hdiutil unmount "/Volumes/Google Chrome"
-    rm -rf ~/Downloads/GoogleChrome.dmg
+    rm -rf ${HOME}/Downloads/GoogleChrome.dmg
 fi
 
 if [ ! -d "/Applications/AppCleaner.app" ]
 then
-    rm -rf ~/Downloads/AppCleaner.zip
-    rm -rf ~/Downloads/AppCleaner.app
-    curl -SsLo ~/Downloads/AppCleaner.zip https://freemacsoft.net/downloads/AppCleaner_3.6.zip
+    rm -rf ${HOME}/Downloads/AppCleaner.zip
+    rm -rf ${HOME}/Downloads/AppCleaner.app
+    curl -SsLo ${HOME}/Downloads/AppCleaner.zip https://freemacsoft.net/downloads/AppCleaner_3.6.zip
     unzip -q AppCleaner.zip
-    mv ~/Downloads/AppCleaner.app -f /Applications/
+    mv ${HOME}/Downloads/AppCleaner.app -f /Applications/
     rm -rf AppCleaner.zip
 fi
 
