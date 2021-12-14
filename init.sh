@@ -14,8 +14,9 @@ sudo chmod -R u+w /usr/local/ &> /dev/null
 
 # Install and load brew
 yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
+
+#echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
+#eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Install required tools
 brew install git
