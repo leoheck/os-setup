@@ -46,10 +46,10 @@ fi
 if [ ! -d "/Applications/AppCleaner.app" ]
 then
     rm -rf ${HOME}/Downloads/AppCleaner.*
-    curl -SsLo ${HOME}/Downloads/AppCleaner.zip https://freemacsoft.net/downloads/AppCleaner_3.6.zip
+    curl -SsLo "${HOME}/Downloads/AppCleaner.zip" https://freemacsoft.net/downloads/AppCleaner_3.6.zip
     unzip -q AppCleaner.zip
-    mv ${HOME}/Downloads/AppCleaner.app -f /Applications/
-    rm -rf AppCleaner.zip
+    sudo mv "${HOME}/Downloads/AppCleaner.app" -f /Applications/
+    rm -rf ${HOME}/Downloads/AppCleaner.*
 fi
 
 # Clone osx-setup scripts
@@ -82,7 +82,7 @@ dockutil --add /System/Applications/TextEdit.app
 dockutil --add /System/Applications/FindMy.app
 dockutil --add "/Applications/Google Chrome.app"
 dockutil --add "/Applications/Chat.app"
-dockutil --add /Applications/AppCleaner.app
+dockutil --add "/Applications/AppCleaner.app"
 
 # Docker size
 defaults write com.apple.dock tilesize -integer 48
