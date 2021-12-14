@@ -155,7 +155,7 @@ echo
 
 # Force system back to English
 choice=$(sudo languagesetup <<< q | grep "English" -m1 | cut -d")" -f1 | sed "s/ //g")
-sudo languagesetup <<< ${choice}
+sudo languagesetup <<< ${choice} &> /dev/null
 
 # Force current keyboard back to English
 find ~/Library/Preferences/ByHost/com.apple.HIToolbox.*
@@ -168,4 +168,3 @@ sudo killall SystemUIServer
 
 # Finish by going to the scripts folder
 cd ${HOME}/osx-setup
-
