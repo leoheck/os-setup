@@ -150,7 +150,19 @@ echo
 
 # Disable Guest user
 # Didnt work
-#sudo fdesetup remove -user Guest
+# sudo fdesetup remove -user Guest
+
+# Force system back to English
+choice=$(sudo languagesetup <<< q | grep "English" -m1 | cut -d")" -f1 | sed "s/ //g")
+sudo languagesetup <<< ${choice}
+
+# Force current keyboard back to English
+find ~/Library/Preferences/ByHost/com.apple.HIToolbox.*
+sudo defaults write ${plist%.*} AppleCurrentKeyboardLayoutInputSourceID -string "com.apple.keylayout.US"
+sudo killall SystemUIServer
+
+# Force theme back to white
+sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
 
 # Finish by going to the scripts folder
 cd ${HOME}/osx-setup
