@@ -162,7 +162,9 @@ sudo defaults write ${plist%.*} AppleCurrentKeyboardLayoutInputSourceID -string 
 sudo killall SystemUIServer
 
 # Force theme back to white
-sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
+# https://apple.stackexchange.com/questions/391686/how-to-set-dark-mode-appearance-to-auto-in-terminal
+# sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
 
 # Finish by going to the scripts folder
 cd ${HOME}/osx-setup
+
