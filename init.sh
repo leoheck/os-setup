@@ -10,6 +10,7 @@ echo
 
 # Fix some permissions
 sudo chown -R $(whoami) /usr/local/ &> /dev/null
+sudo chmod -R u+w /usr/local/ &> /dev/null
 
 # Install and load brew
 yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
