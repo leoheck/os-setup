@@ -9,7 +9,9 @@ sudo touch /tmp/unlock_sudo
 echo
 
 # Install and load brew
-sudo chown -R $(whoami) /usr/local/var/homebrew 1> /dev/null
+
+sudo chown -R $(whoami) /usr/local/var/homebrew &> /dev/null
+
 yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -41,8 +43,7 @@ fi
 
 if [ ! -d "/Applications/AppCleaner.app" ]
 then
-    rm -rf ${HOME}/Downloads/AppCleaner.zip
-    rm -rf ${HOME}/Downloads/AppCleaner.app
+    rm -rf ${HOME}/Downloads/AppCleaner.*
     curl -SsLo ${HOME}/Downloads/AppCleaner.zip https://freemacsoft.net/downloads/AppCleaner_3.6.zip
     unzip -q AppCleaner.zip
     mv ${HOME}/Downloads/AppCleaner.app -f /Applications/
@@ -98,14 +99,14 @@ sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 #sudo dscl . delete /Users/${USER} JPEGPhoto
 #sudo dscl . create /Users/${USER} Picture "/Library/User Pictures/Animals/Zebra.tif"
 
-sudo cp -f ${HOME}/osx-setup/imgs/poaoffice.tif "/Library/User Pictures/Animals/PoaOffice.tif"
-sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Animals/PoaOffice.tif"
-
 # Set the default picture for Poa Office
 # https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
 sudo dscl . delete /Users/${USER} JPEGPhoto
 sudo dscl . delete /Users/${USER} Picture
-sudo ${HOME}/osx-setup/userpic.sh ${USER} ${HOME}/osx-setup/imgs/poaoffice.png
+sudo mkdir -p "/Library/User Pictures/Office/"
+sudo cp -f ${HOME}/osx-setup/imgs/poaoffice.tif "/Library/User Pictures/Office/PoaOffice.tif"
+sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Office/PoaOffice.tif"
+sudo ${HOME}/osx-setup/userpic.sh ${USER} "/Library/User Pictures/Office/PoaOffice.tif"
 
 # (Re)Install OH-MY-ZSH (colors yay!)
 rm -rf ${HOME}/.oh-my-zsh/
