@@ -2,10 +2,10 @@
 
 # Initialize computer with barely minium required stuff to use the command line.
 
-# Ask for sudo password
+# Asks for sudo password
 echo
-echo "Running with sudo, please type password for ${USER}"
-sudo touch /tmp/unlock_sudo
+echo "Running sudo, please type password for ${USER}"
+sudo touch "/tmp/unlock_sudo"
 echo
 
 # Fix some permissions
@@ -15,13 +15,14 @@ sudo chmod -R u+w /usr/local/ &> /dev/null
 # Install and load brew
 yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-#echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
-#eval "$(/opt/homebrew/bin/brew shellenv)"
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Install required tools
+brew update
+brew upgrade
 brew install git
 brew install dockutil
-
 
 # Install basic usefull software
 
