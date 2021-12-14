@@ -8,10 +8,10 @@ echo "Running with sudo, please type password for ${USER}"
 sudo touch /tmp/unlock_sudo
 echo
 
+# Fix some permissions
+sudo chown -R $(whoami) /usr/local/ &> /dev/null
+
 # Install and load brew
-
-sudo chown -R $(whoami) /usr/local/var/homebrew &> /dev/null
-
 yes '' | bash -c "sudo $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
