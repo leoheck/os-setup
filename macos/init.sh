@@ -138,6 +138,7 @@ git clone https://github.com/powerline/fonts.git
 cd fonts
 bash -c ./install.sh
 cd -
+rm -rf fonts
 
 # Zsh Spacehship Theme
 ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
