@@ -149,7 +149,7 @@ choice=$(sudo -S <<< "${password}" languagesetup <<< q | grep "English" -m1 | cu
 sudo -S <<< "${password}" languagesetup <<< ${choice} &> /dev/null
 
 # Force current keyboard back to English
-find ~/Library/Preferences/ByHost/com.apple.HIToolbox.*
+find /Library/Preferences/com.apple.HIToolbox.plist
 sudo -S <<< "${password}" defaults write ${plist%.*} AppleCurrentKeyboardLayoutInputSourceID -string "com.apple.keylayout.US"
 sudo -S <<< "${password}" killall SystemUIServer
 
