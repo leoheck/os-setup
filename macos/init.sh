@@ -28,12 +28,11 @@ fi
 
 # Install required tools
 brew update
-brew upgrade
 brew install git
 brew install dockutil
 
 # Install basic usefull software
-if [ ! -f "/Applications/Chat.app" ]
+if [ ! -d "/Applications/Chat.app" ]
 then
     curl -SsLo ${HOME}/Downloads/GoogleChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
     sudo -S <<< "${password}" hdiutil attach ${HOME}/Downloads/GoogleChat.dmg
@@ -42,7 +41,7 @@ then
     rm -rf ${HOME}/Downloads/GoogleChat.dmg
 fi
 
-if [ ! -f "/Applications/Google Chrome.app" ]
+if [ ! -d "/Applications/Google Chrome.app" ]
 then
     curl -SsLo ${HOME}/Downloads/GoogleChrome.dmg https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
     sudo -S <<< "${password}" hdiutil attach ${HOME}/Downloads/GoogleChrome.dmg
@@ -51,7 +50,7 @@ then
     rm -rf ${HOME}/Downloads/GoogleChrome.dmg
 fi
 
-if [ ! -f "/Applications/AppCleaner.app" ]
+if [ ! -d "/Applications/AppCleaner.app" ]
 then
     rm -rf ${HOME}/Downloads/AppCleaner.*
     curl -SsLo "${HOME}/Downloads/AppCleaner.zip" https://freemacsoft.net/downloads/AppCleaner_3.6.zip
@@ -66,23 +65,23 @@ rm -rf ${HOME}/os-setup
 git clone https://github.com/leoheck/os-setup.git ${HOME}/os-setup
 
 # Remove garbage from the dock
-dockutil --remove "App Store"
-dockutil --remove "Calendar"
-dockutil --remove "Contacts"
-dockutil --remove "FaceTime"
-dockutil --remove "Keynote"
-dockutil --remove "Mail"
-dockutil --remove "Maps"
-dockutil --remove "Messages"
-dockutil --remove "Music"
-dockutil --remove "News"
-dockutil --remove "Notes"
-dockutil --remove "Numbers"
-dockutil --remove "Pages"
-dockutil --remove "Photos"
-dockutil --remove "Podcasts"
-dockutil --remove "Reminders"
-dockutil --remove "TV"
+dockutil --remove "App Store" &> /dev/null
+dockutil --remove "Calendar" &> /dev/null
+dockutil --remove "Contacts" &> /dev/null
+dockutil --remove "FaceTime" &> /dev/null
+dockutil --remove "Keynote" &> /dev/null
+dockutil --remove "Mail" &> /dev/null
+dockutil --remove "Maps" &> /dev/null
+dockutil --remove "Messages" &> /dev/null
+dockutil --remove "Music" &> /dev/null
+dockutil --remove "News" &> /dev/null
+dockutil --remove "Notes" &> /dev/null
+dockutil --remove "Numbers" &> /dev/null
+dockutil --remove "Pages" &> /dev/null
+dockutil --remove "Photos" &> /dev/null
+dockutil --remove "Podcasts" &> /dev/null
+dockutil --remove "Reminders" &> /dev/null
+dockutil --remove "TV" &> /dev/null
 
 # Add some apps in the dock
 dockutil --add /System/Applications/Utilities/Terminal.app &> /dev/null
@@ -97,7 +96,7 @@ defaults write com.apple.dock tilesize -integer 48
 killall Dock
 
 # Set hostname with the serial number
-sudo -S <<< "${password}" yes '' | ${HOME}/os-setup/macos/set-hostname.sh
+sudo -S <<< "${password}" yes '' | ${HOME}/os-setup/macos/set-hostname.sh &> /dev/null
 
 # Enable Tap to Click
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
