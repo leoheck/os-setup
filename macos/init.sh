@@ -4,7 +4,7 @@
 
 echo
 read -s -p "(sudo) Enter password for $USER: " password
-echo "$password" | echo "$password" | sudo -S touch /tmp/init_script
+echo "$password" | sudo -S touch /tmp/init_script
 
 # Fix some permissions (for already installed machines)
 echo "$password" | sudo -S chown -R $(whoami) /usr/local/ &> /dev/null
