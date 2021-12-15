@@ -9,11 +9,14 @@ sudo -k
 sudo -S <<< ${password} touch /tmp/init_script &> /dev/null
 ret=$?
 
-if [ ! ${ret} -eq 0 ]; then
-    echo "Wrong password"
-    echo "password = (${password})"
-    exit 1
-fi
+echo "Ret = ($ret)"
+echo "password = (${password})"
+
+# if [ ! ${ret} -eq 0 ]; then
+    # echo "Wrong password"
+    # echo "password = (${password})"
+    # exit 1
+# fi
 
 # Fix some permissions (for already installed machines)
 echo "Fixing permissions..."
