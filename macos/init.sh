@@ -19,7 +19,7 @@ sudo -S <<< ${password} chown -R ${USER} /usr/local/ &> /dev/null
 sudo -S <<< ${password} chmod -R u+w /usr/local/ &> /dev/null
 
 # Install and load brew
-bash -c "sudo -S <<< ${password} {yes '' |  $(curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh')}"
+bash -c "sudo -S <<< ${password} { yes '' |  $(curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh')}"
 
 if [[ -f "/opt/homebrew/bin/brew" ]]; then
     echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
@@ -98,7 +98,7 @@ defaults write com.apple.dock tilesize -integer 48
 killall Dock
 
 # Set hostname with the serial number
-sudo -S <<< ${password} { yes | ${HOME}/os-setup/macos/set-hostname.sh }
+sudo -S <<< ${password} { yes '' | ${HOME}/os-setup/macos/set-hostname.sh }
 
 # Enable Tap to Click
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
