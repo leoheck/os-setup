@@ -19,7 +19,13 @@ fi
 #sudo -S <<< "${password}" chmod -R u+w /usr/local/ &> /dev/null
 
 # Install brew
-sudo -S <<< "${password}" bash -c "yes '' |  $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+bash -c "yes '' | sudo -S <<< "${password}" $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+ret=$?
+if [ ! ${ret} -eq 0 ]; then
+    echo "Something went wrong with brew install"
+    exit 1
+fi
+
 
 if [[ -f "/opt/homebrew/bin/brew" ]]; then
     echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
