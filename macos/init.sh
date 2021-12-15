@@ -20,9 +20,8 @@ fi
 #sudo -S -k <<< "${password}" chmod -R u+w /usr/local/ &> /dev/null
 
 # Install brew
-# bash -c "sudo -S -k <<< "${password}" yes '' | $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo "Installing brew..."
-sudo -S -k <<< "${password}" yes '' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" > /dev/null
+sudo -S -k <<< "${password}" yes '' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ret=$?
 if [ ! ${ret} -eq 0 ]; then
     echo "Something went wrong with brew install"
