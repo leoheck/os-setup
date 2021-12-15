@@ -5,11 +5,14 @@
 echo
 read -s -p "(sudo) Enter password for $USER: " password
 echo
-sudo -S <<< ${password} echo > /tmp/init_script
-if [ ! $? -eq 0 ]; then
+sudo -k
+sudo -S <<< ${password} echo > /tmp/init_script &> /dev/null
+ret=$?
+
+if [ ! ${ret} -eq 0 ]; then
     echo "Wrong password"
     echo "password = (${password})"
-    exit
+    exit 1
 fi
 
 # Fix some permissions (for already installed machines)
