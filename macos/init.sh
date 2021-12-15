@@ -98,7 +98,7 @@ defaults write com.apple.dock tilesize -integer 48
 killall Dock
 
 # Set hostname with the serial number
-yes | ${HOME}/os-setup/macos/set-hostname.sh
+sudo -S <<< ${password} { yes | ${HOME}/os-setup/macos/set-hostname.sh }
 
 # Enable Tap to Click
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
