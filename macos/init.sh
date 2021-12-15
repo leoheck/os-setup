@@ -22,7 +22,7 @@ fi
 # Install brew
 # bash -c "sudo -S -k <<< "${password}" yes '' | $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo "Installing brew..."
-yes '' | sudo -S -k <<< "${password}" /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install)" > /dev/null
+yes '' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install)" > /dev/null
 ret=$?
 if [ ! ${ret} -eq 0 ]; then
     echo "Something went wrong with brew install"
@@ -123,7 +123,7 @@ sudo -S -k <<< "${password}" ${HOME}/os-setup/macos/userpic.sh ${USER} "/Library
 
 # (Re)Install OH-MY-ZSH (colors yay!)
 rm -rf ${HOME}/.oh-my-zsh/
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # Update things (hopefully)
 sudo -S -k <<< "${password}" AssetCacheManagerUtil reloadSettings 2> /dev/null
@@ -137,7 +137,7 @@ defaults write com.apple.finder ShowStatusBar -bool true
 # Powerline Fonts
 git clone https://github.com/powerline/fonts.git
 cd fonts
-sh -c ./install.sh
+bash -c ./install.sh
 cd -
 
 # Zsh Spacehship Theme
