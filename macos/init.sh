@@ -6,7 +6,8 @@ echo
 read -s -p "(sudo) Enter password for $USER: " password
 echo
 echo "${password}" | sudo -S echo > /tmp/init_script
-if [[ $? >= 1 ]]; then
+ret=$?
+if [[ "$ret" > "0" ]]; then
     echo "Wrong password"
     exit
 fi
