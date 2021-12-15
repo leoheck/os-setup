@@ -1,6 +1,6 @@
 
 # Scripts REPO
-git clone https://github.com/leoheck/osx-setup
+git clone https://github.com/leoheck/os-setup
 
 # iCloud Drive folder
 cd ~/Library/Mobile\ Documents/com~apple~CloudDocs/

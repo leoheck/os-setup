@@ -5,7 +5,8 @@
 # Asks for sudo password
 echo
 echo "Running sudo, please type password for ${USER}"
-sudo touch "/tmp/unlock_sudo"
+# sudo touch "/tmp/unlock_sudo"
+sudo -k
 echo
 
 # Fix some permissions
@@ -57,10 +58,10 @@ then
     rm -rf ${HOME}/Downloads/AppCleaner.*
 fi
 
-# Clone osx-setup scripts
+# Clone os-setup scripts
 cd ~
-rm -rf ${HOME}/osx-setup
-git clone https://github.com/leoheck/osx-setup.git ${HOME}/osx-setup
+rm -rf ${HOME}/os-setup
+git clone https://github.com/leoheck/os-setup.git ${HOME}/os-setup
 
 # Remove garbage from the dock
 dockutil --remove "App Store"
@@ -94,7 +95,7 @@ defaults write com.apple.dock tilesize -integer 48
 killall Dock
 
 # Set hostname with the serial number
-yes | ${HOME}/osx-setup/set-hostname.sh
+yes | ${HOME}/os-setup/set-hostname.sh
 
 # Enable Tap to Click
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
@@ -102,18 +103,14 @@ sudo defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking 
 sudo defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
-# Set the default picture
-#sudo dscl . delete /Users/${USER} JPEGPhoto
-#sudo dscl . create /Users/${USER} Picture "/Library/User Pictures/Animals/Zebra.tif"
-
 # Set the default picture for Poa Office
 # https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
 sudo dscl . delete /Users/${USER} JPEGPhoto
 sudo dscl . delete /Users/${USER} Picture
 sudo mkdir -p "/Library/User Pictures/Office/"
-sudo cp -f ${HOME}/osx-setup/imgs/poaoffice.tif "/Library/User Pictures/Office/PoaOffice.tif"
+sudo cp -f ${HOME}/os-setup/imgs/poaoffice.tif "/Library/User Pictures/Office/PoaOffice.tif"
 sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Office/PoaOffice.tif"
-sudo ${HOME}/osx-setup/userpic.sh ${USER} "/Library/User Pictures/Office/PoaOffice.tif"
+sudo ${HOME}/os-setup/userpic.sh ${USER} "/Library/User Pictures/Office/PoaOffice.tif"
 
 # (Re)Install OH-MY-ZSH (colors yay!)
 rm -rf ${HOME}/.oh-my-zsh/
@@ -173,4 +170,4 @@ sudo killall SystemUIServer
 # sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
 
 # Finish by going to the scripts folder
-cd ${HOME}/osx-setup
+cd ${HOME}/os-setup
