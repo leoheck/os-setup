@@ -4,7 +4,7 @@ There are some scripts to assist my setup of MacBooks.
 
 ### Main user initialization
 ```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init.sh?foo=${RANDOM})"
 ```
 
 ### Scripts
