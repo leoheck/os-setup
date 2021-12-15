@@ -62,7 +62,7 @@ if [ ! -d "/Applications/AppCleaner.app" ]
 then
     rm -rf ${HOME}/Downloads/AppCleaner.*
     curl -SsLo "${HOME}/Downloads/AppCleaner.zip" https://freemacsoft.net/downloads/AppCleaner_3.6.zip
-    unzip -q "${HOME}/Downloads/AppCleaner.zip"
+    unzip -q -o "${HOME}/Downloads/AppCleaner.zip"
     sudo -S -k <<< "${password}" mv "${HOME}/Downloads/AppCleaner.app" -f /Applications/
     rm -rf ${HOME}/Downloads/AppCleaner.*
 fi
