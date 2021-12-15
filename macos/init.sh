@@ -3,20 +3,19 @@
 # Initialize computer with barely minium required stuff to use the command line.
 
 echo
-read -s -p "(sudo) Enter password for $USER: " password
+read -s -p "(sudo) Enter password for ${USER}: " password
 echo
 sudo -k
 sudo -S <<< ${password} touch /tmp/init_script &> /dev/null
 ret=$?
 if [ ! ${ret} -eq 0 ]; then
     echo "Wrong password"
-    # echo "password = (${password})"
     exit 1
 fi
 
 # Fix some permissions (for already installed machines)
 echo "Fixing permissions..."
-sudo -S <<< ${password} chown -R $(whoami) /usr/local/ &> /dev/null
+sudo -S <<< ${password} chown -R ${USER} /usr/local/ &> /dev/null
 sudo -S <<< ${password} chmod -R u+w /usr/local/ &> /dev/null
 
 # Install and load brew
