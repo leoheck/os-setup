@@ -14,7 +14,7 @@ if [ ! ${ret} -eq 0 ]; then
 fi
 
 # Fix some permissions (for already installed machines)
-echo "Fixing permissions..."
+#echo "Fixing permissions..."
 #sudo -S <<< "${password}" chown -R ${USER} /usr/local/ &> /dev/null
 #sudo -S <<< "${password}" chmod -R u+w /usr/local/ &> /dev/null
 
