@@ -19,7 +19,7 @@ sudo -S <<< ${password} chown -R ${USER} /usr/local/ &> /dev/null
 sudo -S <<< ${password} chmod -R u+w /usr/local/ &> /dev/null
 
 # Install and load brew
-bash -c "sudo -S <<< ${password} { yes '' |  $(curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh')}"
+bash -c "sudo -S <<< ${password} \"yes '' |  $(curl -fsSL 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh')}\""
 
 if [[ -f "/opt/homebrew/bin/brew" ]]; then
     echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
