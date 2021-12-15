@@ -6,7 +6,7 @@ echo
 read -s -p "(sudo) Enter password for $USER: " password
 echo
 sudo -k
-sudo -S <<< ${password} echo > /tmp/init_script &> /dev/null
+sudo -S <<< ${password} touch /tmp/init_script &> /dev/null
 ret=$?
 
 if [ ! ${ret} -eq 0 ]; then
