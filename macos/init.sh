@@ -6,13 +6,13 @@ echo
 read -s -p "(sudo) Enter password for $USER: " password
 echo
 echo "${password}" | sudo -S echo > /tmp/init_script
-ret=$?
-if [[ "$ret" > "0" ]]; then
+if [ ! $? -eq 0 ]; then
     echo "Wrong password"
     exit
 fi
 
 # Fix some permissions (for already installed machines)
+echo "Fixing permissions..."
 echo "${password}" | sudo -S chown -R $(whoami) /usr/local/ &> /dev/null
 echo "${password}" | sudo -S chmod -R u+w /usr/local/ &> /dev/null
 
