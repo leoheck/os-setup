@@ -18,13 +18,8 @@ echo "Fixing permissions..."
 #sudo -S <<< "${password}" chown -R ${USER} /usr/local/ &> /dev/null
 #sudo -S <<< "${password}" chmod -R u+w /usr/local/ &> /dev/null
 
-# Install and load brew
-
-read -r -d '' cmd << EOM
-sudo -S <<< "${password}" yes '' |  $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
-EOM
-
-bash -c "${cmd}"
+# Install brew
+sudo -S <<< "${password}" bash -c "yes '' |  $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 if [[ -f "/opt/homebrew/bin/brew" ]]; then
     echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
@@ -38,7 +33,6 @@ brew install git
 brew install dockutil
 
 # Install basic usefull software
-
 if [ ! -f "/Applications/Chat.app" ]
 then
     curl -SsLo ${HOME}/Downloads/GoogleChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
