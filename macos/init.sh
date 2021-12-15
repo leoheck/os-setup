@@ -3,7 +3,7 @@
 # Initialize computer with barely minium required stuff to use the command line.
 
 echo
-echo "(sudo) Enter password for $USER: "
+read -p "(sudo) Enter password for $USER: " password
 echo "$password" | echo "$password" | sudo -S touch /tmp/init_script
 
 # Fix some permissions (for already installed machines)
