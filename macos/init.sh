@@ -26,7 +26,7 @@ echo "Installing brew..."
 
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o /tmp/brew_install.sh
 chmod +x /tmp/brew_install.sh
-sudo -S -k <<< "${password}" bash -c "$(yes '' | /tmp/brew_install.sh)"
+sudo -S -k <<< "${password}" bash -c "yes '' | /tmp/brew_install.sh"
 ret=$?
 if [ ! ${ret} -eq 0 ]; then
     echo "Something went wrong with brew install"
