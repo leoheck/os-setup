@@ -4,7 +4,7 @@
 
 echo "Collecting computer's info..."
 
-# Ownser fullname
+# Owner full name
 owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed -n 's/^ //g;2p')
 if [[ $owner_name == "" ]]; then
 	owner_name=$(id -F)
