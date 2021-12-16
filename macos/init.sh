@@ -24,7 +24,7 @@ if [[ "${FIX_PERMISSIONS}" != "" ]]; then
 fi
 
 # Install brew
-echo "Installing brew..."
+# echo "Installing brew..."
 yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ret=$?
 if [ ! ${ret} -eq 0 ]; then
@@ -44,10 +44,10 @@ brew install git
 brew install dockutil
 
 # Install basic usefull software
-brew install --cask google-chat
-brew install --cask sublime-text
-brew install --cask google-chrome
-brew install --cask appcleaner
+brew install --cask google-chat 2> /dev/null
+brew install --cask sublime-text 2> /dev/null
+brew install --cask google-chrome 2> /dev/null
+brew install --cask appcleaner 2> /dev/null
 
 # Clone os-setup scripts
 cd ~
@@ -55,31 +55,31 @@ rm -rf ${HOME}/os-setup
 git clone https://github.com/leoheck/os-setup.git ${HOME}/os-setup
 
 # Remove garbage from the dock
-dockutil --remove "App Store" &> /dev/null
-dockutil --remove "Calendar" &> /dev/null
-dockutil --remove "Contacts" &> /dev/null
-dockutil --remove "FaceTime" &> /dev/null
-dockutil --remove "Keynote" &> /dev/null
-dockutil --remove "Mail" &> /dev/null
-dockutil --remove "Maps" &> /dev/null
-dockutil --remove "Messages" &> /dev/null
-dockutil --remove "Music" &> /dev/null
-dockutil --remove "News" &> /dev/null
-dockutil --remove "Notes" &> /dev/null
-dockutil --remove "Numbers" &> /dev/null
-dockutil --remove "Pages" &> /dev/null
-dockutil --remove "Photos" &> /dev/null
-dockutil --remove "Podcasts" &> /dev/null
-dockutil --remove "Reminders" &> /dev/null
-dockutil --remove "TV" &> /dev/null
+dockutil --remove "App Store" 2> /dev/null
+dockutil --remove "Calendar" 2> /dev/null
+dockutil --remove "Contacts" 2> /dev/null
+dockutil --remove "FaceTime" 2> /dev/null
+dockutil --remove "Keynote" 2> /dev/null
+dockutil --remove "Mail" 2> /dev/null
+dockutil --remove "Maps" 2> /dev/null
+dockutil --remove "Messages" 2> /dev/null
+dockutil --remove "Music" 2> /dev/null
+dockutil --remove "News" 2> /dev/null
+dockutil --remove "Notes" 2> /dev/null
+dockutil --remove "Numbers" 2> /dev/null
+dockutil --remove "Pages" 2> /dev/null
+dockutil --remove "Photos" 2> /dev/null
+dockutil --remove "Podcasts" 2> /dev/null
+dockutil --remove "Reminders" 2> /dev/null
+dockutil --remove "TV" 2> /dev/null
 
 # Add some apps in the dock
-dockutil --add /System/Applications/Utilities/Terminal.app &> /dev/null
-dockutil --add /System/Applications/TextEdit.app  &> /dev/null
-dockutil --add /System/Applications/FindMy.app  &> /dev/null
-dockutil --add "/Applications/Google Chrome.app"  &> /dev/null
-dockutil --add "/Applications/Chat.app"  &> /dev/null
-dockutil --add "/Applications/AppCleaner.app"  &> /dev/null
+dockutil --add /System/Applications/Utilities/Terminal.app 2> /dev/null
+dockutil --add /System/Applications/TextEdit.app  2> /dev/null
+dockutil --add /System/Applications/FindMy.app  2> /dev/null
+dockutil --add "/Applications/Google Chrome.app"  2> /dev/null
+dockutil --add "/Applications/Chat.app"  2> /dev/null
+dockutil --add "/Applications/AppCleaner.app"  2> /dev/null
 
 # Docker size
 defaults write com.apple.dock tilesize -integer 48
