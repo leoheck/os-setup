@@ -72,14 +72,15 @@ dockutil --remove "Photos" 2> /dev/null
 dockutil --remove "Podcasts" 2> /dev/null
 dockutil --remove "Reminders" 2> /dev/null
 dockutil --remove "TV" 2> /dev/null
+dockutil --remove "TextEdit" 2> /dev/null
 
 # Add some apps in the dock
 dockutil --add /System/Applications/Utilities/Terminal.app 2> /dev/null
-dockutil --add /System/Applications/TextEdit.app  2> /dev/null
 dockutil --add /System/Applications/FindMy.app  2> /dev/null
 dockutil --add "/Applications/Google Chrome.app"  2> /dev/null
 dockutil --add "/Applications/Chat.app"  2> /dev/null
 dockutil --add "/Applications/AppCleaner.app"  2> /dev/null
+dockutil --add "/Applications/Sublime Text.app"  2> /dev/null
 
 # Docker size
 defaults write com.apple.dock tilesize -integer 48
