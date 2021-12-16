@@ -24,11 +24,8 @@ fi
 
 # Install brew
 echo "Installing brew..."
-curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o /tmp/brew_install.sh
-chmod +x /tmp/brew_install.sh
-sudo bash -c "yes '' | /tmp/brew_install.sh"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ret=$?
-rm -rf /tmp/brew_install.sh
 if [ ! ${ret} -eq 0 ]; then
     echo "Something went wrong with brew install"
     exit 1
