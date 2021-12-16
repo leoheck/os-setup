@@ -14,14 +14,22 @@ if [ ! ${ret} -eq 0 ]; then
     exit 1
 fi
 
-# Fix some permissions (for already installed machines)
-#echo "Fixing permissions..."
-#sudo -S -k <<< "${password}" chown -R ${USER} /usr/local/ &> /dev/null
-#sudo -S -k <<< "${password}" chmod -R u+w /usr/local/ &> /dev/null
+# Fix some permissions
+if [[ ${FIX_PERMISSIONS} != 0 ]]; then
+    echo "Fixing permissions..."
+    sudo -S -k <<< "${password}" chown -R ${USER} /usr/local/ &> /dev/null
+    sudo -S -k <<< "${password}" chmod -R u+w /usr/local/ &> /dev/null
+fi
 
 # Install brew
 echo "Installing brew..."
-sudo -S -k <<< "${password}" yes '' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# sudo -S -k <<< "${password}" yes '' | bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o "/tmp/brew_install.sh"
+chmod +x "/tmp/brew_install.sh"
+sudo -S -k <<< "${password}" yes '' | /tmp/brew_install.sh
+
 ret=$?
 if [ ! ${ret} -eq 0 ]; then
     echo "Something went wrong with brew install"
