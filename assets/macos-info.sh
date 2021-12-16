@@ -91,7 +91,7 @@ echo
 
 if [[ "${USER}" == "poaoffice" ]]; then
 	# Make a copy in the shared folder/drive
-	mkdir -f ~/Library/Mobile Documents/com~apple~CloudDocs/Documents/
+	mkdir -p "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/"
 	output_file="~/Library/Mobile Documents/com~apple~CloudDocs/Documents/${serial_number}.csv"
 else
 	# Generate csv file
