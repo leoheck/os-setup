@@ -7,7 +7,7 @@ export HISTIGNORE='*sudo -S*'
 echo
 read -s -p "(sudo) Enter password for ${USER}: " password
 echo
-sudo -S -k <<< "${password}" touch /tmp/init_script &> /dev/null
+sudo touch /tmp/init_script &> /dev/null
 
 ret=$?
 if [ ! ${ret} -eq 0 ]; then
@@ -16,22 +16,17 @@ if [ ! ${ret} -eq 0 ]; then
 fi
 
 # Fix some permissions
-if [[ ${FIX_PERMISSIONS} != 0 ]]; then
+if [[ "${FIX_PERMISSIONS}" != "" ]]; then
     echo "Fixing permissions..."
-    sudo -S -k <<< "${password}" chown -R ${USER} /usr/local/ &> /dev/null
-    sudo -S -k <<< "${password}" chmod -R u+w /usr/local/ &> /dev/null
+    sudo chown -R ${USER} /usr/local/ &> /dev/null
+    sudo chmod -R u+w /usr/local/ &> /dev/null
 fi
 
 # Install brew
 echo "Installing brew..."
-
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o /tmp/brew_install.sh
 chmod +x /tmp/brew_install.sh
-# sudo -S -k <<< "${password}" bash -c "yes '' | /tmp/brew_install.sh"
-sudo -S -k <<< "${password}" -- -sh -c <<EOF
-yes '' | /tmp/brew_install.sh
-EOF
-
+sudo bash -c "yes '' | /tmp/brew_install.sh"
 ret=$?
 rm -rf /tmp/brew_install.sh
 if [ ! ${ret} -eq 0 ]; then
@@ -93,29 +88,29 @@ defaults write com.apple.dock tilesize -integer 48
 killall Dock
 
 # Set hostname with the serial number
-sudo -S -k <<< "${password}" yes '' | ${HOME}/os-setup/macos/set-hostname.sh &> /dev/null
+sudo yes '' | ${HOME}/os-setup/macos/set-hostname.sh &> /dev/null
 
 # Enable Tap to Click
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
-sudo -S -k <<< "${password}" defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-sudo -S -k <<< "${password}" defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-sudo -S -k <<< "${password}" defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+sudo defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+sudo defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 # Set the default picture for Poa Office
 # https://apple.stackexchange.com/questions/117530/setting-account-picture-jpegphoto-with-dscl-in-terminal
-sudo -S -k <<< "${password}" dscl . delete /Users/${USER} JPEGPhoto
-sudo -S -k <<< "${password}" dscl . delete /Users/${USER} Picture
-sudo -S -k <<< "${password}" dscl . create /Users/${username} Picture "/Library/User Pictures/Office/poaoffice.png"
-sudo -S -k <<< "${password}" mkdir -p "/Library/User Pictures/Office/"
-sudo -S -k <<< "${password}" cp -f ${HOME}/os-setup/macos/imgs/poaoffice.tif "/Library/User Pictures/Office/poaoffice.tif"
-sudo -S -k <<< "${password}" ${HOME}/os-setup/macos/userpic.sh ${USER} "/Library/User Pictures/Office/poaoffice.tif"
+sudo dscl . delete /Users/${USER} JPEGPhoto
+sudo dscl . delete /Users/${USER} Picture
+sudo dscl . create /Users/${username} Picture "/Library/User Pictures/Office/poaoffice.png"
+sudo mkdir -p "/Library/User Pictures/Office/"
+sudo cp -f ${HOME}/os-setup/macos/imgs/poaoffice.tif "/Library/User Pictures/Office/poaoffice.tif"
+sudo ${HOME}/os-setup/macos/userpic.sh ${USER} "/Library/User Pictures/Office/poaoffice.tif"
 
 # (Re)Install OH-MY-ZSH (colors yay!)
 rm -rf ${HOME}/.oh-my-zsh/
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # Update things (hopefully)
-sudo -S -k <<< "${password}" AssetCacheManagerUtil reloadSettings 2> /dev/null
+sudo AssetCacheManagerUtil reloadSettings 2> /dev/null
 
 # Finder > Path Bar
 defaults write com.apple.finder ShowPathbar -bool true
@@ -140,16 +135,16 @@ brew cleanup
 
 # Disable Guest user
 # Didnt work
-# sudo -S -k <<< "${password}" fdesetup remove -user Guest
+# sudo fdesetup remove -user Guest
 
 # Force system back to English
-choice=$(sudo -S -k <<< "${password}" languagesetup <<< q | grep "English" -m1 | cut -d")" -f1 | sed "s/ //g")
-sudo -S -k <<< "${password}" languagesetup <<< ${choice} &> /dev/null
+choice=$(sudo languagesetup <<< q | grep "English" -m1 | cut -d")" -f1 | sed "s/ //g")
+sudo languagesetup <<< ${choice} &> /dev/null
 
 # Force current keyboard back to English
 find /Library/Preferences/com.apple.HIToolbox.plist
-sudo -S -k <<< "${password}" defaults write ${plist%.*} AppleCurrentKeyboardLayoutInputSourceID -string "com.apple.keylayout.US"
-sudo -S -k <<< "${password}" killall SystemUIServer
+sudo defaults write ${plist%.*} AppleCurrentKeyboardLayoutInputSourceID -string "com.apple.keylayout.US"
+sudo killall SystemUIServer
 
 # Force theme clolor to dark
 # https://grrr.tech/posts/2020/switch-dark-mode-os/
