@@ -90,11 +90,10 @@ echo "               Disk Size: ${disk_size} GB"
 echo
 
 if [[ "${USER}" == "poaoffice" ]]; then
-	# Make a copy in the shared folder/drive
-	mkdir -p "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/computers"
-	output_file="~/Library/Mobile Documents/com~apple~CloudDocs/Documents/computers/${serial_number}.csv"
+	output_path="${HOME}/Library/Mobile Documents/com~apple~CloudDocs/Documents/Computers"
+	mkdir -p "${output_path}"
+	output_file="${output_path}/${serial_number}.csv"
 else
-	# Generate csv file
 	current_date=$(date +"%Y.%m.%d-%Hh%M")
 	output_file="${HOME}/Desktop/${current_date}-${serial_number}-${USER}.csv"
 fi
