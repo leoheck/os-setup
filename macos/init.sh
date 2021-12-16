@@ -7,7 +7,8 @@ export HISTIGNORE='*sudo -S*'
 echo
 read -s -p "(sudo) Enter password for ${USER}: " password
 echo
-sudo touch /tmp/init_script &> /dev/null
+echo "Installing brew..."
+sudo -S <<< "${password}" touch /tmp/init_script &> /dev/null
 
 ret=$?
 if [ ! ${ret} -eq 0 ]; then
@@ -24,7 +25,7 @@ fi
 
 # Install brew
 echo "Installing brew..."
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ret=$?
 if [ ! ${ret} -eq 0 ]; then
     echo "Something went wrong with brew install"
