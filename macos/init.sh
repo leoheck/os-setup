@@ -28,6 +28,7 @@ curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o
 chmod +x /tmp/brew_install.sh
 sudo -S -k <<< "${password}" bash -c "yes '' | /tmp/brew_install.sh"
 ret=$?
+rm -rf /tmp/brew_install.sh
 if [ ! ${ret} -eq 0 ]; then
     echo "Something went wrong with brew install"
     exit 1
