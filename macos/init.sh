@@ -152,15 +152,5 @@ osascript -l JavaScript -e "Application('System Events').appearancePreferences.d
 # Finish by going to the scripts folder
 cd ${HOME}/os-setup
 
-# Launch system settings to enable shit that cannot be enabled by script
-# echo
-# echo
-# echo "Turning Remote Login on requires Full Disk Access privileges"
-# echo
-# echo "To enable the Remote Login go to:"
-# echo
-# echo "    System Preferences > Security & Privacy > Privacy (tab) > Full Disk Access"
-# echo "    And Enable it for Terminal app"
-# open -a /System/Applications/System\ Preferences.app &
-# echo
-# echo
+# Refresh database with computers info
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/assets/macos-info.sh)"
