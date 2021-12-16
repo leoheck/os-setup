@@ -39,38 +39,17 @@ if [[ -f "/opt/homebrew/bin/brew" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# Install required tools
 brew update
+
+# Install required tools
 brew install git
 brew install dockutil
 
 # Install basic usefull software
-if [ ! -d "/Applications/Chat.app" ]
-then
-    curl -SsLo ${HOME}/Downloads/GoogleChat.dmg https://dl.google.com/chat/latest/InstallHangoutsChat.dmg
-    sudo -S -k <<< "${password}" hdiutil attach ${HOME}/Downloads/GoogleChat.dmg
-    sudo -S -k <<< "${password}" cp -R "/Volumes/Install Hangouts Chat/Chat.app" /Applications
-    sudo -S -k <<< "${password}" hdiutil unmount "/Volumes/Install Hangouts Chat"
-    rm -rf ${HOME}/Downloads/GoogleChat.dmg
-fi
-
-if [ ! -d "/Applications/Google Chrome.app" ]
-then
-    curl -SsLo ${HOME}/Downloads/GoogleChrome.dmg https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
-    sudo -S -k <<< "${password}" hdiutil attach ${HOME}/Downloads/GoogleChrome.dmg
-    sudo -S -k <<< "${password}" cp -R "/Volumes/Google Chrome/Google Chrome.app" /Applications
-    sudo -S -k <<< "${password}" hdiutil unmount "/Volumes/Google Chrome"
-    rm -rf ${HOME}/Downloads/GoogleChrome.dmg
-fi
-
-if [ ! -d "/Applications/AppCleaner.app" ]
-then
-    rm -rf ${HOME}/Downloads/AppCleaner.*
-    curl -SsLo "${HOME}/Downloads/AppCleaner.zip" https://freemacsoft.net/downloads/AppCleaner_3.6.zip
-    unzip -q -o "${HOME}/Downloads/AppCleaner.zip"
-    sudo -S -k <<< "${password}" mv "${HOME}/Downloads/AppCleaner.app" -f /Applications/
-    rm -rf ${HOME}/Downloads/AppCleaner.*
-fi
+brew install --cask google-chat
+brew install --cask sublime-text
+brew install --cask google-chrome
+brew install --cask appcleaner
 
 # Clone os-setup scripts
 cd ~
