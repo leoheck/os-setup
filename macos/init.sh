@@ -8,6 +8,7 @@ echo
 read -s -p "(sudo) Enter password for ${USER}: " password
 echo
 sudo -S -k <<< "${password}" touch /tmp/init_script &> /dev/null
+
 ret=$?
 if [ ! ${ret} -eq 0 ]; then
     echo "Wrong password"
@@ -26,7 +27,11 @@ echo "Installing brew..."
 
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o /tmp/brew_install.sh
 chmod +x /tmp/brew_install.sh
-sudo -S -k <<< "${password}" bash -c "yes '' | /tmp/brew_install.sh"
+# sudo -S -k <<< "${password}" bash -c "yes '' | /tmp/brew_install.sh"
+sudo -S -k <<< "${password}" -- -sh -c <<EOF
+yes '' | /tmp/brew_install.sh
+EOF
+
 ret=$?
 rm -rf /tmp/brew_install.sh
 if [ ! ${ret} -eq 0 ]; then
