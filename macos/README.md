@@ -2,7 +2,7 @@
 
 There are some scripts to assist my setup of MacBooks.
 
-### Main user initialization
+### Main User Initialization
 ```
 sh -c "$(curl -H 'Cache-Control: no-cache' -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init.sh)"
 ```
@@ -16,14 +16,18 @@ After installing minimum-required stuff
 ./delete-user.sh USERNAME
 ```
 
-### Extra scripts
+### Extra Scripts
 
 If you don't have git installed, you can use this to update scripts easily.
 ```
 update-scripts.sh
 ```
 
-### Set a hostname
+### Set the Hostname
 ```
-sh -c "$(curl -fsSL https://raw.github.com/leoheck/os-setup/master/set-hostname.sh)" "" $USER
+# with the Serial Number
+sh -c "$(curl -fsSL https://raw.github.com/leoheck/os-setup/master/macos/set-hostname.sh)" "" 
+
+# with the current username
+sh -c "$(curl -fsSL https://raw.github.com/leoheck/os-setup/master/macos/set-hostname.sh)" "" $USER
 ```
