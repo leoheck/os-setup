@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# Improved 2021-07-06
-
-# Simple script to initialize a new MAC
+# Simple script to set hostname on macOS
 # Leandro Sehnem Heck (leoheck@gmail.com)
 
 # Usage: ./set-hostname.sh [HOSTNAME]
