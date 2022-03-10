@@ -25,9 +25,11 @@ update-scripts.sh
 
 ### Set the Hostname
 ```
-# with the Serial Number
+# using the Serial Number
 sh -c "$(curl -fsSL https://raw.github.com/leoheck/os-setup/master/macos/set-hostname.sh)" "" 
+```
 
-# with the current username
+```
+# using the Username
 sh -c "$(curl -fsSL https://raw.github.com/leoheck/os-setup/master/macos/set-hostname.sh)" "" $USER
 ```

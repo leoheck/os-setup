@@ -34,6 +34,9 @@ if [[ ${warranty_expiration} != "" ]]; then
 	amex_warranty_expiration=$(date -j -f "%Y-%m-%d" -v+1y "${warranty_expiration}" +"%Y-%m-%d")
 fi
 
+# Waranty for For MACs M1 (needs test, since the github script is not working)
+# curl -o - "https://support-sp.apple.com/sp/product?cc=Q6LR&lang=en_US"
+
 # Processor details
 processor=$(sysctl -a | grep machdep.cpu.brand_string | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g')
 
