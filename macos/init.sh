@@ -154,3 +154,18 @@ cd ${HOME}/os-setup
 
 # Refresh database with computers info
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/assets/macos-info.sh)"
+
+# Disable guest user
+sudo sysadminctl -guestAccount off
+
+# Hide poa.office user from login screen
+sudo chflags hidden /Users/${USER}
+
+# Disable "Other..." on login screen
+# Hold down SHift+Option+Down Arrow+Return to reveal the username and password field at the login screen.
+# The actual procedure is to tap any arrow key to move focus to the list of accounts, then option-return — not holding shift which is for disabling login items and not holding down arrow.
+sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED -bool FALSE
+
+# Login screen mesasge
+login_message="This computer is property of Ambush"
+sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "${login_message}"
