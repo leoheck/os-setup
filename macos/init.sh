@@ -49,6 +49,7 @@ install_homebrew()
 
 install_homebrew_modules()
 {
+    brew install coreutils
     brew install git
     brew install dockutil
     brew install pyenv
