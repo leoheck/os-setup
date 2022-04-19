@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # Simple script to set hostname on macOS
 # Leandro Sehnem Heck (leoheck@gmail.com)
 
@@ -56,10 +57,9 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 # Enable location tracking
 echo "Enabling location tracking"
 
-sudo -u _locationd /usr/bin/defaults -currentHost write com.apple.locationd LocationServicesEnabled -int 1 1> /dev/null
-sudo -u _locationd /usr/bin/defaults -currentHost write "/var/db/locationd/Library/Preferences/ByHost/com.apple.locationd" LocationServicesEnabled -int 1 1> /dev/null
-
-sudo /usr/bin/defaults -currentHost write /Library/Preferences/com.apple.locationmenu "ShowSystemServices" -bool YES 1> /dev/null
+sudo defaults -currentHost write "com.apple.locationd" "LocationServicesEnabled" -int 1 1> /dev/null
+sudo defaults -currentHost write "/var/db/locationd/Library/Preferences/ByHost/com.apple.locationd" LocationServicesEnabled -int 1 1> /dev/null
+sudo defaults -currentHost write "/Library/Preferences/com.apple.locationmenu" "ShowSystemServices" -bool YES 1> /dev/null
 
 # Update things (hopefully)
 sudo AssetCacheManagerUtil reloadSettings 2> /dev/null
