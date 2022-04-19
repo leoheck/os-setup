@@ -51,15 +51,28 @@ install_homebrew_apps()
 {
     brew install --cask sublime-text  2> /dev/null
     brew install --cask google-chrome 2> /dev/null
-    brew install --cask brave-browser 2> /dev/null
     brew install --cask google-chat   2> /dev/null
     brew install --cask appcleaner    2> /dev/null
-    brew install --cask 1password     2> /dev/null
+}
+
+# Workaround for dockutil while it is not working with python3
+install_python2()
+{
+    export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
+    eval "$(brew shellenv)"
+    brew install pyenv
+    pyenv install 2.7.18
+    ln -s "${HOME}/.pyenv/versions/2.7.18/bin/python2.7" "${HOMEBREW_PREFIX}/bin/python"
+}
+
+fix_dockutil_interpreter()
+{
+    sed -i "" "1i\#!/usr/local/bin/python" /usr/local/bin/dockutil
 }
 
 reset_hostname()
 {
-    sudo yes '' | "${HOME}/os-setup/macos/set-hostname.sh" &> /dev/null
+    ${HOME}/os-setup/macos/set-hostname.sh
 }
 
 configure_login_screen()
@@ -210,6 +223,8 @@ main()
     clone_repo
     reset_hostname
     configure_login_screen
+    install_python2
+    fix_dockutil_interpreter
     customize_current_user
     collect_computer_info
 }
