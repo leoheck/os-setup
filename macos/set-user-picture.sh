@@ -4,7 +4,7 @@
 # https://gist.github.com/palmerc/5e8dfb37ed46b01c9a6f56ecd58727a7
 
 # USAGE:
-# ./userpic.sh USERNAME PICTURE
+# ./set-user-picture.sh USERNAME PICTURE
 
 set -e
 
