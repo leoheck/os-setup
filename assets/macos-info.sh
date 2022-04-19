@@ -2,7 +2,11 @@
 
 # MAC and macOS info
 
-echo "Collecting computer's info..."
+echo "Collecting MacBook's info..."
+
+# get macos version
+product_version=$(sw_vers -productVersion)
+build_version=$(sw_vers -buildVersion)
 
 # Owner full name
 owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed -n 's/^ //g;2p')
@@ -28,9 +32,10 @@ if [[ ${model} != "" ]]; then
 	year=$(echo "${model}" | sed '/^[[:space:]]*$/d' | grep -o -E "[0-9]{4}")
 fi
 
+# TODO: Check if this handles new year
 warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 2> /dev/null | tail -1 | grep -o -E "[0-9]{4}-[0-9]{2}-[0-9]{2}")
 
-if [[ ${warranty_expiration} != "" ]]; then
+if [[ -n ${warranty_expiration} ]]; then
 	amex_warranty_expiration=$(date -j -f "%Y-%m-%d" -v+1y "${warranty_expiration}" +"%Y-%m-%d")
 fi
 
@@ -68,10 +73,6 @@ gpu=$(system_profiler SPDisplaysDataType \
 # (Main) Disk Size (GB)
 disk_size=$(diskutil info /dev/disk1 | grep "Disk Size" | cut -d: -f2 | sed -Ee 's/^[[:space:]]+//g' | cut -d" " -f1)
 
-status=
-notes=
-email=
-
 clear
 
 echo
@@ -80,6 +81,8 @@ echo
 echo "                   Owner: ${owner_name}"
 echo "           Serial Number: ${serial_number}"
 echo "                   Brand: ${brand}"
+echo "         Product Version: ${product_version}"
+echo "           Build Version: ${build_version}"
 echo "                   Model: ${model}"
 echo "                    Year: ${year}"
 echo "     Warranty Expiration: ${warranty_expiration}"
@@ -91,6 +94,7 @@ echo "                  Memory: ${memory_size} GB"
 echo "                     GPU: ${gpu}"
 echo "               Disk Size: ${disk_size} GB"
 echo
+echo "               Disk Size: ${disk_size} GB"
 
 if [[ "${USER}" == "poaoffice" ]]; then
 	output_path="${HOME}/Library/Mobile Documents/com~apple~CloudDocs/Documents/Computers"
@@ -115,9 +119,8 @@ read -d "" header <<-EOF
 "Disk (GB)"
 "Warrantty Expiration"
 "Extra Warranty Expiration"
-"Status"
-"Email"
-"Notes"
+"Product Version"
+"Build Version"
 EOF
 
 read -d "" data <<-EOF
@@ -134,9 +137,8 @@ read -d "" data <<-EOF
 "${disk_size}"
 "${warranty_expiration}"
 "${extra_warranty_expiration}"
-"${status}"
-"${email}"
-"${notes}"
+"${product_version}"
+"${build_version}"
 EOF
 
 echo "${header}" | tr "\n" "," | sed "s/,$//g"  > ${output_file}
