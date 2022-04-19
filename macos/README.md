@@ -4,7 +4,7 @@ There are some scripts to assist my setup of MacBooks.
 
 ### Main User Initialization
 ```
-sh -c "$(curl -H 'Cache-Control: no-cache' -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init.sh)"
+sh -c "$(curl -H 'Cache-Control: no-cache' -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init-user.sh)"
 ```
 
 ### Scripts
@@ -25,11 +25,11 @@ update-scripts.sh
 
 ### Set the Hostname
 ```
-# using the Serial Number
+# with the Serial Number
 sh -c "$(curl -fsSL https://raw.github.com/leoheck/os-setup/master/macos/set-hostname.sh)" "" 
 ```
 
 ```
-# using the Username
-sh -c "$(curl -fsSL https://raw.github.com/leoheck/os-setup/master/macos/set-hostname.sh)" "" $USER
+# with the current Username
+sh -c "$(curl -fsSL https://raw.github.com/leoheck/os-setup/master/macos/set-hostname.sh)" "" ${USER}
 ```
