@@ -78,7 +78,7 @@ fix_dockutil_interpreter()
 
 reset_hostname()
 {
-    ${HOME}/os-setup/macos/set-hostname.sh
+    sudo ${HOME}/os-setup/macos/set-hostname.sh
 }
 
 configure_login_screen()
