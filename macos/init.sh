@@ -114,7 +114,7 @@ set_custom_user_picture()
     sudo mkdir -p "/Library/User Pictures/Office/"
     sudo cp -f "${HOME}/Donwloads/os-setup/macos/imgs/poaoffice.tif" "/Library/User Pictures/Office/poaoffice.tif"
     sudo dscl . create "/Users/${USER}" Picture "/Library/User Pictures/Office/poaoffice.png"
-    sudo "${HOME}/Donwloads/os-setup/macos/userpic.sh" ${USER} "/Library/User Pictures/Office/poaoffice.tif"
+    sudo "${HOME}/Donwloads/os-setup/macos/set-user-picture.sh" ${USER} "/Library/User Pictures/Office/poaoffice.tif"
     sudo AssetCacheManagerUtil reloadSettings 2> /dev/null
 }
 
