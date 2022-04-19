@@ -72,9 +72,9 @@ install_python2()
     ln -s "${HOME}/.pyenv/versions/2.7.18/bin/python2.7" "${HOMEBREW_PREFIX}/bin/python"
 }
 
-fix_dockutil_interpreter()
+update_dockutil_interpreter()
 {
-    sed -i "" "1i#!/usr/local/bin/python" /usr/local/bin/dockutil
+    sed -i '' '1i\'$'\n''#!/usr/local/bin/python' /usr/local/bin/dockutil
 }
 
 reset_hostname()
@@ -232,7 +232,7 @@ main()
     reset_hostname
     configure_login_screen
     install_python2
-    fix_dockutil_interpreter
+    update_dockutil_interpreter
     customize_current_user
     collect_computer_info
 }
