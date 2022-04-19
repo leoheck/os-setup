@@ -74,7 +74,8 @@ install_python2()
 
 update_dockutil_interpreter()
 {
-    sed -i '' '1i\'$'\n''#!/usr/local/bin/python' /usr/local/bin/dockutil
+    dockutil_path=$(readlink -f /usr/local/bin/dockutil)
+    sed -i '' '1i\'$'\n''#!/usr/local/bin/python' "${dockutil_path}"
 }
 
 reset_hostname()
