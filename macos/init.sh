@@ -2,6 +2,12 @@
 
 # Initialize main user
 
+set_terminal_title()
+{
+    title="Init ${USER}"
+    echo -n -e "\033]0;${title}\007"
+}
+
 elevate_permissions()
 {
     export HISTIGNORE='*sudo -S*'
@@ -214,6 +220,7 @@ customize_current_user()
 
 main()
 {
+    set_terminal_title
     elevate_permissions
     install_homebrew
     brew update
