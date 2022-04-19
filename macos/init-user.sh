@@ -68,8 +68,10 @@ install_python2()
 {
     export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
     eval "$(brew shellenv)"
-    pyenv install 2.7.18
-    ln -s "${HOME}/.pyenv/versions/2.7.18/bin/python2.7" "${HOMEBREW_PREFIX}/bin/python"
+    if [[ ! -f "${HOME}/.pyenv/versions/2.7.18/bin/python2.7" ]]; then
+        pyenv install 2.7.18
+    fi
+    ln -sf "${HOME}/.pyenv/versions/2.7.18/bin/python2.7" "${HOMEBREW_PREFIX}/bin/python"
 }
 
 update_dockutil_interpreter()
