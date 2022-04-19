@@ -4,9 +4,12 @@
 
 echo "Collecting MacBook's info..."
 
-# get macos version
+# macOS version
 product_version=$(sw_vers -productVersion)
 build_version=$(sw_vers -buildVersion)
+
+# CoOmputer Model ID
+model_id=$(sysctl -n hw.model)
 
 # Owner full name
 owner_name=$(dscl . -read "/Users/$(who am i | awk '{print $1}')" RealName | sed -n 's/^ //g;2p')
@@ -81,10 +84,11 @@ echo
 echo "                   Owner: ${owner_name}"
 echo "           Serial Number: ${serial_number}"
 echo "                   Brand: ${brand}"
-echo "         Product Version: ${product_version}"
-echo "           Build Version: ${build_version}"
 echo "                   Model: ${model}"
+echo "                Model ID: ${model_id}"
 echo "                    Year: ${year}"
+echo "           Build Version: ${build_version}"
+echo "         Product Version: ${product_version}"
 echo "     Warranty Expiration: ${warranty_expiration}"
 echo "Amex Warranty Expiration: ${amex_warranty_expiration}"
 echo "               Processor: ${processor}"
@@ -109,6 +113,7 @@ read -d "" header <<-EOF
 "Serial No"
 "Brand"
 "Description"
+"Model"
 "Year"
 "CPU Detail"
 "CPUs"
@@ -127,6 +132,7 @@ read -d "" data <<-EOF
 "${serial_number}"
 "${brand}"
 "${model}"
+"${model_id}"
 "${year}"
 "${processor}"
 "${n_cpus}"
