@@ -51,6 +51,7 @@ install_homebrew_modules()
 {
     brew install git
     brew install dockutil
+    brew install pyenv
 }
 
 install_homebrew_apps()
@@ -66,19 +67,18 @@ install_python2()
 {
     export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
     eval "$(brew shellenv)"
-    brew install pyenv
     pyenv install 2.7.18
     ln -s "${HOME}/.pyenv/versions/2.7.18/bin/python2.7" "${HOMEBREW_PREFIX}/bin/python"
 }
 
 fix_dockutil_interpreter()
 {
-    sed -i "" "1i\#!/usr/local/bin/python" /usr/local/bin/dockutil
+    sed -i "" "1i#!/usr/local/bin/python" /usr/local/bin/dockutil
 }
 
 reset_hostname()
 {
-    sudo ${HOME}/os-setup/macos/set-hostname.sh
+    yes '' | sudo ${HOME}/Donwloads/os-setup/macos/set-hostname.sh
 }
 
 configure_login_screen()
@@ -101,8 +101,8 @@ configure_login_screen()
 
 clone_repo()
 {
-    rm -rf "${HOME}/os-setup"
-    git clone https://github.com/leoheck/os-setup.git "${HOME}/os-setup"
+    rm -rf "${HOME}/Donwloads/os-setup"
+    git clone https://github.com/leoheck/os-setup.git "${HOME}/Donwloads/os-setup"
 }
 
 set_custom_user_picture()
@@ -112,9 +112,9 @@ set_custom_user_picture()
     sudo dscl . delete "/Users/${USER}" JPEGPhoto
     sudo dscl . delete "/Users/${USER}" Picture
     sudo mkdir -p "/Library/User Pictures/Office/"
-    sudo cp -f "${HOME}/os-setup/macos/imgs/poaoffice.tif" "/Library/User Pictures/Office/poaoffice.tif"
+    sudo cp -f "${HOME}/Donwloads/os-setup/macos/imgs/poaoffice.tif" "/Library/User Pictures/Office/poaoffice.tif"
     sudo dscl . create "/Users/${USER}" Picture "/Library/User Pictures/Office/poaoffice.png"
-    sudo "${HOME}/os-setup/macos/userpic.sh" ${USER} "/Library/User Pictures/Office/poaoffice.tif"
+    sudo "${HOME}/Donwloads/os-setup/macos/userpic.sh" ${USER} "/Library/User Pictures/Office/poaoffice.tif"
     sudo AssetCacheManagerUtil reloadSettings 2> /dev/null
 }
 
