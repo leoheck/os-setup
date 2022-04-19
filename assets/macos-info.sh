@@ -94,7 +94,6 @@ echo "                  Memory: ${memory_size} GB"
 echo "                     GPU: ${gpu}"
 echo "               Disk Size: ${disk_size} GB"
 echo
-echo "               Disk Size: ${disk_size} GB"
 
 if [[ "${USER}" == "poaoffice" ]]; then
 	output_path="${HOME}/Library/Mobile Documents/com~apple~CloudDocs/Documents/Computers"
