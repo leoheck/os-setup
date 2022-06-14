@@ -146,7 +146,7 @@ read -d "" data <<-EOF
 "${memory_size}"
 "${disk_size}"
 "${warranty_expiration}"
-"${extra_warranty_expiration}"
+"${amex_warranty_expiration}"
 "${macos_name}"
 "${macos_version}"
 "${build_version}"
