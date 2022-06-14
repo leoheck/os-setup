@@ -27,7 +27,7 @@ serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d= -f2 | sed -Ee '
 serial_last_digits=$(echo ${serial_number} | cut -c 9-)
 model=$(curl -s https://support-sp.apple.com/sp/product\?cc\=${serial_last_digits} | sed "s/.*<configCode>//g" | sed "s/<\/configCode>.*//g")
 if echo "${model}" | grep -s -i "error" > /dev/null; then
-	model=
+	model=$(ioreg -l | grep "product-description" | cut -d"\"" -f4)
 fi
 
 # Computer model
