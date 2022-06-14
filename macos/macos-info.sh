@@ -5,7 +5,8 @@
 echo "Collecting MacBook's info..."
 
 # macOS version
-product_version=$(sw_vers -productVersion)
+macos_name=$(awk '/SOFTWARE LICENSE AGREEMENT FOR macOS/' '/System/Library/CoreServices/Setup Assistant.app/Contents/Resources/en.lproj/OSXSoftwareLicense.rtf' | awk -F 'macOS ' '{print $NF}' | awk '{print substr($0, 0, length($0)-1)}')
+macos_version=$(sw_vers -productVersion)
 build_version=$(sw_vers -buildVersion)
 
 # Computer Model ID
@@ -89,8 +90,9 @@ echo "                   Brand: ${brand}"
 echo "                   Model: ${model}"
 echo "                Model ID: ${model_id}"
 echo "                    Year: ${year}"
-echo "         Product Version: ${product_version}"
-echo "           Build Version: ${build_version}"
+echo "              macOS Name: ${macos_name}"
+echo "           macOS Version: ${macos_version}"
+echo "            macOS Build : ${build_version}"
 echo "     Warranty Expiration: ${warranty_expiration}"
 echo "Amex Warranty Expiration: ${amex_warranty_expiration}"
 echo "               Processor: ${processor}"
@@ -125,7 +127,8 @@ read -d "" header <<-EOF
 "Disk (GB)"
 "Warrantty Expiration"
 "Extra Warranty Expiration"
-"Product Version"
+"OS Name"
+"OS Version"
 "Build Version"
 EOF
 
@@ -144,7 +147,8 @@ read -d "" data <<-EOF
 "${disk_size}"
 "${warranty_expiration}"
 "${extra_warranty_expiration}"
-"${product_version}"
+"${macos_name}"
+"${macos_version}"
 "${build_version}"
 EOF
 
