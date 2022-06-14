@@ -222,6 +222,12 @@ customize_current_user()
     configure_terminal
 }
 
+setup_login_message()
+{
+    message="This computer is property of Ambush"
+    defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "${message}"
+}
+
 main()
 {
     set_terminal_title
@@ -236,6 +242,7 @@ main()
     configure_login_screen
     install_python2
     update_dockutil_interpreter
+    setup_login_message
     customize_current_user
     collect_computer_info
 }
