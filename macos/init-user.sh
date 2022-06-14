@@ -210,7 +210,7 @@ configure_terminal()
 collect_computer_info()
 {
     # Refresh database with computers info
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/assets/macos-info.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/macos-info.sh)"
 }
 
 customize_current_user()
