@@ -36,7 +36,9 @@ if [[ ${model} != "" ]]; then
 fi
 
 # TODO: Check if this handles new year
-warranty_expiration=$(curl -sSL https://raw.githubusercontent.com/chilcote/warranty/master/warranty | python3 2> /dev/null | tail -1 | grep -o -E "[0-9]{4}-[0-9]{2}-[0-9]{2}")
+# URL=https://raw.githubusercontent.com/chilcote/warranty/master/warranty
+URL=https://raw.githubusercontent.com/leoheck/macos-warranty/master/warranty
+warranty_expiration=$(curl -sSL ${URL} | python3 2> /dev/null | tail -1 | grep -o -E "[0-9]{4}-[0-9]{2}-[0-9]{2}")
 
 if [[ -n ${warranty_expiration} ]]; then
 	amex_warranty_expiration=$(date -j -f "%Y-%m-%d" -v+1y "${warranty_expiration}" +"%Y-%m-%d")
