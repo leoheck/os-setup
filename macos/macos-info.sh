@@ -8,7 +8,7 @@ echo "Collecting MacBook's info..."
 product_version=$(sw_vers -productVersion)
 build_version=$(sw_vers -buildVersion)
 
-# CoOmputer Model ID
+# Computer Model ID
 model_id=$(sysctl -n hw.model)
 
 # Owner full name
@@ -146,9 +146,9 @@ read -d "" data <<-EOF
 "${build_version}"
 EOF
 
-echo "${header}" | tr "\n" "," | sed "s/,$//g"  > ${output_file}
-echo "" >> ${output_file}
-echo "${data}"   | tr "\n" "," | sed "s/,$//g" >> ${output_file}
+echo "${header}" | tr "\n" "," | sed "s/,$//g"  > "${output_file}"
+echo "" >> "${output_file}"
+echo "${data}"   | tr "\n" "," | sed "s/,$//g" >> "${output_file}"
 echo
 
 echo "Output file: ${output_file}"
