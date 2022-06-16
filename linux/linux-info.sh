@@ -1,257 +1,284 @@
 #!/bin/bash
 
-# Linux
+# Dell and Lenovo (Linux)
+# leoheck@gmail.com
 
-echo "Collecting computer's info..."
-
-# Dependencies (Debian-based)
-#sudo apt install -y dmidecode &> /dev/null
-#sudo apt install -y bc &> /dev/null
-
-# Owner full name
-owner_name=$(getent passwd | grep "$USER" | cut -d":" -f5 | cut -d"," -f1)
-
-# Username
-username=$USER
-
-# Warranty
-warranty_expiration=
-
-# Extra Warranty Date (1 year)
-if [[ $warranty_expiration != "" ]]; then
-	extra_warranty_expiration=$(date -d "${warranty_expiration}+ 1 year" +"%Y-%m-%d")
-else
-	extra_warranty_expiration=
-fi
-
-# Serial Number (Service Tag)
-serial_number=$(sudo dmidecode -s system-serial-number)
-if echo "$serial_number" | grep -s " " &> /dev/null; then
-	serial_number="NONE"
-fi
-
-# Computer Brand
-brand=$(cat /sys/class/dmi/id/board_vendor | sed "s/ Inc.//g")
-
-# Computer Model
-model=$(sudo dmidecode -s system-product-name)
-
-# Memory (GB)
-# memory_size=$(free --gibi | grep Mem | sed "s/[ \t]\+/ /g" | cut -d" " -f2)
-memory_size=$(bc <<< $(sudo dmidecode -t 17 | sed "s/^\t//g" | grep "^Size: " | cut -d" " -f2 | tr "\n" " " | sed "s/ $//g" | tr " " "+"))
-
-# Processor details
-processor=$(cat /proc/cpuinfo | grep "model name" | uniq | cut -d: -f2 | sed "s/^[ ]\+//g")
-n_cpus=$(echo $(cat /proc/cpuinfo | grep "processor" | tail -1 | cut -d: -f2 | sed "s/^[ ]\+//g")+1 | bc)
-n_cores=$(cat /proc/cpuinfo | grep "cpu cores" | uniq | cut -d: -f2 | sed "s/^[ ]\+//g")
-
-# (Main) Disk Size (GB)
-# disk_size=$(sudo fdisk -l /dev/nvme0n1 2>&1 | grep -m1 "Disk" | cut -d" " -f3)
-disk_size=$(sudo parted -l 2>&1 | grep /dev/nvme0n1 | cut -d" " -f3 | sed "s/GB//g")
-
-# Graphics
-gpu=$(lspci | grep -i nvidia | grep "3D controller" | cut -d: -f3 | sed "s/^[ ]\+//g")
-if [[ $gpu = "" ]]; then
-	gpu=$(lspci | grep -i controller | grep -i nvidia | grep -i vga | cut -d: -f3 | sed "s/^[ ]\+//g" | sort | uniq -c | sed "s/^[ ]\+//g")
-fi
-
-status=
-notes=
-email=
-
-clear
-
-echo
-echo " SYSTEM INFO SUMMARY"
-echo
-echo "          Owner: ${owner_name}"
-echo "  Serial Number: ${serial_number}"
-echo "          Brand: ${brand}"
-echo "          Model: ${model}"
-echo "      Processor: ${processor}"
-echo "           CPUs: ${n_cpus}"
-echo "          Cores: ${n_cores}"
-echo "         Memory: ${memory_size} GB"
-echo "      Disk Size: ${disk_size} GB"
-echo "            GPU: ${gpu}"
-echo
-
-# Generate csv file
-current_date=$(date +"%Y.%m.%d-%Hh%M")
-output_file="${current_date}-${serial_number}-${USER}.csv"
-
-read -d "" header <<-EOF
-"Used By"
-"Serial No"
-"Brand"
-"Description"
-"Year"
-"CPU Detail"
-"CPUs"
-"Cores"
-"GPU Detail"
-"RAM (GB)"
-"Disk (GB)"
-"Warrantty Expiration"
-"Extra Warranty Expiration"
-"Status"
-"Email"
-"Notes"
-EOF
-
-read -d "" data <<-EOF
-"${owner_name}"
-"${serial_number}"
-"${brand}"
-"${model}"
-"${year}"
-"${processor}"
-"${n_cpus}"
-"${n_cores}"
-"${gpu}"
-"${memory_size}"
-"${disk_size}"
-"${warranty_expiration}"
-"${extra_warranty_expiration}"
-"${status}"
-"${email}"
-"${notes}"
-EOF
-
-# Create csv
-# echo "${header}" | tr "\n" "," | sed "s/,$//g"  > ${output_file}
-# echo "" >> ${output_file}
-# echo "${data}"   | tr "\n" "," | sed "s/,$//g" >> ${output_file}
-
-# echo "Output file: ${output_file}"
-# echo
+# Dependencies (debian)
+# sudo apt install -y dmidecode &> /dev/null
+# sudo apt install -y bc &> /dev/null
 
 
-#	=====================
-
-
-
-LHECK_API="keyfeA4QBsaivkbBa"
-
-API_KEY="${LHECK_API}"
-AIRTABLE_BASE="appBiYFQh1XsIJyDo"
-
-people_table="People"
-computers_table="Computers"
-
-computers_json_path=airtable-computers.json
-
-donwload_table(){
-	base="$1"
-	url="https://api.airtable.com/v0/${AIRTABLE_BASE}/${base}?view=Grid"
-	# echo "URL = ${url}"
-	data_json=$(curl -SsL "${url}" -H "Authorization: Bearer ${API_KEY}")
-	echo "${data_json}" | jq .
+check_permissions()
+{
+	if [ $EUID != 0 ]; then
+		sudo -H "$0" "$@"
+		exit $?
+	fi
 }
 
-update_entry() {
-	echo "Updating entry..."
-	base="$1"
-	id="$2"
-	data="$3"
-	url="https://api.airtable.com/v0/${AIRTABLE_BASE}/${base}/${id}"
-	echo "URL = ${url}"
-	echo "DATA = "
-	echo "${data}" | jq --color-output .
-	response=$(curl -SsL -X PATCH "${url}" \
-		-H "Authorization: Bearer ${API_KEY}" \
-		-H "Content-Type: application/json" \
-		--data "${data}" \
-	)
-	ret=$?
-	echo "RESPONSE = "
-	echo ${response} | jq --color-output .
-	echo -e "Status code = $ret"
+check_dependencies()
+{
+	if ! which dmidecode > /dev/null; then
+		echo "dmidecode is missing"
+		exit 1;
+	fi
+
+	if ! which bc > /dev/null; then
+		echo "bc is missing"
+		exit 1;
+	fi
 }
 
-create_entry() {
-	echo "Creating entry..."
-	base="$1"
-	data="$2"
-	url="https://api.airtable.com/v0/${AIRTABLE_BASE}/${base}/"
-	echo "URL = ${url}"
-	echo "DATA = "
-	echo "${data}" | jq --color-output .
-	response=$(curl -SsL -X POST "${url}" \
-		-H "Authorization: Bearer ${API_KEY}" \
-		-H "Content-Type: application/json" \
-		--data "${data}" \
-	)
-	ret=$?
-	echo "RESPONSE = "
-	echo ${response} | jq --color-output .
-	echo -e "Status code = $ret"
+#============
+
+get_computer_brand()
+{
+	cat /sys/class/dmi/id/board_vendor | sed "s/ Inc.//g"
 }
 
-get_entry_id_from_serial_number() {
-	serial_number="$1"
-	entry_id=$(jq -r ".records[] | select(.fields.\"Serial No\"==\"${serial_number}\").id" ${computers_json_path})
-	echo "${entry_id}"
+get_computer_model_id()
+{
+	dmidecode -s system-product-name
 }
 
-donwload_table "${computers_table}" > "${computers_json_path}"
+get_computer_model_description()
+{
+	dmidecode -s system-product-name
+}
 
-entry_id=$(get_entry_id_from_serial_number "${serial_number}")
+get_computer_serial_number()
+{
+	# Serial Number or Service Tag
+	dmidecode -s system-serial-number
+}
 
-if [[ ${entry_id} == "" ]]; then
+get_computer_models_year()
+{
+	return
+}
 
-	# "Year": ${year},
-	# "Warrantty Expiration": "${warranty_expiration}",
-	# "Extra Warranty Expiration": "${warranty_expiration}",
+get_screen_size()
+{
+	read -d "" get_dimensions_py <<-EOF
+	#!/usr/bin/env python3
+	import subprocess
+	# change the round factor if you like
+	r = 1
 
-	# Send only fields that need to be updated
-	read -r -d '' data_json <<-EOM
-	{
-	  "fields": {
-		"Serial No": "${serial_number}",
-		"Brand": "${brand}",
-		"Description": "${model}",
-		"CPU Detail": "${processor}",
-		"CPUs": ${n_cpus},
-		"Cores": ${n_cores},
-		"RAM (GB)": ${memory_size},
-		"Disk (GB)": ${disk_size},
-		"GPU Detail": "${gpu}",
-		"Status": "Ready",
-		"Email": []
-	  }
-	}
-	EOM
+	screens = [l.split()[-3:] for l in subprocess.check_output(
+	    ["xrandr"]).decode("utf-8").strip().splitlines() if " connected" in l]
 
-	create_entry "${computers_table}" "${data_json}"
+	for s in screens:
+	    w = float(s[0].replace("mm", "")); h = float(s[2].replace("mm", "")); d = ((w**2)+(h**2))**(0.5)
+	    print([round(n/25.4, r) for n in [w, h, d]])
+	EOF
 
-else
+	size=$(python -c "${get_dimensions_py}" | sed "s/,//g" | sed "s/\[//g" | sed "s/\]//g" | cut -d" " -f3)
+	size=$(echo $size | cut -d. -f1)
+	echo "${size}-inch"
+}
 
-	# "Status": "Ready",
-	# "Warrantty Expiration": "${warranty_expiration}",
-	# "Extra Warranty Expiration": "${warranty_expiration}",
-	# "Email": [],
-	# "Name (from Emails)": [],
-	# "Division (from Email)": []
-	# "Year": ${year},
+get_warranty_expiration()
+{
+	return
+}
 
-	# Send only fields that need to be updated
-	read -r -d '' data_json <<-EOM
-	{
-	  "fields": {
-		"Serial No": "${serial_number}",
-		"Brand": "${brand}",
-		"Description": "${model}",
-		"CPU Detail": "${processor}",
-		"CPUs": ${n_cpus},
-		"Cores": ${n_cores},
-		"RAM (GB)": ${memory_size},
-		"Disk (GB)": ${disk_size},
-		"GPU Detail": "${gpu}"
-	  }
-	}
-	EOM
+get_extra_warranty_expiration()
+{
+	local warranty_expiration="$1"
+	if [[ $warranty_expiration != "" ]]; then
+		date -d "${warranty_expiration}+ 1 year" +"%Y-%m-%d"
+	fi
+}
 
-	update_entry "${computers_table}" "${entry_id}" "${data_json}"
+#============
 
-fi
+get_processor_id()
+{
+	cat /proc/cpuinfo | grep "model name" | uniq | cut -d: -f2 | sed "s/^[ ]\+//g"
+}
+
+get_nof_processors()
+{
+	echo $(cat /proc/cpuinfo | grep "processor" | tail -1 | cut -d: -f2 | sed "s/^[ ]\+//g") + 1 | bc
+}
+
+get_nof_processor_cores()
+{
+	cat /proc/cpuinfo | grep "cpu cores" | uniq | cut -d: -f2 | sed "s/^[ ]\+//g"
+}
+
+get_ram_size_gb()
+{
+	bc <<< $(dmidecode -t 17 | sed "s/^\t//g" | grep "^Size: " | cut -d" " -f2 | tr "\n" " " | sed "s/ $//g" | tr " " "+")
+}
+
+get_gpus()
+{
+	local gpu=$(lspci | grep -i "[nvidia|amd]" | grep "3D controller" | cut -d: -f3 | sed "s/^[ ]\+//g")
+	if [[ $gpu = "" ]]; then
+		gpu=$(lspci | grep -i controller | grep -i "[nvidia|amd]" | grep -i vga | cut -d: -f3 | sed "s/^[ ]\+//g" | sort | uniq -c | sed "s/^[ ]\+//g")
+	fi
+
+	echo $gpu
+}
+
+get_main_hardrive_size_gb()
+{
+	parted -l 2>&1 | grep /dev/nvme0n1 | cut -d" " -f3 | sed "s/GB//g"
+}
+
+#============
+
+get_os_name()
+{
+	lsb_release -si
+}
+
+get_os_version()
+{
+	lsb_release -sr
+}
+
+get_os_build()
+{
+	return
+}
+
+get_name_of_current_user()
+{
+	getent passwd | grep "${SUDO_USER}" | cut -d":" -f5 | cut -d"," -f1
+}
+
+#============
+
+show_summary()
+{
+	clear
+	echo
+	echo " SYSTEM INFO SUMMARY"
+	echo
+	echo "                   Owner: ${owner_name}"
+	echo "                Username: ${current_username}"
+	echo "           Serial Number: ${serial_number}"
+	echo "                   Brand: ${brand}"
+	# echo "                Model ID: ${model_id}"
+	echo "                   Model: ${model}"
+	# echo "                    Year: ${year}"
+	echo "             Screen Size: ${screen_size}"
+	echo "                 OS Name: ${macos_name}"
+	echo "              OS Version: ${macos_version}"
+	# echo "               OS Build : ${build_version}"
+	# echo "     Warranty Expiration: ${warranty_expiration}"
+	# echo "Amex Warranty Expiration: ${extra_warranty_expiration}"
+	echo "               Processor: ${processor}"
+	echo "                    CPUs: ${n_cpus}"
+	echo "                   Cores: ${n_cores}"
+	echo "                  Memory: ${memory_size} GB"
+	echo "                    GPUs: ${gpu}"
+	echo "               Disk Size: ${disk_size} GB"
+	echo
+	echo
+}
+
+export_csv()
+{
+	# Column names have to match the ones in Airtable
+	# The order of elements are not important since the colum name is used to update
+	# If the field does not exist on Airtable, it can be ignored or added
+
+	# AIRTABLE COLUMNS NAMES
+	read -d "" header <<-EOF
+	"Used By"
+	"Serial No"
+	"Brand"
+	"Description"
+	"Model"
+	"Year"
+	"Screen Size"
+	"CPU Detail"
+	"CPUs"
+	"Cores"
+	"GPU Detail"
+	"RAM (GB)"
+	"Disk (GB)"
+	"Warrantty Expiration"
+	"Extra Warranty Expiration"
+	"OS Name"
+	"OS Version"
+	"Build Version"
+	EOF
+
+	# VALUES
+	read -d "" values <<-EOF
+	"${owner_name}"
+	"${serial_number}"
+	"${brand}"
+	"${model}"
+	"${model_id}"
+	"${year}"
+	"${screen_size}"
+	"${processor}"
+	"${n_cpus}"
+	"${n_cores}"
+	"${gpu}"
+	"${memory_size}"
+	"${disk_size}"
+	"${warranty_expiration}"
+	"${extra_warranty_expiration}"
+	"${macos_name}"
+	"${macos_version}"
+	"${build_version}"
+	EOF
+
+	# Generate csv file
+	current_date=$(date +"%Y.%m.%d-%Hh%M")
+	csv_file="${current_date}-${serial_number}-${USER}.csv"
+
+	echo "${header}" | tr "\n" "," | sed "s/,$/\n/g"  > "${csv_file}"
+	echo "${values}" | tr "\n" "," | sed "s/,$/\n/g" >> "${csv_file}"
+
+	echo "CSV file: '${csv_file}'"
+	echo
+}
+
+main()
+{
+	check_permissions
+	check_dependencies
+
+	echo "Collecting computer's info..."
+
+	# Computer Info
+	model_id=$(get_computer_model_id)
+	brand=$(get_computer_brand)
+	serial_number=$(get_computer_serial_number)
+	model=$(get_computer_model_description "${serial_number}")
+	year=$(get_computer_models_year "${model}")
+	screen_size=$(get_screen_size "${model}")
+
+	warranty_expiration=$(get_warranty_expiration)
+	extra_warranty_expiration=$(get_extra_warranty_expiration ${warranty_expiration})
+
+	# Hardware Info
+	processor=$(get_processor_id)
+	n_cpus=$(get_nof_processors)
+	n_cores=$(get_nof_processor_cores)
+	memory_size=$(get_ram_size_gb)
+	gpu=$(get_gpus)
+	disk_size=$(get_main_hardrive_size_gb)
+
+	# macOS Info
+	macos_name=$(get_os_name)
+	macos_version=$(get_os_version)
+	build_version=$(get_os_build)
+
+	# Current User Info
+	current_username="${SUDO_USER}"
+	owner_name=$(get_name_of_current_user)
+
+	show_summary
+	export_csv
+}
+
+main
