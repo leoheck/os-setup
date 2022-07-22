@@ -2,6 +2,13 @@
 
 # Initialize main user
 
+function ctrl_c() {
+    if [[ -n ${sudo_alive_pid} ]]; then
+        kill "${sudo_alive_pid}"
+    fi
+    exit 1
+}
+
 set_terminal_title()
 {
     title="Init ${USER}"
@@ -22,6 +29,12 @@ elevate_permissions()
         echo "Wrong password"
         exit 1
     fi
+}
+
+keep_sudo_password_alive()
+{
+    sudo touch /tmp/.sudo
+    while :; do sudo -v; sleep 1; done &
 }
 
 install_homebrew()
@@ -79,7 +92,7 @@ install_homebrew_apps()
 set_hostname()
 {
     # set with the hostname
-    yes '' | sudo ${HOME}/Donwloads/os-setup/macos/set-hostname.sh
+    yes '' | sudo "${HOME}/Donwloads/os-setup/macos/set-hostname.sh"
 }
 
 configure_login_window()
@@ -203,11 +216,11 @@ configure_dock()
 configure_terminal()
 {
     # Install terminal powerline fonts
-    git clone https://github.com/powerline/fonts.git
-    cd fonts
+    git clone https://github.com/powerline/fonts.git "/tmp/fonts"
+    cd "/tmp/fonts"
     bash -c ./install.sh
-    cd -
-    rm -rf fonts
+    cd - || exit
+    rm -rf "/tmp/fonts"
 
     # Install OH-MY-ZSH
     rm -rf "${HOME}/.oh-my-zsh/"
@@ -227,15 +240,15 @@ collect_computer_info()
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/macos-info.sh)"
 }
 
-customize_current_user()
-{
-
-}
-
 main()
 {
+    trap ctrl_c INT
+
     set_terminal_title
     elevate_permissions
+
+    keep_sudo_password_alive
+    sudo_alive_pid=$!
 
     install_homebrew
     install_homebrew_modules
@@ -258,6 +271,8 @@ main()
     configure_terminal
 
     collect_computer_info
+
+    kill "${sudo_alive_pid}"
 }
 
 main "$@"
