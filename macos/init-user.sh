@@ -26,6 +26,9 @@ elevate_permissions()
 
 install_homebrew()
 {
+    export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
+    eval "$(brew shellenv)"
+
     # Fix some permissions
     if [[ "${FIX_PERMISSIONS}" != "" ]]; then
         echo "Fixing Homebrew permissions..."
@@ -45,65 +48,76 @@ install_homebrew()
         echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
         eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
+
+    brew update
 }
 
 install_homebrew_modules()
 {
     brew install coreutils
     brew install git
-    brew install dockutil
-    brew install pyenv
+    # brew install dockutil
+    brew install jq
+}
+
+install_dockutil()
+{
+    latest_dockerutil_url=$(curl --silent "https://api.github.com/repos/kcrawford/dockutil/releases/latest" | jq -r '.assets[].browser_download_url' | grep pkg)
+    curl -sL ${latest_dockerutil_url} -o "/tmp/dockutil.pkg"
+    sudo installer -pkg "/tmp/dockutil.pkg" -target /
+    rm -f "/tmp/dockutil.pkg"
 }
 
 install_homebrew_apps()
 {
-    brew install --cask sublime-text  2> /dev/null
-    brew install --cask google-chrome 2> /dev/null
-    brew install --cask google-chat   2> /dev/null
     brew install --cask appcleaner    2> /dev/null
+    brew install --cask google-chat   2> /dev/null
+    brew install --cask google-chrome 2> /dev/null
+    brew install --cask sublime-text  2> /dev/null
 }
 
-# Workaround for dockutil while it is not working with python3
-install_python2()
+set_hostname()
 {
-    export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
-    eval "$(brew shellenv)"
-    if [[ ! -f "${HOME}/.pyenv/versions/2.7.18/bin/python2.7" ]]; then
-        pyenv install 2.7.18
-    fi
-    ln -sf "${HOME}/.pyenv/versions/2.7.18/bin/python2.7" "${HOMEBREW_PREFIX}/bin/python"
-}
-
-update_dockutil_interpreter()
-{
-    dockutil_path=$(readlink -f /usr/local/bin/dockutil)
-    sed -i '' '1i\'$'\n''#!/usr/local/bin/python' "${dockutil_path}"
-}
-
-reset_hostname()
-{
+    # set with the hostname
     yes '' | sudo ${HOME}/Donwloads/os-setup/macos/set-hostname.sh
 }
 
-configure_login_screen()
+configure_login_window()
 {
+    # https://developer.apple.com/documentation/devicemanagement/loginwindow
+
     # Disable guest user
     sudo sysadminctl -guestAccount off
 
     # Hide poaoffice user from login screen
-    sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add ${USER}
+    # sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add ${USER}
 
-    # Disable "Other.." option on login screen
+    # Unhide poaoffice if it was hidden
+    # dscl . create /Users/poaoffice IsHidden 0
+    # defaults delete /Library/Preferences/com.apple.loginwindow HiddenUsersList
+    defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add
+
+    # Disable "Other.." option on login screen, this was enable with the "Unhide" command above
     # To open the login prompt:
     # 1. Tap any arrow key to move focus to the list of accounts (this is not visible)
     # 2. Then Option+Return, to show the user and password input fields
-    sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED -bool FALSE
+    # sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED -bool FALSE
 
-    login_msg="This computer is property of Ambush"
-    sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "${login_msg}"
+    # This should be the default
+    defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME 0
+    defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED 0
+    defaults write /Library/Preferences/com.apple.loginwindow HideAdminUsers 0
+    defaults write /Library/Preferences/com.apple.loginwindow HideLocalUsers 0
+    defaults write /Library/Preferences/com.apple.loginwindow showInputMenu 0
+
+    # Custom login message
+    serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d"\"" -f4)
+    message=$(printf "This computer is property of Ambush\nSerial Number %s\npoa.office@getambush.com" ${serial_number})
+    defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "${message}"
+
 }
 
-clone_repo()
+clone_os_setup_repo()
 {
     rm -rf "${HOME}/Donwloads/os-setup"
     git clone https://github.com/leoheck/os-setup.git "${HOME}/Donwloads/os-setup"
@@ -209,41 +223,40 @@ configure_terminal()
 
 collect_computer_info()
 {
-    # Refresh database with computers info
+    # This saves the info in the iCloud folder if the user is poaoffice
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/macos-info.sh)"
 }
 
 customize_current_user()
 {
-    set_custom_user_picture
-    configure_system
-    configure_finder
-    configure_dock
-    configure_terminal
-}
 
-setup_login_message()
-{
-    message="This computer is property of Ambush"
-    defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "${message}"
 }
 
 main()
 {
     set_terminal_title
     elevate_permissions
+
     install_homebrew
-    brew update
     install_homebrew_modules
     install_homebrew_apps
     brew cleanup
-    clone_repo
-    reset_hostname
-    configure_login_screen
-    install_python2
-    update_dockutil_interpreter
-    setup_login_message
-    customize_current_user
+
+    install_dockutil
+
+    clone_os_setup_repo
+
+    if [[ ${USER} == "poaoffice" ]]; then
+        set_hostname
+        configure_login_window
+        set_custom_user_picture
+    fi
+
+    configure_system
+    configure_finder
+    configure_dock
+    configure_terminal
+
     collect_computer_info
 }
 
