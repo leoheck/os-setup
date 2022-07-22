@@ -2,7 +2,7 @@
 
 These are some scripts to assist my setup of MacBooks
 
-### Main User Initialization
+### Init user
 ```
 sh -c "$(curl -H 'Cache-Control: no-cache' -fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init-user.sh)"
 ```

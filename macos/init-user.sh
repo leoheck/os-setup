@@ -15,6 +15,15 @@ set_terminal_title()
     echo -n -e "\033]0;${title}\007"
 }
 
+fix_some_permissions()
+{
+    zsh_path="/usr/local/share/zsh"
+    sudo chown -R $(whoami) "${zsh_path}"
+    sudo chown -R $(whoami) "${zsh_path}"/site-functions
+    chmod u+w "${zsh_path}"
+    chmod u+w "${zsh_path}"/site-functions
+}
+
 elevate_permissions()
 {
     export HISTIGNORE='*sudo -S*'
@@ -61,6 +70,9 @@ install_homebrew()
         echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
         eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
+
+    # Fix permissions
+    sudo chown -R $(whoami) $(brew --prefix)/*
 
     brew update
 }
