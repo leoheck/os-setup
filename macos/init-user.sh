@@ -118,9 +118,9 @@ configure_login_window()
     # sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add ${USER}
 
     # Unhide poaoffice if it was hidden
-    # dscl . create /Users/poaoffice IsHidden 0
-    # defaults delete /Library/Preferences/com.apple.loginwindow HiddenUsersList
-    defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add
+    dscl . create /Users/poaoffice IsHidden 0
+    defaults delete /Library/Preferences/com.apple.loginwindow HiddenUsersList
+    # defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add
 
     # Disable "Other.." option on login screen, this was enable with the "Unhide" command above
     # To open the login prompt:
@@ -271,7 +271,7 @@ main()
 
     clone_os_setup_repo
 
-    if [[ ${USER} == "poaoffice" ]]; then
+    if [[ "${USER}" == "poaoffice" ]]; then
         set_hostname
         configure_login_window
         set_custom_user_picture
