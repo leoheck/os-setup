@@ -118,9 +118,9 @@ configure_login_window()
     # sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add ${USER}
 
     # Unhide poaoffice if it was hidden
-    dscl . create /Users/poaoffice IsHidden 0
-    defaults delete /Library/Preferences/com.apple.loginwindow HiddenUsersList
-    # defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add
+    sudo dscl . create /Users/poaoffice IsHidden 0
+    sudo defaults delete /Library/Preferences/com.apple.loginwindow HiddenUsersList
+    # sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add
 
     # Disable "Other.." option on login screen, this was enable with the "Unhide" command above
     # To open the login prompt:
@@ -129,17 +129,16 @@ configure_login_window()
     # sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED -bool FALSE
 
     # This should be the default
-    defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME 0
-    defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED 0
-    defaults write /Library/Preferences/com.apple.loginwindow HideAdminUsers 0
-    defaults write /Library/Preferences/com.apple.loginwindow HideLocalUsers 0
-    defaults write /Library/Preferences/com.apple.loginwindow showInputMenu 0
+    sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME 0
+    sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED 0
+    sudo defaults write /Library/Preferences/com.apple.loginwindow HideAdminUsers 0
+    sudo defaults write /Library/Preferences/com.apple.loginwindow HideLocalUsers 0
+    sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu 0
 
     # Custom login message
     serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d"\"" -f4)
     message=$(printf "This computer is property of Ambush\nSerial Number %s\npoa.office@getambush.com" ${serial_number})
-    defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "${message}"
-
+    sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "${message}"
 }
 
 clone_os_setup_repo()
