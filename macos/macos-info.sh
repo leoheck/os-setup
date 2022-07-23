@@ -154,7 +154,7 @@ show_summary()
 	echo
 	echo " SYSTEM INFO SUMMARY"
 	echo
-	echo "                   Owner: ${owner_name}"
+	echo "                   Owner: ${current_fullname}"
 	echo "                Username: ${current_username}"
 	echo "           Serial Number: ${serial_number}"
 	echo "                   Brand: ${brand}"
@@ -185,7 +185,11 @@ export_csv()
 
 	# AIRTABLE COLUMNS NAMES
 	read -d "" header <<-EOF
+	"Processed Date"
+	"Processed Time"
 	"Used By"
+	"Status"
+	"Email"
 	"Serial No"
 	"Brand"
 	"Description"
@@ -207,7 +211,11 @@ export_csv()
 
 	# VALUES
 	read -d "" values <<-EOF
-	"${owner_name}"
+	"${processed_date}"
+	"${processed_time}"
+	"${current_fullname}"
+	"${computer_status}"
+	"${user_email}"
 	"${serial_number}"
 	"${brand}"
 	"${model}"
@@ -278,7 +286,13 @@ main()
 
 	# Current User Info
 	current_username="${USER}"
-	owner_name=$(get_name_of_current_user)
+	current_fullname=$(get_name_of_current_user)
+
+	# Extra info of the process
+	processed_date="$(date +"%Y-%m-%d")"
+	processed_time="$(date +"%H:%M")"
+	computer_status="Ready"
+	user_email=""
 
 	show_summary
 	export_csv
