@@ -46,6 +46,16 @@ keep_sudo_password_alive()
     while :; do sudo -v; sleep 1; done &
 }
 
+install_xcode_cli_tools()
+{
+    if ! xcode-select -p &> /dev/null; then
+        touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress;
+        xcode_version=$(softwareupdate -l | grep "\*.*Command Line Tools for Xcode" | head -n 1 | awk -F"*" '{print $2}' | sed -e 's/^ *//' | tr -d '\n')
+        sudo softwareupdate -i "${xcode_version}" --verbose
+        rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+    fi
+}
+
 install_homebrew()
 {
     export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
@@ -288,6 +298,8 @@ main()
 
     keep_sudo_password_alive
     sudo_alive_pid=$!
+
+    install_xcode_cli_tools
 
     install_homebrew
     install_homebrew_modules
