@@ -24,7 +24,7 @@ fix_some_permissions()
     chmod u+w "${zsh_path}"/site-functions
 }
 
-elevate_permissions()
+ask_sudo_password()
 {
     export HISTIGNORE='*sudo -S*'
 
@@ -120,6 +120,7 @@ configure_login_window()
     # Unhide poaoffice if it was hidden
     sudo dscl . create /Users/poaoffice IsHidden 0
     sudo defaults delete /Library/Preferences/com.apple.loginwindow HiddenUsersList
+    # Override with a clean array
     # sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add
 
     # Disable "Other.." option on login screen, this was enable with the "Unhide" command above
@@ -129,11 +130,11 @@ configure_login_window()
     # sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED -bool FALSE
 
     # This should be the default
-    sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME 0
-    sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED 0
-    sudo defaults write /Library/Preferences/com.apple.loginwindow HideAdminUsers 0
-    sudo defaults write /Library/Preferences/com.apple.loginwindow HideLocalUsers 0
-    sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu 0
+    sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME -bool false
+    sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED -bool false
+    sudo defaults write /Library/Preferences/com.apple.loginwindow HideAdminUsers -bool false
+    sudo defaults write /Library/Preferences/com.apple.loginwindow HideLocalUsers -bool false
+    sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool false
 
     # Custom login message
     serial_number=$(ioreg -l | grep IOPlatformSerialNumber | cut -d"\"" -f4)
@@ -165,11 +166,11 @@ configure_system()
     # Set system theme dark
     osascript -l JavaScript -e "Application('System Events').appearancePreferences.darkMode = true"
 
-    # Set language to English
+    # Reset language to English
     lang=$(sudo languagesetup <<< q | grep "English" -m1 | cut -d")" -f1 | sed "s/ //g")
     sudo languagesetup <<< "${lang}" &> /dev/null
 
-    # Set keyboard to en_US
+    # reset keyboard to en_US
     rm -rf ~/Library/Preferences/com.apple.HIToolbox.plist
     sudo defaults write ${plist%.*} AppleCurrentKeyboardLayoutInputSourceID -string "com.apple.keylayout.US"
     sudo killall SystemUIServer
@@ -179,15 +180,42 @@ configure_system()
     sudo defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
     sudo defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
     sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+    # reset password policies, (if they were changed by MDMs)
+    sudo pwpolicy -clearaccountpolicies
+
+    # Showing all filename extensions in Finder by default
+    sudo defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+    # Check for software updates daily, not just once per week
+    sudo defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+
+    # Avoiding the creation of .DS_Store files on network volumes
+    sudo defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 }
 
 configure_finder()
 {
-    # Show path bar on Finder
+    # Show some hidden directories by default
+    defaults write com.apple.finder AppleShowAllFiles -bool true
+
+    # Always show the list view
+    defaults write com.apple.Finder FXPreferredViewStyle Nlsv
+
+    # Show path bar
     defaults write com.apple.finder ShowPathbar -bool true
 
-    # Show status bar on Finder
+    # Show status bar
     defaults write com.apple.finder ShowStatusBar -bool true
+
+    # Allow text selection in Quick Look
+    defaults write com.apple.finder QLEnableTextSelection -bool true
+
+    # Disabling the warning when changing a file extension
+    defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+    # Force reload settings
+    killall Finder
 }
 
 configure_dock()
@@ -256,7 +284,7 @@ main()
     trap ctrl_c INT
 
     set_terminal_title
-    elevate_permissions
+    ask_sudo_password
 
     keep_sudo_password_alive
     sudo_alive_pid=$!
