@@ -122,7 +122,7 @@ get_battery_cycles()
 	system_profiler SPPowerDataType | grep "Cycle Count" | awk '{print $3}'
 }
 
-get_battery_health()
+get_battery_status()
 {
 	system_profiler SPPowerDataType | grep "Condition" | awk '{print $2}'
 }
@@ -183,7 +183,7 @@ show_summary()
 	echo "                  Memory: ${memory_size} GB"
 	echo "                    GPUs: ${gpu}"
 	echo "               Disk Size: ${disk_size} GB"
-	echo "          Battery Health: ${battery_health}"
+	echo "          Battery Status: ${battery_status}"
 	echo "          Battery Cycles: ${battery_cycles}"
 	echo
 	echo
@@ -214,7 +214,7 @@ export_csv()
 	"GPU Detail"
 	"RAM (GB)"
 	"Disk (GB)"
-	"Battery Health"
+	"Battery Status"
 	"Battery Cycles"
 	"Warrantty Expiration"
 	"Extra Warranty Expiration"
@@ -242,7 +242,7 @@ export_csv()
 	"${gpu}"
 	"${memory_size}"
 	"${disk_size}"
-	"${battery_health}"
+	"${battery_status}"
 	"${battery_cycles}"
 	"${warranty_expiration}"
 	"${extra_warranty_expiration}"
@@ -294,7 +294,7 @@ main()
 	memory_size=$(get_ram_size_gb)
 	gpu=$(get_gpus)
 	disk_size=$(get_main_hardrive_size_gb)
-	battery_health=$(get_battery_health)
+	battery_status=$(get_battery_status)
 	battery_cycles=$(get_battery_cycles)
 
 	# macOS Info
