@@ -197,15 +197,14 @@ export_csv()
 
 	# AIRTABLE COLUMNS NAMES
 	read -d "" header <<-EOF
-	"Processed Date"
-	"Processed Time"
+	"Registered Date"
 	"Used By"
 	"Status"
 	"Email"
 	"Serial No"
 	"Brand"
-	"Description"
 	"Model"
+	"Model ID"
 	"Year"
 	"Screen Size"
 	"CPU Detail"
@@ -225,8 +224,7 @@ export_csv()
 
 	# VALUES
 	read -d "" values <<-EOF
-	"${processed_date}"
-	"${processed_time}"
+	"${registered_date}"
 	"${current_fullname}"
 	"${computer_status}"
 	"${user_email}"
@@ -307,8 +305,8 @@ main()
 	current_fullname=$(get_name_of_current_user)
 
 	# Extra info of the process
-	processed_date="$(date +"%Y-%m-%d")"
-	processed_time="$(date +"%H:%M")"
+	registered_date="$(date +"%Y-%m-%d")"
+	registered_time="$(date +"%H:%M")"
 	computer_status="Ready"
 	user_email=""
 
