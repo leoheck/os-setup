@@ -124,7 +124,7 @@ get_battery_cycles()
 
 get_battery_status()
 {
-	system_profiler SPPowerDataType | grep "Condition" | awk '{print $2}'
+	system_profiler SPPowerDataType | grep "Condition" | tr -s " " | cut -d" " -f3-
 }
 
 #============
