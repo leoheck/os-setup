@@ -8,6 +8,11 @@ sh -c "$(curl -H 'Cache-Control: no-cache' \
 	-fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init-user.sh)"
 ```
 
+```
+sh -c "$(curl -H 'Cache-Control: no-cache' \
+	-fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init-user-hiddden.sh)"
+```
+
 ### Set the Hostname
 
 With the Serial Number
@@ -30,11 +35,6 @@ sh -c "$(curl \
 List macOS versions
 ```
 softwareupdate --list-full-installers
-```
-
-Donwload the latest macOS
-```
-softwareupdate -d --fetch-full-installer
 ```
 
 Donwload an specific macOS
@@ -70,3 +70,8 @@ On apple silicon
 ```
 sh -c "$(curl -H 'Cache-Control: no-cache' -fsSL shorturl.at/begx1)"
 ```
+
+
+### Show Hidden Users at login window
+
+`Option+Return`

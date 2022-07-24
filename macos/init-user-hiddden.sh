@@ -120,11 +120,11 @@ configure_login_window()
     sudo sysadminctl -guestAccount off
 
     # Hide poaoffice user from login screen
-    # sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add ${USER}
+    sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add ${USER}
 
     # Unhide poaoffice if it was hidden
-    sudo dscl . create /Users/poaoffice IsHidden 0
-    sudo defaults delete /Library/Preferences/com.apple.loginwindow HiddenUsersList
+    #sudo dscl . create /Users/poaoffice IsHidden 0
+    #sudo defaults delete /Library/Preferences/com.apple.loginwindow HiddenUsersList
     # Override with a clean array
     # sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add
 
