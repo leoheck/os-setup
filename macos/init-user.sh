@@ -60,24 +60,24 @@ fix_homebrew_permissions()
 
 install_homebrew()
 {
-    if [[ -d "/opt/homebrew/bin" ]];
+    if [[ -d "/opt/homebrew/bin" ]]; then
         fix_homebrew_permissions
-    if
+    else
+        export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
+        eval "$(brew shellenv)"
 
-    export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
-    eval "$(brew shellenv)"
+        echo "Installing Homebrew..."
+        yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        ret=$?
+        if [ ! ${ret} -eq 0 ]; then
+            echo "Something went wrong with brew install"
+            exit 1
+        fi
 
-    echo "Installing Homebrew..."
-    yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    ret=$?
-    if [ ! ${ret} -eq 0 ]; then
-        echo "Something went wrong with brew install"
-        exit 1
-    fi
-
-    if [[ -f "/opt/homebrew/bin/brew" ]]; then
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
-        eval "$(/opt/homebrew/bin/brew shellenv)"
+        if [[ -f "/opt/homebrew/bin/brew" ]]; then
+            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
     fi
 
     brew update
