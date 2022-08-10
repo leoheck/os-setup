@@ -201,6 +201,9 @@ macos_system_settings()
 
     # Avoiding the creation of .DS_Store files on network volumes
     sudo defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+   # Turn on automatic os updates
+   sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -boolean true
 }
 
 configure_finder()
