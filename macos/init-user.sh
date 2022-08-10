@@ -66,6 +66,11 @@ install_homebrew()
         export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
         eval "$(brew shellenv)"
 
+	if ! which brew; then
+		rm -fr $(brew --repo homebrew/core)
+		brew tap homebrew/core
+	fi
+
         echo "Installing Homebrew..."
         yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         ret=$?
