@@ -66,10 +66,10 @@ install_homebrew()
         export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
         eval "$(brew shellenv)"
 
-	if ! which brew; then
-		rm -fr $(brew --repo homebrew/core)
-		brew tap homebrew/core
-	fi
+        if ! which brew 2>/dev/null; then
+            rm -fr $(brew --repo homebrew/core)
+            brew tap homebrew/core
+        fi
 
         echo "Installing Homebrew..."
         yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -105,10 +105,9 @@ install_dockutil()
 
 install_homebrew_apps()
 {
-    brew install --cask appcleaner    2> /dev/null
-    brew install --cask google-chat   2> /dev/null
-    brew install --cask google-chrome 2> /dev/null
-    brew install --cask sublime-text  2> /dev/null
+    brew install --cask google-chat
+    brew install --cask google-chrome
+    brew install --cask sublime-text
 }
 
 set_hostname()
