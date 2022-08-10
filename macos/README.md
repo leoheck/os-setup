@@ -3,26 +3,36 @@
 These are some scripts to assist my setup of MacBooks
 
 ### Init user
-```
+
+Normal install
+```bash
 sh -c "$(curl -H 'Cache-Control: no-cache' \
 	-fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init-user.sh)"
 ```
 
-```
+With hidden admin user
+```bash
 sh -c "$(curl -H 'Cache-Control: no-cache' \
 	-fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init-user-hiddden.sh)"
 ```
 
+Light version without brew
+```bash
+sh -c "$(curl -H 'Cache-Control: no-cache' \
+	-fsSL https://raw.githubusercontent.com/leoheck/os-setup/main/macos/init-user-light.sh)"
+```
+
+
 ### Set the Hostname
 
 With the Serial Number
-```
+```bash
 sh -c "$(curl \
 	-fsSL https://raw.github.com/leoheck/os-setup/master/macos/set-hostname.sh)" "" 
 ```
 
 With the Username
-```
+```bash
 sh -c "$(curl \
 	-fsSL https://raw.github.com/leoheck/os-setup/master/macos/set-hostname.sh)" "" ${USER}
 ```
@@ -33,12 +43,12 @@ sh -c "$(curl \
 > Documentation https://support.apple.com/en-us/HT201372
 
 List macOS versions
-```
+```bash
 softwareupdate --list-full-installers
 ```
 
 Donwload an specific macOS
-```
+```bash
 softwareupdate -d --fetch-full-installer --full-installer-version 12.5
 ```
 
@@ -67,10 +77,9 @@ On apple silicon
 
 ### Upgrade macOS with an USB Drive
 
-```
+```bash
 sh -c "$(curl -H 'Cache-Control: no-cache' -fsSL shorturl.at/begx1)"
 ```
-
 
 ### Show Hidden Users at login window
 
