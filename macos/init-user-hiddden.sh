@@ -35,7 +35,7 @@ keep_sudo_password_alive()
     while :; do sudo -v; sleep 1; done &
 }
 
-kill_background_taks()
+kill_background_tasks()
 {
     if [[ -n ${sudo_alive_pid} ]]; then
         kill "${sudo_alive_pid}"
@@ -55,7 +55,7 @@ install_xcode_cli_tools()
 fix_homebrew_permissions()
 {
     echo "Fixing Homebrew permissions..."
-    sudo chown -R $(whoami) $(brew --prefix)/*
+    sudo chown -R "$(whoami)" $(brew --prefix)/*
 }
 
 install_homebrew()
@@ -65,6 +65,11 @@ install_homebrew()
     else
         export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
         eval "$(brew shellenv)"
+
+        if ! which brew 2>/dev/null; then
+            rm -fr "$(brew --repo homebrew/core)"
+            brew tap homebrew/core
+        fi
 
         echo "Installing Homebrew..."
         yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -90,6 +95,13 @@ install_homebrew_modules()
     brew install jq
 }
 
+install_homebrew_apps()
+{
+    brew install --cask google-chat
+    brew install --cask google-chrome
+    brew install --cask sublime-text
+}
+
 install_dockutil()
 {
     latest_dockerutil_url=$(curl --silent "https://api.github.com/repos/kcrawford/dockutil/releases/latest" | jq -r '.assets[].browser_download_url' | grep pkg)
@@ -98,18 +110,10 @@ install_dockutil()
     rm -f "/tmp/dockutil.pkg"
 }
 
-install_homebrew_apps()
-{
-    brew install --cask appcleaner    2> /dev/null
-    brew install --cask google-chat   2> /dev/null
-    brew install --cask google-chrome 2> /dev/null
-    brew install --cask sublime-text  2> /dev/null
-}
-
 set_hostname()
 {
     # set with the hostname
-    yes '' | sudo "${HOME}/Donwloads/os-setup/macos/set-hostname.sh"
+    yes '' | sudo "${HOME}/Downloads/os-setup/macos/set-hostname.sh"
 }
 
 configure_login_window()
@@ -120,7 +124,7 @@ configure_login_window()
     sudo sysadminctl -guestAccount off
 
     # Hide poaoffice user from login screen
-    sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add ${USER}
+    sudo defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add "${USER}"
 
     # Unhide poaoffice if it was hidden
     #sudo dscl . create /Users/poaoffice IsHidden 0
@@ -149,8 +153,8 @@ configure_login_window()
 
 clone_os_setup_repo()
 {
-    rm -rf "${HOME}/Donwloads/os-setup"
-    git clone https://github.com/leoheck/os-setup.git "${HOME}/Donwloads/os-setup"
+    rm -rf "${HOME}/Downloads/os-setup"
+    git clone https://github.com/leoheck/os-setup.git "${HOME}/Downloads/os-setup"
 }
 
 set_custom_user_picture()
@@ -160,23 +164,23 @@ set_custom_user_picture()
     sudo dscl . delete "/Users/${USER}" JPEGPhoto
     sudo dscl . delete "/Users/${USER}" Picture
     sudo mkdir -p "/Library/User Pictures/Office/"
-    sudo cp -f "${HOME}/Donwloads/os-setup/macos/imgs/poaoffice.tif" "/Library/User Pictures/Office/poaoffice.tif"
+    sudo cp -f "${HOME}/Downloads/os-setup/macos/imgs/poaoffice.tif" "/Library/User Pictures/Office/poaoffice.tif"
     sudo dscl . create "/Users/${USER}" Picture "/Library/User Pictures/Office/poaoffice.png"
-    sudo "${HOME}/Donwloads/os-setup/macos/set-user-picture.sh" ${USER} "/Library/User Pictures/Office/poaoffice.tif"
-    sudo AssetCacheManagerUtil reloadSettings 2> /dev/null
+    sudo "${HOME}/Downloads/os-setup/macos/set-user-picture.sh" "${USER}" "/Library/User Pictures/Office/poaoffice.tif"
+    sudo AssetCacheManagerUtil reloadSettings
 }
 
-system_wide_settings()
+macos_system_settings()
 {
     # Set system theme dark
     osascript -l JavaScript -e "Application('System Events').appearancePreferences.darkMode = true"
 
-    # Reset language to English
+    # Set language to English
     lang=$(sudo languagesetup <<< q | grep "English" -m1 | cut -d")" -f1 | sed "s/ //g")
     sudo languagesetup <<< "${lang}" &> /dev/null
 
-    # reset keyboard to en_US
-    rm -rf ~/Library/Preferences/com.apple.HIToolbox.plist
+    # Set keyboard to en_US
+    rm -rf "~/Library/Preferences/com.apple.HIToolbox.plist"
     sudo defaults write ${plist%.*} AppleCurrentKeyboardLayoutInputSourceID -string "com.apple.keylayout.US"
     sudo killall SystemUIServer
 
@@ -186,7 +190,7 @@ system_wide_settings()
     sudo defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
     sudo defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
-    # reset password policies, (if they were changed by MDMs)
+    # Reset password policies, (if they were changed by MDMs)
     sudo pwpolicy -clearaccountpolicies
 
     # Showing all filename extensions in Finder by default
@@ -226,31 +230,31 @@ configure_finder()
 configure_dock()
 {
     # Remove garbage from dock
-    dockutil --remove "App Store" 2> /dev/null
-    dockutil --remove "Calendar"  2> /dev/null
-    dockutil --remove "Contacts"  2> /dev/null
-    dockutil --remove "FaceTime"  2> /dev/null
-    dockutil --remove "Keynote"   2> /dev/null
-    dockutil --remove "Mail"      2> /dev/null
-    dockutil --remove "Maps"      2> /dev/null
-    dockutil --remove "Messages"  2> /dev/null
-    dockutil --remove "Music"     2> /dev/null
-    dockutil --remove "News"      2> /dev/null
-    dockutil --remove "Notes"     2> /dev/null
-    dockutil --remove "Numbers"   2> /dev/null
-    dockutil --remove "Pages"     2> /dev/null
-    dockutil --remove "Photos"    2> /dev/null
-    dockutil --remove "Podcasts"  2> /dev/null
-    dockutil --remove "Reminders" 2> /dev/null
-    dockutil --remove "TextEdit"  2> /dev/null
-    dockutil --remove "TV"        2> /dev/null
+    dockutil --remove "App Store"
+    dockutil --remove "Calendar"
+    dockutil --remove "Contacts"
+    dockutil --remove "FaceTime"
+    dockutil --remove "Keynote"
+    dockutil --remove "Mail"
+    dockutil --remove "Maps"
+    dockutil --remove "Messages"
+    dockutil --remove "Music"
+    dockutil --remove "News"
+    dockutil --remove "Notes"
+    dockutil --remove "Numbers"
+    dockutil --remove "Pages"
+    dockutil --remove "Photos"
+    dockutil --remove "Podcasts"
+    dockutil --remove "Reminders"
+    dockutil --remove "TextEdit"
+    dockutil --remove "TV"
 
     # Add some apps in dock
-    dockutil --add "/System/Applications/Utilities/Terminal.app" 2> /dev/null
-    dockutil --add "/System/Applications/FindMy.app" 2> /dev/null
-    dockutil --add "/Applications/Google Chrome.app" 2> /dev/null
-    dockutil --add "/Applications/Chat.app" 2> /dev/null
-    dockutil --add "/Applications/Sublime Text.app" 2> /dev/null
+    dockutil --add "/System/Applications/Utilities/Terminal.app"
+    dockutil --add "/System/Applications/FindMy.app"
+    dockutil --add "/Applications/Google Chrome.app"
+    dockutil --add "/Applications/Chat.app"
+    dockutil --add "/Applications/Sublime Text.app"
 
     # Set smaller dock size
     defaults write com.apple.dock tilesize -integer 48
@@ -260,8 +264,8 @@ configure_dock()
 update_zsh_permissions()
 {
     zsh_path="/usr/local/share/zsh"
-    sudo chown -R $(whoami) "${zsh_path}"
-    sudo chown -R $(whoami) "${zsh_path}"/site-functions
+    sudo chown -R "$(whoami)" "${zsh_path}"
+    sudo chown -R "$(whoami)" "${zsh_path}"/site-functions
     chmod u+w "${zsh_path}"
     chmod u+w "${zsh_path}"/site-functions
 }
@@ -270,7 +274,7 @@ configure_terminal()
 {
     # Install terminal powerline fonts
     git clone https://github.com/powerline/fonts.git "/tmp/fonts"
-    cd "/tmp/fonts"
+    cd "/tmp/fonts" || exit
     bash -c ./install.sh
     cd - || exit
     rm -rf "/tmp/fonts"
@@ -283,10 +287,10 @@ configure_terminal()
 
     # Set Spaceship theme
     ZSH_CUSTOM_THEMES="${HOME}/.oh-my-zsh/custom/themes/"
-    mkdir -p ${ZSH_CUSTOM_THEMES}
+    mkdir -p "${ZSH_CUSTOM_THEMES}"
     git clone https://github.com/spaceship-prompt/spaceship-prompt.git "${ZSH_CUSTOM_THEMES}/spaceship-prompt" --depth=1
     ln -s "${ZSH_CUSTOM_THEMES}/spaceship-prompt/spaceship.zsh-theme" "${ZSH_CUSTOM_THEMES}/spaceship.zsh-theme"
-    sed -i "" "s/robbyrussell/spaceship/g" ${HOME}/.zshrc
+    sed -i "" "s/robbyrussell/spaceship/g" "${HOME}/.zshrc"
 }
 
 collect_computer_info()
@@ -306,12 +310,11 @@ main()
     install_homebrew
     install_homebrew_modules
     install_homebrew_apps
-
     install_dockutil
 
     clone_os_setup_repo
 
-    system_wide_settings
+    macos_system_settings
 
     if [[ "${USER}" == "poaoffice" ]]; then
         set_hostname
@@ -323,9 +326,10 @@ main()
     configure_dock
     configure_terminal
 
-    collect_computer_info
+    collect_computer_info # warranty info requires python3, xcode_cli_tools comes with it
 
-    kill_background_taks
+    kill_background_tasks
 }
 
 main "$@"
+

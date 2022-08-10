@@ -52,64 +52,6 @@ install_xcode_cli_tools()
     fi
 }
 
-fix_homebrew_permissions()
-{
-    echo "Fixing Homebrew permissions..."
-    sudo chown -R "$(whoami)" $(brew --prefix)/*
-}
-
-install_homebrew()
-{
-    if [[ -d "/opt/homebrew/bin" ]]; then
-        fix_homebrew_permissions
-    else
-        export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
-        eval "$(brew shellenv)"
-
-        if ! which brew 2>/dev/null; then
-            rm -fr "$(brew --repo homebrew/core)"
-            brew tap homebrew/core
-        fi
-
-        echo "Installing Homebrew..."
-        yes '' | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        ret=$?
-        if [ ! ${ret} -eq 0 ]; then
-            echo "Something went wrong with brew install"
-            exit 1
-        fi
-
-        if [[ -f "/opt/homebrew/bin/brew" ]]; then
-            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
-            eval "$(/opt/homebrew/bin/brew shellenv)"
-        fi
-    fi
-
-    brew update
-}
-
-install_homebrew_modules()
-{
-    brew install coreutils
-    brew install git
-    brew install jq
-}
-
-install_homebrew_apps()
-{
-    brew install --cask google-chat
-    brew install --cask google-chrome
-    brew install --cask sublime-text
-}
-
-install_dockutil()
-{
-    latest_dockerutil_url=$(curl --silent "https://api.github.com/repos/kcrawford/dockutil/releases/latest" | jq -r '.assets[].browser_download_url' | grep pkg)
-    curl -sL ${latest_dockerutil_url} -o "/tmp/dockutil.pkg"
-    sudo installer -pkg "/tmp/dockutil.pkg" -target /
-    rm -f "/tmp/dockutil.pkg"
-}
-
 set_hostname()
 {
     # set with the hostname
@@ -270,29 +212,6 @@ update_zsh_permissions()
     chmod u+w "${zsh_path}"/site-functions
 }
 
-configure_terminal()
-{
-    # Install terminal powerline fonts
-    git clone https://github.com/powerline/fonts.git "/tmp/fonts"
-    cd "/tmp/fonts" || exit
-    bash -c ./install.sh
-    cd - || exit
-    rm -rf "/tmp/fonts"
-
-    update_zsh_permissions
-
-    # Install OH-MY-ZSH
-    rm -rf "${HOME}/.oh-my-zsh/"
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-    # Set Spaceship theme
-    ZSH_CUSTOM_THEMES="${HOME}/.oh-my-zsh/custom/themes/"
-    mkdir -p "${ZSH_CUSTOM_THEMES}"
-    git clone https://github.com/spaceship-prompt/spaceship-prompt.git "${ZSH_CUSTOM_THEMES}/spaceship-prompt" --depth=1
-    ln -s "${ZSH_CUSTOM_THEMES}/spaceship-prompt/spaceship.zsh-theme" "${ZSH_CUSTOM_THEMES}/spaceship.zsh-theme"
-    sed -i "" "s/robbyrussell/spaceship/g" "${HOME}/.zshrc"
-}
-
 collect_computer_info()
 {
     # This saves the info in the iCloud folder if the user is poaoffice
@@ -307,11 +226,6 @@ main()
 
     install_xcode_cli_tools
 
-    install_homebrew
-    install_homebrew_modules
-    install_homebrew_apps
-    install_dockutil
-
     clone_os_setup_repo
 
     macos_system_settings
@@ -323,8 +237,6 @@ main()
     fi
 
     configure_finder
-    configure_dock
-    configure_terminal
 
     collect_computer_info # warranty info requires python3, xcode_cli_tools comes with it
 
