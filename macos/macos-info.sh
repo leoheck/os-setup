@@ -308,7 +308,7 @@ main()
 	registered_date="$(date +"%Y-%m-%d")"
 	registered_time="$(date +"%H:%M")"
 	computer_status="Ready"
-	user_email=""
+	user_email="-"
 
 	show_summary
 	export_csv
