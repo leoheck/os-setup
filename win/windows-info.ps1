@@ -4,7 +4,7 @@
 
 # Powershell script
 
-echo "Collecting computer's info..." 
+echo "Collecting computer's info..."
 
 # Owner full name
 $dom = $env:userdomain
@@ -41,28 +41,21 @@ if ( $gpu -is [array] )
 # (Main) Disk Size (GB)
 $disk_size = (gcim -cl Win32_LogicalDisk | Select-Object -Property Size).Size /1gb -as [int]
 
-#status=
-#notes=
-#email=
-
 cls
 
 echo ""
 echo "  SYSTEM INFO SUMMARY"
 echo ""
-echo "                    Owner: $owner_name"
-echo "            Serial Number: $serial_number"
-echo "                    Brand: $brand"
-echo "                    Model: $model"
-# echo "                     Year: $year"
-# echo "      Warranty Expiration: $warranty_expiration"
-# echo " Amex Warranty Expiration: $amex_warranty_expiration"
-echo "                Processor: $processor"
-echo "                     CPUs: $n_cpus"
-echo "                    Cores: $n_cores"
-echo "                   Memory: $memory_size GB"
-echo "                      GPU: $gpu"
-echo "                Disk Size: $disk_size GB"
+echo "                    Owner: ${owner_name}"
+echo "            Serial Number: ${serial_number}"
+echo "                    Brand: ${brand}"
+echo "                    Model: ${model}"
+echo "                Processor: ${processor}"
+echo "                     CPUs: ${n_cpus}"
+echo "                    Cores: ${n_cores}"
+echo "                   Memory: ${memory_size} GB"
+echo "                      GPU: ${gpu}"
+echo "                Disk Size: ${disk_size} GB"
 echo ""
 echo ""
 
@@ -71,42 +64,41 @@ $current_date = Get-Date -UFormat "%Y.%m.%d-%Hh%M"
 $desktop_path = ([Environment]::GetFolderPath("Desktop"))
 $output_file = "${desktop_path}\${current_date}-${serial_number}-${username}.csv"
 
+
+$registered_date = Get-Date -UFormat "%Y-%m-%d"
+$computer_status = "Ready"
+$user_email = "-"
+
 $header=@"
+"Registered Date"
 "Used By"
+"Status"
+"Email"
 "Serial No"
 "Brand"
 "Description"
-"Year"
 "CPU Detail"
 "CPUs"
 "Cores"
 "GPU Detail"
 "RAM (GB)"
 "Disk (GB)"
-"Warrantty Expiration"
-"Extra Warranty Expiration"
-"Status"
-"Email"
-"Notes"
 "@
 
 $data=@"
+"${registered_date}"
 "${owner_name}"
+"${computer_status}"
+"${user_email}"
 "${serial_number}"
 "${brand}"
 "${model}"
-"${year}"
 "${processor}"
 "${n_cpus}"
 "${n_cores}"
 "${gpu}"
 "${memory_size}"
 "${disk_size}"
-"${warranty_expiration}"
-"${extra_warranty_expiration}"
-"${status}"
-"${email}"
-"${notes}"
 "@
 
 # Set export encoding
